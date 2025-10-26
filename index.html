@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Portofolio - Zhyllan Fyllah</title>
   <style>
+    /* ... (semua CSS sebelumnya tetap sama) ... */
     * {
       margin: 0;
       padding: 0;
@@ -30,7 +31,6 @@
       overflow-x: hidden;
     }
 
-    /* Animasi Halaman Utama */
     .main-content {
       opacity: 0;
       transform: translateY(30px);
@@ -44,7 +44,6 @@
       }
     }
 
-    /* Parallax Background */
     .parallax {
       background-image: url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
       background-attachment: fixed;
@@ -67,7 +66,6 @@
       padding: 30px;
     }
 
-    /* Tombol */
     .btn-lihat, .btn-kembali {
       display: inline-block;
       background: var(--accent);
@@ -84,7 +82,6 @@
       opacity: 0.9;
     }
 
-    /* Profile Header */
     .header {
       display: flex;
       align-items: center;
@@ -101,7 +98,7 @@
       border-radius: 50%;
       overflow: hidden;
       box-shadow: 0 0 15px rgba(0,0,0,0.5);
-      cursor: pointer; /* menunjukkan bisa diklik */
+      cursor: pointer;
     }
 
     .profile-container::before {
@@ -183,7 +180,6 @@
       text-decoration: underline;
     }
 
-    /* Content Sections */
     .content-section {
       background: var(--card-bg);
       color: var(--text-primary);
@@ -210,7 +206,6 @@
       color: var(--text-secondary);
     }
 
-    /* Modal Umum */
     .modal {
       display: none;
       position: fixed;
@@ -221,42 +216,38 @@
       background: rgba(0, 0, 0, 0.9);
       z-index: 2000;
       justify-content: center;
-      align-items: flex-end; /* mulai dari bawah */
+      align-items: center;
       padding: 20px;
     }
 
     .modal-content {
       background: var(--card-bg);
-      max-width: 800px;
+      max-width: 400px;
       width: 100%;
       border-radius: var(--border-radius);
       padding: 30px;
       box-shadow: 0 10px 40px rgba(0,0,0,0.7);
-      transform: translateY(100%);
-      opacity: 0;
-      transition: transform 0.4s ease, opacity 0.4s ease;
-      max-height: 80vh;
-      overflow-y: auto;
+      text-align: center;
     }
 
-    .modal.active .modal-content {
-      transform: translateY(0);
-      opacity: 1;
+    .lang-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+    .lang-btn:hover {
+      opacity: 0.9;
     }
 
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .modal h2 {
-      color: var(--accent);
-      font-size: 26px;
-    }
-
-    /* Music Button */
+    /* Footer dan lainnya tetap sama */
     .music-control {
       position: fixed;
       bottom: 70px;
@@ -280,7 +271,6 @@
       background: var(--accent);
     }
 
-    /* Footer */
     footer {
       text-align: center;
       padding: 20px;
@@ -298,7 +288,6 @@
       font-size: 18px;
     }
 
-    /* Responsive */
     @media (max-width: 768px) {
       .header {
         flex-direction: column;
@@ -308,139 +297,296 @@
         bottom: -8px;
         right: 40px;
       }
-      .modal-content {
-        padding: 20px;
-      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Parallax Background -->
-  <div class="parallax">
-    <div class="overlay">
-      <div class="container">
-        <div class="main-content">
-          <!-- Profile Header -->
-          <div class="header">
-            <div class="profile-container" onclick="bukaProfil()">
-              <img src="profile/profile.jpg" alt="Foto Profil" class="profile-pic" />
-              <div class="verified-badge">✓</div>
-            </div>
-            <div class="info">
-              <div class="name-container">
-                <div class="name">Zhyllan Fyllah</div>
-                <div class="verified-badge" style="width:22px;height:22px;font-size:12px;">✓</div>
-              </div>
-              <div class="title">Jurusan TKJ (Teknik Komputer dan Jaringan)</div>
-              <div class="contact">
-                Ujunggading, Lembah Melintang | 
-                <a href="mailto:zhyllanf@gmail.com">zhyllanf@gmail.com</a> | 
-                <a href="https://wa.me/6283831425337" target="_blank">+62-838-3142-5337</a> | 
-                <a href="https://linkedin.com/in/zhyllanfyllah" target="_blank">LinkedIn Saya</a>
-              </div>
-            </div>
-          </div>
+  <!-- Popup Pilihan Bahasa -->
+  <div id="langModal" class="modal">
+    <div class="modal-content">
+      <h2>Pilih Bahasa / Choose Language</h2>
+      <button class="lang-btn" onclick="setLanguage('id')">Bahasa Indonesia</button>
+      <button class="lang-btn" onclick="setLanguage('en')">English</button>
+    </div>
+  </div>
 
-          <!-- Ringkasan -->
-          <div class="content-section">
-            <h2>RINGKASAN</h2>
-            <p>
-              Nama saya Zhyllan Fyllah. Saya telah menempuh pendidikan dasar dan menengah selama 9 tahun. Saat ini, saya sedang menempuh pendidikan di SMK N 1 Lembah Melintang, jurusan Teknik Komputer dan Jaringan (TKJ). Sekolah ini merupakan satu-satunya SMK unggulan di wilayah Ujunggading, yang dikenal baik dari segi kualitas mengajar, pembelajaran, maupun praktik kejuruan, serta memiliki enam program keahlian.
-            </p>
-            <div style="margin-top: 20px;">
-              <a href="#" class="btn-lihat" onclick="bukaPendidikan(event)">Lihat Riwayat Pendidikan</a>
+  <!-- Konten Utama -->
+  <div id="mainContent" style="display:none;">
+    <div class="parallax">
+      <div class="overlay">
+        <div class="container">
+          <div class="main-content">
+            <div class="header">
+              <div class="profile-container" onclick="bukaProfil()">
+                <img src="profile/profile.jpg" alt="Foto Profil" class="profile-pic" />
+                <div class="verified-badge">✓</div>
+              </div>
+              <div class="info">
+                <div class="name-container">
+                  <div class="name" id="txt-name">Zhyllan Fyllah</div>
+                  <div class="verified-badge" style="width:22px;height:22px;font-size:12px;">✓</div>
+                </div>
+                <div class="title" id="txt-title">Jurusan TKJ (Teknik Komputer dan Jaringan)</div>
+                <div class="contact" id="txt-contact">
+                  Ujunggading, Lembah Melintang | 
+                  <a href="mailto:zhyllanf@gmail.com">zhyllanf@gmail.com</a> | 
+                  <a href="https://wa.me/6283831425337" target="_blank">+62-838-3142-5337</a> | 
+                  <a href="https://linkedin.com/in/zhyllanfyllah" target="_blank">LinkedIn Saya</a>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <!-- Keahlian -->
-          <div class="content-section">
-            <h2>KEAHLIAN DAN KOMPETENSI</h2>
-            <ul>
-              <li>Teknik Komputer dan Jaringan</li>
-              <li>Penetrasi Jaringan Seluler</li>
-              <li>Web Development</li>
-              <li>Pengembangan Aplikasi (APK)</li>
-              <li>Menguasai Bahasa Pemrograman CSS dan HTML</li>
-            </ul>
+            <div class="content-section">
+              <h2 id="txt-summary-title">RINGKASAN</h2>
+              <p id="txt-summary">
+                Nama saya Zhyllan Fyllah. Saya telah menempuh pendidikan dasar dan menengah selama 9 tahun. Saat ini, saya sedang menempuh pendidikan di SMK N 1 Lembah Melintang, jurusan Teknik Komputer dan Jaringan (TKJ). Sekolah ini merupakan satu-satunya SMK unggulan di wilayah Ujunggading, yang dikenal baik dari segi kualitas mengajar, pembelajaran, maupun praktik kejuruan, serta memiliki enam program keahlian.
+              </p>
+              <div style="margin-top: 20px;">
+                <a href="#" class="btn-lihat" onclick="bukaPendidikan(event)" id="btn-education">Lihat Riwayat Pendidikan</a>
+              </div>
+            </div>
+
+            <div class="content-section">
+              <h2 id="txt-skills-title">KEAHLIAN DAN KOMPETENSI</h2>
+              <ul id="txt-skills-list">
+                <li>Teknik Komputer dan Jaringan</li>
+                <li>Penetrasi Jaringan Seluler</li>
+                <li>Web Development</li>
+                <li>Pengembangan Aplikasi (APK)</li>
+                <li>Menguasai Bahasa Pemrograman CSS dan HTML</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Popup Profil -->
-  <div id="modalProfil" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button class="btn-kembali" onclick="tutupProfil()">← Kembali</button>
-        <h2>PROFIL LENGKAP</h2>
-      </div>
-      <div style="text-align: center; margin-bottom: 20px;">
-        <div style="width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; overflow: hidden; border: 3px solid var(--accent);">
-          <img src="profile/profile.jpg" alt="Foto Profil" style="width:100%; height:100%; object-fit:cover;">
+    <!-- Modal Profil & Pendidikan tetap sama -->
+    <div id="modalProfil" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="btn-kembali" onclick="tutupProfil()">← Kembali</button>
+          <h2 id="modal-profil-title">PROFIL LENGKAP</h2>
         </div>
-        <h3 style="margin-top: 15px; color: white;">Zhyllan Fyllah</h3>
-        <p style="color: var(--text-secondary);">Teknik Komputer dan Jaringan</p>
+        <div style="text-align: center; margin-bottom: 20px;">
+          <div style="width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; overflow: hidden; border: 3px solid var(--accent);">
+            <img src="profile/profile.jpg" alt="Foto Profil" style="width:100%; height:100%; object-fit:cover;">
+          </div>
+          <h3 style="margin-top: 15px; color: white;" id="modal-name">Zhyllan Fyllah</h3>
+          <p style="color: var(--text-secondary);" id="modal-major">Teknik Komputer dan Jaringan</p>
+        </div>
+        <h3 id="modal-contact-title">Kontak</h3>
+        <ul id="modal-contact-list">
+          <li>Email: <a href="mailto:zhyllanf@gmail.com">zhyllanf@gmail.com</a></li>
+          <li>WhatsApp: <a href="https://wa.me/6283831425337" target="_blank">+62 838-3142-5337</a></li>
+          <li>LinkedIn: <a href="https://linkedin.com/in/zhyllanfyllah" target="_blank">linkedin.com/in/zhyllanfyllah</a></li>
+          <li>Lokasi: Ujunggading, Lembah Melintang, Indonesia</li>
+        </ul>
+        <h3 id="modal-about-title">Tentang Saya</h3>
+        <p id="modal-about-text">
+          Saya seorang siswa SMK yang bersemangat di bidang teknologi, jaringan, dan pengembangan perangkat lunak. Aktif di komunitas Linux dan tertarik pada keamanan jaringan serta pengembangan aplikasi mobile.
+        </p>
       </div>
-      <h3>Kontak</h3>
-      <ul>
-        <li>Email: <a href="mailto:zhyllanf@gmail.com">zhyllanf@gmail.com</a></li>
-        <li>WhatsApp: <a href="https://wa.me/6283831425337" target="_blank">+62 838-3142-5337</a></li>
-        <li>LinkedIn: <a href="https://linkedin.com/in/zhyllanfyllah" target="_blank">linkedin.com/in/zhyllanfyllah</a></li>
-        <li>Lokasi: Ujunggading, Lembah Melintang, Indonesia</li>
-      </ul>
-      <h3>Tentang Saya</h3>
-      <p>
-        Saya seorang siswa SMK yang bersemangat di bidang teknologi, jaringan, dan pengembangan perangkat lunak. Aktif di komunitas Linux dan tertarik pada keamanan jaringan serta pengembangan aplikasi mobile.
-      </p>
     </div>
-  </div>
 
-  <!-- Popup Riwayat Pendidikan -->
-  <div id="modalPendidikan" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button class="btn-kembali" onclick="tutupPendidikan()">← Kembali</button>
-        <h2>RIWAYAT PENDIDIKAN</h2>
+    <div id="modalPendidikan" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="btn-kembali" onclick="tutupPendidikan()">← Kembali</button>
+          <h2 id="modal-edu-title">RIWAYAT PENDIDIKAN</h2>
+        </div>
+        <div id="modal-edu-content-id" style="display: block;">
+          <h3>Pendidikan Formal</h3>
+          <ul>
+            <li><strong>Sekolah Dasar:</strong> MIS Muhammadiyah Tamiang, Ujunggading, Lembah Melintang (2016–2021)</li>
+            <li>
+              <strong>Sekolah Menengah Pertama:</strong> SMP Tahfidz Al-Qur’an An-Naajiya, Jambak Jalur 3 Timur, Simpang Empat (2021–2025)<br>
+              • Menjabat sebagai Ketua OSIS Bidang Pengelolaan Perangkat Laboratorium Komputer (2023–2024)
+            </li>
+            <li><strong>Sekolah Menengah Kejuruan:</strong> SMK N 1 Lembah Melintang (2025–sekarang)</li>
+          </ul>
+
+          <h3>Pendidikan Non-Formal</h3>
+          <ul>
+            <li>Aktif di Komunitas Linux Ubuntu Indonesia (2021–sekarang)</li>
+            <li>Aktif di Komunitas Nusantara Project ROM (2020–sekarang)</li>
+            <li>Menempuh Pembelajaran Online Di Situs Dicoding.com (2024–sekarang)</li>
+          </ul>
+        </div>
+        <div id="modal-edu-content-en" style="display: none;">
+          <h3>Formal Education</h3>
+          <ul>
+            <li><strong>Elementary School:</strong> MIS Muhammadiyah Tamiang, Ujunggading, Lembah Melintang (2016–2021)</li>
+            <li>
+              <strong>Junior High School:</strong> SMP Tahfidz Al-Qur’an An-Naajiya, Jambak Jalur 3 Timur, Simpang Empat (2021–2025)<br>
+              • Served as OSIS Chairperson for Computer Lab Equipment Management Division (2023–2024)
+            </li>
+            <li><strong>Vocational High School:</strong> SMK N 1 Lembah Melintang (2025–present)</li>
+          </ul>
+
+          <h3>Non-Formal Education</h3>
+          <ul>
+            <li>Active in Linux Ubuntu Indonesia Community (2021–present)</li>
+            <li>Active in Nusantara Project ROM Community (2020–present)</li>
+            <li>Online Learning at Dicoding.com (2024–present)</li>
+          </ul>
+        </div>
       </div>
-      <h3>Pendidikan Formal</h3>
-      <ul>
-        <li><strong>Sekolah Dasar:</strong> MIS Muhammadiyah Tamiang, Ujunggading, Lembah Melintang (2016–2021)</li>
-        <li>
-          <strong>Sekolah Menengah Pertama:</strong> SMP Tahfidz Al-Qur’an An-Naajiya, Jambak Jalur 3 Timur, Simpang Empat (2021–2025)<br>
-          • Menjabat sebagai Ketua OSIS Bidang Pengelolaan Perangkat Laboratorium Komputer (2023–2024)
-        </li>
-        <li><strong>Sekolah Menengah Kejuruan:</strong> SMK N 1 Lembah Melintang (2025–sekarang)</li>
-      </ul>
-
-      <h3>Pendidikan Non-Formal</h3>
-      <ul>
-        <li>Aktif di Komunitas Linux Ubuntu Indonesia (2021–sekarang)</li>
-        <li>Aktif di Komunitas Nusantara Project ROM (2020–sekarang)</li>
-        <li>Menempuh Pembelajaran Online Di Situs Dicoding.com (2024–sekarang)</li>
-      </ul>
     </div>
+
+    <audio id="bgMusic" loop>
+      <source src="music/bg.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="music-control">
+      <button class="music-btn" onclick="toggleMusic()" id="btn-music">Putar Musik</button>
+    </div>
+
+    <footer>
+      <div class="logo">ZhyllanFyllah.dev</div>
+      &copy; 2025 Zhyllan Fyllah  
+      Hosted on GitHub Pages  
+      Dikembangkan dengan CINTA dan dibangun dengan KASIH dan SAYANG, di bantu oleh <strong>Qwen3-Coder</strong>.
+    </footer>
   </div>
-
-  <!-- Audio -->
-  <audio id="bgMusic" loop>
-    <source src="music/bg.mp3" type="audio/mpeg">
-  </audio>
-
-  <div class="music-control">
-    <button class="music-btn" onclick="toggleMusic()">Putar Musik</button>
-  </div>
-
-  <!-- Footer -->
-  <footer>
-    <div class="logo">ZhyllanFyllah.dev</div>
-    &copy; 2025 Zhyllan Fyllah  
-    Hosted on GitHub Pages  
-    Dikembangkan dengan CINTA dan dibangun dengan KASIH dan SAYANG, di bantu oleh <strong>Qwen3-Coder</strong>.
-  </footer>
 
   <script>
+    // Terjemahan
+    const translations = {
+      id: {
+        name: "Zhyllan Fyllah",
+        title: "Jurusan TKJ (Teknik Komputer dan Jaringan)",
+        contact: "Ujunggading, Lembah Melintang | <a href='mailto:zhyllanf@gmail.com'>zhyllanf@gmail.com</a> | <a href='https://wa.me/6283831425337' target='_blank'>+62-838-3142-5337</a> | <a href='https://linkedin.com/in/zhyllanfyllah' target='_blank'>LinkedIn Saya</a>",
+        summaryTitle: "RINGKASAN",
+        summary: "Nama saya Zhyllan Fyllah. Saya telah menempuh pendidikan dasar dan menengah selama 9 tahun. Saat ini, saya sedang menempuh pendidikan di SMK N 1 Lembah Melintang, jurusan Teknik Komputer dan Jaringan (TKJ). Sekolah ini merupakan satu-satunya SMK unggulan di wilayah Ujunggading, yang dikenal baik dari segi kualitas mengajar, pembelajaran, maupun praktik kejuruan, serta memiliki enam program keahlian.",
+        skillsTitle: "KEAHLIAN DAN KOMPETENSI",
+        skillsList: [
+          "Teknik Komputer dan Jaringan",
+          "Penetrasi Jaringan Seluler",
+          "Web Development",
+          "Pengembangan Aplikasi (APK)",
+          "Menguasai Bahasa Pemrograman CSS dan HTML"
+        ],
+        btnEducation: "Lihat Riwayat Pendidikan",
+        modalProfilTitle: "PROFIL LENGKAP",
+        modalName: "Zhyllan Fyllah",
+        modalMajor: "Teknik Komputer dan Jaringan",
+        modalContactTitle: "Kontak",
+        modalContactList: [
+          "Email: <a href='mailto:zhyllanf@gmail.com'>zhyllanf@gmail.com</a>",
+          "WhatsApp: <a href='https://wa.me/6283831425337' target='_blank'>+62 838-3142-5337</a>",
+          "LinkedIn: <a href='https://linkedin.com/in/zhyllanfyllah' target='_blank'>linkedin.com/in/zhyllanfyllah</a>",
+          "Lokasi: Ujunggading, Lembah Melintang, Indonesia"
+        ],
+        modalAboutTitle: "Tentang Saya",
+        modalAboutText: "Saya seorang siswa SMK yang bersemangat di bidang teknologi, jaringan, dan pengembangan perangkat lunak. Aktif di komunitas Linux dan tertarik pada keamanan jaringan serta pengembangan aplikasi mobile.",
+        modalEduTitle: "RIWAYAT PENDIDIKAN",
+        btnMusic: "Putar Musik"
+      },
+      en: {
+        name: "Zhyllan Fyllah",
+        title: "Computer and Network Engineering (TKJ)",
+        contact: "Ujunggading, Lembah Melintang | <a href='mailto:zhyllanf@gmail.com'>zhyllanf@gmail.com</a> | <a href='https://wa.me/6283831425337' target='_blank'>+62-838-3142-5337</a> | <a href='https://linkedin.com/in/zhyllanfyllah' target='_blank'>My LinkedIn</a>",
+        summaryTitle: "SUMMARY",
+        summary: "My name is Zhyllan Fyllah. I completed 9 years of basic and secondary education. Currently, I am studying at SMK N 1 Lembah Melintang, majoring in Computer and Network Engineering (TKJ). This school is the only leading vocational high school in Ujunggading, known for its teaching quality, learning methods, and vocational practices, with six specialization programs.",
+        skillsTitle: "SKILLS & COMPETENCIES",
+        skillsList: [
+          "Computer and Network Engineering",
+          "Mobile Network Penetration",
+          "Web Development",
+          "Mobile Application Development (APK)",
+          "Proficient in CSS and HTML programming languages"
+        ],
+        btnEducation: "View Education History",
+        modalProfilTitle: "FULL PROFILE",
+        modalName: "Zhyllan Fyllah",
+        modalMajor: "Computer and Network Engineering",
+        modalContactTitle: "Contact",
+        modalContactList: [
+          "Email: <a href='mailto:zhyllanf@gmail.com'>zhyllanf@gmail.com</a>",
+          "WhatsApp: <a href='https://wa.me/6283831425337' target='_blank'>+62 838-3142-5337</a>",
+          "LinkedIn: <a href='https://linkedin.com/in/zhyllanfyllah' target='_blank'>linkedin.com/in/zhyllanfyllah</a>",
+          "Location: Ujunggading, Lembah Melintang, Indonesia"
+        ],
+        modalAboutTitle: "About Me",
+        modalAboutText: "I am a passionate vocational high school student in technology, networking, and software development. I am active in the Linux community and interested in network security and mobile app development.",
+        modalEduTitle: "EDUCATION HISTORY",
+        btnMusic: "Play Music"
+      }
+    };
+
+    // Cek bahasa yang sudah disimpan
+    function initLanguage() {
+      const savedLang = localStorage.getItem('userLang');
+      if (savedLang) {
+        applyLanguage(savedLang);
+        document.getElementById('mainContent').style.display = 'block';
+      } else {
+        document.getElementById('langModal').style.display = 'flex';
+      }
+    }
+
+    function setLanguage(lang) {
+      localStorage.setItem('userLang', lang);
+      applyLanguage(lang);
+      document.getElementById('langModal').style.display = 'none';
+      document.getElementById('mainContent').style.display = 'block';
+    }
+
+    function applyLanguage(lang) {
+      const t = translations[lang];
+      document.documentElement.lang = lang;
+
+      // Halaman utama
+      document.getElementById('txt-name').textContent = t.name;
+      document.getElementById('txt-title').textContent = t.title;
+      document.getElementById('txt-contact').innerHTML = t.contact;
+      document.getElementById('txt-summary-title').textContent = t.summaryTitle;
+      document.getElementById('txt-summary').textContent = t.summary;
+      document.getElementById('txt-skills-title').textContent = t.skillsTitle;
+      const skillsList = document.getElementById('txt-skills-list');
+      skillsList.innerHTML = '';
+      t.skillsList.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        skillsList.appendChild(li);
+      });
+      document.getElementById('btn-education').textContent = t.btnEducation;
+
+      // Modal Profil
+      document.getElementById('modal-profil-title').textContent = t.modalProfilTitle;
+      document.getElementById('modal-name').textContent = t.modalName;
+      document.getElementById('modal-major').textContent = t.modalMajor;
+      document.getElementById('modal-contact-title').textContent = t.modalContactTitle;
+      const contactList = document.getElementById('modal-contact-list');
+      contactList.innerHTML = '';
+      t.modalContactList.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = item;
+        contactList.appendChild(li);
+      });
+      document.getElementById('modal-about-title').textContent = t.modalAboutTitle;
+      document.getElementById('modal-about-text').textContent = t.modalAboutText;
+
+      // Modal Pendidikan
+      document.getElementById('modal-edu-title').textContent = t.modalEduTitle;
+      if (lang === 'id') {
+        document.getElementById('modal-edu-content-id').style.display = 'block';
+        document.getElementById('modal-edu-content-en').style.display = 'none';
+      } else {
+        document.getElementById('modal-edu-content-id').style.display = 'none';
+        document.getElementById('modal-edu-content-en').style.display = 'block';
+      }
+
+      // Musik
+      document.getElementById('btn-music').textContent = t.btnMusic;
+    }
+
+    // Inisialisasi
+    window.onload = initLanguage;
+
+    // --- Fungsi popup lainnya (tidak berubah) ---
     const modalProfil = document.getElementById('modalProfil');
     const modalPendidikan = document.getElementById('modalPendidikan');
     const audio = document.getElementById('bgMusic');
@@ -475,23 +621,23 @@
       }, 400);
     }
 
-    // Tutup popup saat klik di luar konten
     window.onclick = function(event) {
       if (event.target === modalProfil) tutupProfil();
       if (event.target === modalPendidikan) tutupPendidikan();
     };
 
-    // Musik
     function toggleMusic() {
       if (audio.paused) {
         audio.play().then(() => {
-          document.querySelector('.music-btn').textContent = 'Jeda Musik';
+          const lang = localStorage.getItem('userLang') || 'id';
+          document.querySelector('.music-btn').textContent = translations[lang].btnMusic.replace('Putar', 'Jeda').replace('Play', 'Pause');
         }).catch(e => {
           alert('Gagal memutar musik. Pastikan file bg.mp3 ada di folder music/ dan formatnya valid.');
         });
       } else {
         audio.pause();
-        document.querySelector('.music-btn').textContent = 'Putar Musik';
+        const lang = localStorage.getItem('userLang') || 'id';
+        document.querySelector('.music-btn').textContent = translations[lang].btnMusic;
       }
     }
   </script>
