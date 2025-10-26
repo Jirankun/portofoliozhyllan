@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Portofolio - Zhyllan Fyllah</title>
   <style>
-    /* ... (semua CSS sebelumnya tetap sama) ... */
     * {
       margin: 0;
       padding: 0;
@@ -206,28 +205,29 @@
       color: var(--text-secondary);
     }
 
-    .modal {
+    /* Popup Bahasa — DISAMAKAN DENGAN THALLITA */
+    #langModal {
       display: none;
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.9);
-      z-index: 2000;
+      background: rgba(0,0,0,0.85);
+      z-index: 3000;
       justify-content: center;
       align-items: center;
       padding: 20px;
     }
 
-    .modal-content {
+    .lang-modal-content {
       background: var(--card-bg);
       max-width: 400px;
       width: 100%;
-      border-radius: var(--border-radius);
+      border-radius: 12px;
       padding: 30px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.7);
       text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
     .lang-btn {
@@ -239,7 +239,7 @@
       color: white;
       border: none;
       border-radius: 8px;
-      font-size: 18px;
+      font-size: 16px;
       cursor: pointer;
       transition: opacity 0.3s;
     }
@@ -247,28 +247,79 @@
       opacity: 0.9;
     }
 
-    /* Footer dan lainnya tetap sama */
+    /* Modal Umum */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 2000;
+      justify-content: center;
+      align-items: flex-end;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      max-width: 800px;
+      width: 100%;
+      border-radius: var(--border-radius);
+      padding: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+      transform: translateY(100%);
+      opacity: 0;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+      max-height: 80vh;
+      overflow-y: auto;
+      color: var(--text-primary);
+    }
+
+    .modal.active .modal-content {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal h2 {
+      color: var(--accent);
+      font-size: 26px;
+    }
+
+    /* Tombol Musik — DIPOJOK KANAN BAWAH, seperti Thallita */
     .music-control {
       position: fixed;
-      bottom: 70px;
-      left: 20px;
+      bottom: 20px;
+      right: 20px;
       z-index: 1000;
     }
 
     .music-btn {
-      background: var(--card-bg);
-      color: white;
-      border: none;
+      background: #1e1e1e;
+      color: #3498db;
+      border: 2px solid #3498db;
       padding: 10px 16px;
       border-radius: 30px;
       cursor: pointer;
       font-weight: bold;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-      transition: background 0.3s;
+      box-shadow: 0 2px 6px rgba(52, 152, 219, 0.3);
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .music-btn:hover {
-      background: var(--accent);
+      background: #3498db;
+      color: white;
     }
 
     footer {
@@ -297,22 +348,25 @@
         bottom: -8px;
         right: 40px;
       }
+      .music-control {
+        bottom: 15px;
+        right: 15px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Popup Pilihan Bahasa -->
+  <!-- Popup Pilihan Bahasa — DISAMAKAN DENGAN THALLITA -->
   <div id="langModal" class="modal">
-    <div class="modal-content">
-      <h2>Pilih Bahasa / Choose Language</h2>
-      <button class="lang-btn" onclick="setLanguage('id')">Bahasa Indonesia</button>
-      <button class="lang-btn" onclick="setLanguage('en')">English</button>
+    <div class="lang-modal-content">
+      <h2 style="margin-bottom: 20px; color: var(--accent);">Pilih Bahasa / Choose Language</h2>
+      <button class="lang-btn" onclick="setLanguage('id')">🇮🇩 Bahasa Indonesia</button>
+      <button class="lang-btn" onclick="setLanguage('en')">🇬🇧 English</button>
     </div>
   </div>
 
-  <!-- Konten Utama -->
-  <div id="mainContent" style="display:none;">
+  <div id="mainContent" style="display: none;">
     <div class="parallax">
       <div class="overlay">
         <div class="container">
@@ -362,7 +416,7 @@
       </div>
     </div>
 
-    <!-- Modal Profil & Pendidikan tetap sama -->
+    <!-- Modal Profil -->
     <div id="modalProfil" class="modal">
       <div class="modal-content">
         <div class="modal-header">
@@ -390,6 +444,7 @@
       </div>
     </div>
 
+    <!-- Modal Pendidikan -->
     <div id="modalPendidikan" class="modal">
       <div class="modal-content">
         <div class="modal-header">
@@ -435,12 +490,15 @@
       </div>
     </div>
 
+    <!-- Musik -->
     <audio id="bgMusic" loop>
       <source src="music/bg.mp3" type="audio/mpeg">
     </audio>
 
     <div class="music-control">
-      <button class="music-btn" onclick="toggleMusic()" id="btn-music">Putar Musik</button>
+      <button class="music-btn" onclick="toggleMusic()" id="musicBtn">
+        <span>🎵</span> <span id="musicBtnText">Putar Musik</span>
+      </button>
     </div>
 
     <footer>
@@ -452,7 +510,6 @@
   </div>
 
   <script>
-    // Terjemahan
     const translations = {
       id: {
         name: "Zhyllan Fyllah",
@@ -482,7 +539,8 @@
         modalAboutTitle: "Tentang Saya",
         modalAboutText: "Saya seorang siswa SMK yang bersemangat di bidang teknologi, jaringan, dan pengembangan perangkat lunak. Aktif di komunitas Linux dan tertarik pada keamanan jaringan serta pengembangan aplikasi mobile.",
         modalEduTitle: "RIWAYAT PENDIDIKAN",
-        btnMusic: "Putar Musik"
+        musicPlay: "Putar Musik",
+        musicPause: "Jeda Musik"
       },
       en: {
         name: "Zhyllan Fyllah",
@@ -512,15 +570,15 @@
         modalAboutTitle: "About Me",
         modalAboutText: "I am a passionate vocational high school student in technology, networking, and software development. I am active in the Linux community and interested in network security and mobile app development.",
         modalEduTitle: "EDUCATION HISTORY",
-        btnMusic: "Play Music"
+        musicPlay: "Play Music",
+        musicPause: "Pause Music"
       }
     };
 
-    // Cek bahasa yang sudah disimpan
     function initLanguage() {
-      const savedLang = localStorage.getItem('userLang');
-      if (savedLang) {
-        applyLanguage(savedLang);
+      const saved = localStorage.getItem('userLang');
+      if (saved && translations[saved]) {
+        applyLanguage(saved);
         document.getElementById('mainContent').style.display = 'block';
       } else {
         document.getElementById('langModal').style.display = 'flex';
@@ -528,23 +586,25 @@
     }
 
     function setLanguage(lang) {
-      localStorage.setItem('userLang', lang);
-      applyLanguage(lang);
-      document.getElementById('langModal').style.display = 'none';
-      document.getElementById('mainContent').style.display = 'block';
+      if (translations[lang]) {
+        localStorage.setItem('userLang', lang);
+        applyLanguage(lang);
+        document.getElementById('langModal').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+      }
     }
 
     function applyLanguage(lang) {
       const t = translations[lang];
       document.documentElement.lang = lang;
 
-      // Halaman utama
       document.getElementById('txt-name').textContent = t.name;
       document.getElementById('txt-title').textContent = t.title;
       document.getElementById('txt-contact').innerHTML = t.contact;
       document.getElementById('txt-summary-title').textContent = t.summaryTitle;
       document.getElementById('txt-summary').textContent = t.summary;
       document.getElementById('txt-skills-title').textContent = t.skillsTitle;
+
       const skillsList = document.getElementById('txt-skills-list');
       skillsList.innerHTML = '';
       t.skillsList.forEach(item => {
@@ -552,6 +612,7 @@
         li.textContent = item;
         skillsList.appendChild(li);
       });
+
       document.getElementById('btn-education').textContent = t.btnEducation;
 
       // Modal Profil
@@ -559,6 +620,7 @@
       document.getElementById('modal-name').textContent = t.modalName;
       document.getElementById('modal-major').textContent = t.modalMajor;
       document.getElementById('modal-contact-title').textContent = t.modalContactTitle;
+
       const contactList = document.getElementById('modal-contact-list');
       contactList.innerHTML = '';
       t.modalContactList.forEach(item => {
@@ -566,6 +628,7 @@
         li.innerHTML = item;
         contactList.appendChild(li);
       });
+
       document.getElementById('modal-about-title').textContent = t.modalAboutTitle;
       document.getElementById('modal-about-text').textContent = t.modalAboutText;
 
@@ -580,19 +643,35 @@
       }
 
       // Musik
-      document.getElementById('btn-music').textContent = t.btnMusic;
+      const isPlaying = !document.getElementById('bgMusic').paused;
+      document.getElementById('musicBtnText').textContent = isPlaying ? t.musicPause : t.musicPlay;
     }
 
-    // Inisialisasi
-    window.onload = initLanguage;
+    // Musik
+    function toggleMusic() {
+      const audio = document.getElementById('bgMusic');
+      const lang = localStorage.getItem('userLang') || 'id';
+      const t = translations[lang];
 
-    // --- Fungsi popup lainnya (tidak berubah) ---
+      if (audio.paused) {
+        audio.play().then(() => {
+          document.getElementById('musicBtnText').textContent = t.musicPause;
+        }).catch(e => {
+          alert('Gagal memutar musik. Pastikan file tersedia di: music/bg.mp3');
+        });
+      } else {
+        audio.pause();
+        document.getElementById('musicBtnText').textContent = t.musicPlay;
+      }
+    }
+
+    // Modal
     const modalProfil = document.getElementById('modalProfil');
     const modalPendidikan = document.getElementById('modalPendidikan');
-    const audio = document.getElementById('bgMusic');
 
     function bukaProfil() {
-      modalProfil.classList.add('active');
+      modalProfil.style.display = 'flex';
+      setTimeout(() => modalProfil.classList.add('active'), 10);
       document.body.style.overflow = 'hidden';
     }
 
@@ -607,9 +686,7 @@
     function bukaPendidikan(e) {
       e.preventDefault();
       modalPendidikan.style.display = 'flex';
-      setTimeout(() => {
-        modalPendidikan.classList.add('active');
-      }, 10);
+      setTimeout(() => modalPendidikan.classList.add('active'), 10);
       document.body.style.overflow = 'hidden';
     }
 
@@ -626,20 +703,7 @@
       if (event.target === modalPendidikan) tutupPendidikan();
     };
 
-    function toggleMusic() {
-      if (audio.paused) {
-        audio.play().then(() => {
-          const lang = localStorage.getItem('userLang') || 'id';
-          document.querySelector('.music-btn').textContent = translations[lang].btnMusic.replace('Putar', 'Jeda').replace('Play', 'Pause');
-        }).catch(e => {
-          alert('Gagal memutar musik. Pastikan file bg.mp3 ada di folder music/ dan formatnya valid.');
-        });
-      } else {
-        audio.pause();
-        const lang = localStorage.getItem('userLang') || 'id';
-        document.querySelector('.music-btn').textContent = translations[lang].btnMusic;
-      }
-    }
+    window.onload = initLanguage;
   </script>
 </body>
 </html>
