@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portofolio - Zhyllan Fyllah</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Parallax Background -->
+  <div class="parallax">
+    <div class="overlay">
+      <div class="container">
+        <div class="main-content">
+          <!-- Profile Header -->
+          <div class="header">
+            <div class="profile-container" onclick="bukaProfil()">
+              <img src="profile/profile.jpg" alt="Foto Profil" class="profile-pic" />
+              <div class="verified-badge">✓</div>
+            </div>
+            <div class="info">
+              <div class="name-container">
+                <div class="name">Zhyllan Fyllah</div>
+                <div class="verified-badge" style="width:22px;height:22px;font-size:12px;">✓</div>
+              </div>
+              <div class="title">Jurusan TKJ (Teknik Komputer dan Jaringan)</div>
+              <div class="contact">
+                Ujunggading, Lembah Melintang | 
+                <a href="mailto:zhyllanf@gmail.com">zhyllanf@gmail.com</a> | 
+                <a href="https://wa.me/6283831425337" target="_blank">+62-838-3142-5337</a> | 
+                <a href="https://linkedin.com/in/zhyllanfyllah" target="_blank">LinkedIn Saya</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ringkasan -->
+          <div class="content-section">
+            <h2>RINGKASAN</h2>
+            <p>
+              Nama saya Zhyllan Fyllah. Saya telah menempuh pendidikan dasar dan menengah selama 9 tahun. Saat ini, saya sedang menempuh pendidikan di SMK N 1 Lembah Melintang, jurusan Teknik Komputer dan Jaringan (TKJ). Sekolah ini merupakan satu-satunya SMK unggulan di wilayah Ujunggading, yang dikenal baik dari segi kualitas mengajar, pembelajaran, maupun praktik kejuruan, serta memiliki enam program keahlian.
+            </p>
+            <div style="margin-top: 20px;">
+              <a href="#" class="btn-lihat" onclick="bukaPendidikan(event)">Lihat Riwayat Pendidikan</a>
+            </div>
+          </div>
+
+          <!-- Keahlian -->
+          <div class="content-section">
+            <h2>KEAHLIAN DAN KOMPETENSI</h2>
+            <ul>
+              <li>Teknik Komputer dan Jaringan</li>
+              <li>Penetrasi Jaringan Seluler</li>
+              <li>Web Development</li>
+              <li>Pengembangan Aplikasi (APK)</li>
+              <li>Menguasai Bahasa Pemrograman CSS dan HTML</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup Profil -->
+  <div id="modalProfil" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="btn-kembali" onclick="tutupProfil()">← Kembali</button>
+        <h2>PROFIL LENGKAP</h2>
+      </div>
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div style="width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; overflow: hidden; border: 3px solid var(--accent);">
+          <img src="profile/profile.jpg" alt="Foto Profil" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <h3 style="margin-top: 15px; color: white;">Zhyllan Fyllah</h3>
+        <p style="color: var(--text-secondary);">Teknik Komputer dan Jaringan</p>
+      </div>
+      <h3>Kontak</h3>
+      <ul>
+        <li>Email: <a href="mailto:zhyllanf@gmail.com">zhyllanf@gmail.com</a></li>
+        <li>WhatsApp: <a href="https://wa.me/6283831425337" target="_blank">+62 838-3142-5337</a></li>
+        <li>LinkedIn: <a href="https://linkedin.com/in/zhyllanfyllah" target="_blank">linkedin.com/in/zhyllanfyllah</a></li>
+        <li>Lokasi: Ujunggading, Lembah Melintang, Indonesia</li>
+      </ul>
+      <h3>Tentang Saya</h3>
+      <p>
+        Saya seorang siswa SMK yang bersemangat di bidang teknologi, jaringan, dan pengembangan perangkat lunak. Aktif di komunitas Linux dan tertarik pada keamanan jaringan serta pengembangan aplikasi mobile.
+      </p>
+    </div>
+  </div>
+
+  <!-- Popup Riwayat Pendidikan -->
+  <div id="modalPendidikan" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="btn-kembali" onclick="tutupPendidikan()">← Kembali</button>
+        <h2>RIWAYAT PENDIDIKAN</h2>
+      </div>
+      <h3>Pendidikan Formal</h3>
+      <ul>
+        <li><strong>Sekolah Dasar:</strong> MIS Muhammadiyah Tamiang, Ujunggading, Lembah Melintang (2016–2021)</li>
+        <li>
+          <strong>Sekolah Menengah Pertama:</strong> SMP Tahfidz Al-Qur’an An-Naajiya, Jambak Jalur 3 Timur, Simpang Empat (2021–2025)<br>
+          • Menjabat sebagai Ketua OSIS Bidang Pengelolaan Perangkat Laboratorium Komputer (2023–2024)
+        </li>
+        <li><strong>Sekolah Menengah Kejuruan:</strong> SMK N 1 Lembah Melintang (2025–sekarang)</li>
+      </ul>
+
+      <h3>Pendidikan Non-Formal</h3>
+      <ul>
+        <li>Aktif di Komunitas Linux Ubuntu Indonesia (2021–sekarang)</li>
+        <li>Aktif di Komunitas Nusantara Project ROM (2020–sekarang)</li>
+        <li>Menempuh Pembelajaran Online Di Situs Dicoding.com (2024–sekarang)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Audio -->
+  <audio id="bgMusic" loop>
+    <source src="music/bg.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="music-control">
+    <button class="music-btn" onclick="toggleMusic()">Putar Musik</button>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="logo">ZhyllanFyllah.dev</div>
+    &copy; 2025 Zhyllan Fyllah  
+    Hosted on GitHub Pages  
+    Dikembangkan dengan CINTA dan dibangun dengan KASIH dan SAYANG, di bantu oleh <strong>Qwen3-Coder</strong>.
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
