@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Portofolio - Zhyllan Fyllah</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css" integrity="sha384-5Xk5wv5ftTPbhkY9L1OzU6VXxY8RrJqKZJcY6QvVH8M8vqkWZqVgEF6Qe3v5O8" crossorigin="anonymous">
   <style>
     * {
       margin: 0;
@@ -29,6 +30,39 @@
       height: 100%;
       scroll-behavior: smooth;
       overflow-x: hidden;
+      position: relative; /* Diperlukan untuk z-index visualizer */
+      /* Efek RGB border (akan aktif saat tidak ada visualisasi musik) */
+      border: 3px solid transparent;
+      border-radius: 8px; /* Opsional */
+      background-image: linear-gradient(var(--bg-primary), var(--bg-primary)), linear-gradient(90deg, red, yellow, lime, cyan, blue, magenta, red);
+      background-origin: border-box;
+      background-clip: padding-box, border-box;
+      background-size: 100% 100%;
+      animation: rgbBorder 8s linear infinite;
+      animation-play-state: paused; /* Dijeda secara default */
+    }
+
+    @keyframes rgbBorder {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+
+    /* Container untuk visualisasi suara */
+    #visualizerContainer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100px; /* Tinggi visualizer */
+      pointer-events: none; /* Agar tidak menghalangi klik */
+      z-index: 999; /* Di atas konten utama, di bawah menu */
+      display: none; /* Sembunyikan secara default */
+    }
+
+    /* Canvas untuk menggambar visualisasi */
+    #visualizerCanvas {
+      width: 100%;
+      height: 100%;
     }
 
     /* Background Visual TKJ */
@@ -44,84 +78,99 @@
       z-index: -1;
     }
 
-    /* Sidebar Kiri */
-    .sidebar {
+    /* Floating Menu Container */
+    .floating-menu-container {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: var(--sidebar-width);
-      height: 100vh;
-      background: var(--bg-secondary);
+      top: 50%;
+      left: 20px; /* Atau right: 20px; jika ingin di kanan */
+      transform: translateY(-50%);
       display: flex;
       flex-direction: column;
-      align-items: center;
-      padding-top: 20px;
+      gap: 15px; /* Jarak antar tombol */
       z-index: 1000;
-      box-shadow: 4px 0 12px rgba(0,0,0,0.5);
-      transition: all 0.3s ease;
     }
 
     .music-control {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      padding: 12px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .music-btn {
-      background: transparent;
-      border: 2px solid var(--accent);
-      color: var(--accent);
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
+      width: 60px; /* Lebih besar agar sejajar dengan tombol menu */
+      height: 60px;
       display: flex;
       align-items: center;
       justify-content: center;
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      background: var(--bg-secondary);
       cursor: pointer;
-      font-size: 18px;
-      transition: all 0.3s;
+      font-size: 20px;
+      color: var(--accent);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Bayangan default */
     }
 
-    .music-btn:hover {
-      background: var(--accent);
-      color: white;
+    .music-control:hover {
+        background: var(--accent);
+        color: white;
+        box-shadow: 0 6px 12px rgba(52, 152, 219, 0.4); /* Bayangan lebih besar saat hover */
     }
 
     .nav-icons {
       display: flex;
       flex-direction: column;
-      gap: 20px;
-      margin-top: 30px;
-      width: 100%;
-      padding: 0 10px;
+      gap: 15px; /* Jarak antar tombol */
     }
 
     .nav-icon {
-      width: 100%;
-      height: 50px;
+      width: 60px;
+      height: 60px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: transparent;
-      border: none;
-      border-radius: 8px;
+      background: var(--bg-secondary);
+      border: 2px solid transparent; /* Awalnya tidak ada border */
+      border-radius: 50%;
       cursor: pointer;
-      font-size: 20px;
+      font-size: 24px;
       color: var(--text-secondary);
-      transition: all 0.3s;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Animasi bouncing */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Bayangan default */
+      position: relative;
+      opacity: 0;
+      transform: translateX(-100px); /* Mulai dari kiri */
     }
 
-    .nav-icon:hover,
     .nav-icon.active {
-      background: var(--accent);
+      border-color: var(--accent);
       color: white;
+      background: var(--accent);
+      z-index: 1001; /* Di atas yang lain saat aktif */
+      transform: scale(1.1); /* Sedikit membesar saat aktif */
+      box-shadow: 0 0 15px rgba(52, 152, 219, 0.7); /* Bayangan saat aktif */
     }
 
-    /* Konten Utama */
+    .nav-icon:hover:not(.active) { /* Efek hover hanya untuk yang tidak aktif */
+        color: white;
+        background: var(--accent);
+        box-shadow: 0 6px 12px rgba(52, 152, 219, 0.5); /* Bayangan lebih besar saat hover */
+    }
+
+    .nav-icon:nth-child(1) { transition-delay: 0.1s; }
+    .nav-icon:nth-child(2) { transition-delay: 0.2s; }
+    .nav-icon:nth-child(3) { transition-delay: 0.3s; }
+
+    /* Animasi masuk */
+    .nav-icon.animate-in {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Animasi keluar */
+    .nav-icon.animate-out {
+      opacity: 0;
+      transform: translateX(-100px) translateY(-20px) rotate(-15deg); /* Melayang ke kiri dan atas */
+    }
+
+    /* Konten Utama - margin disesuaikan dengan posisi menu mengambang */
     .main-area {
-      margin-left: var(--sidebar-width);
+      margin-left: 100px; /* Lebih besar dari ukuran tombol untuk jarak */
       padding: 30px;
       min-height: 100vh;
       opacity: 0;
@@ -134,6 +183,46 @@
         opacity: 1;
         transform: translateY(0);
       }
+    }
+
+    .profile-section {
+      background: rgba(26, 23, 32, 0.7);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      margin-bottom: 30px;
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .profile-section img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 3px solid var(--accent);
+      object-fit: cover;
+    }
+
+    .profile-section .profile-info {
+      flex: 1;
+    }
+
+    .profile-section .profile-info h2 {
+      font-size: 24px;
+      margin-bottom: 5px;
+      color: var(--accent);
+    }
+
+    .profile-section .profile-info p {
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+
+    .profile-section .profile-info ul {
+        padding-left: 20px;
+        color: var(--text-secondary);
     }
 
     .content-section {
@@ -275,37 +364,37 @@
 
     /* Responsif Mobile */
     @media (max-width: 768px) {
-      .sidebar {
-        width: 100%;
-        height: auto;
-        position: fixed;
-        bottom: 0;
+      .floating-menu-container {
         top: auto;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
         flex-direction: row;
-        padding: 12px;
-        justify-content: space-around;
-        align-items: center;
-        box-shadow: 0 -4px 12px rgba(0,0,0,0.5);
-      }
-
-      .music-control {
-        padding: 8px 0;
-      }
-
-      .music-btn {
-        width: 36px;
-        height: 36px;
-        font-size: 16px;
+        gap: 10px;
+        width: auto;
+        max-width: 90%;
       }
 
       .nav-icons {
         flex-direction: row;
-        gap: 10px;
-        margin-top: 0;
-        padding: 0 5px;
       }
 
       .nav-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            transform: translateY(100px); /* Mulai dari bawah */
+        }
+
+      .nav-icon.animate-in {
+            transform: translateY(0);
+        }
+
+      .nav-icon.animate-out {
+            transform: translateY(100px) translateX(-20px) rotate(15deg); /* Melayang ke bawah dan kiri */
+        }
+
+      .music-control {
         width: 50px;
         height: 50px;
         font-size: 18px;
@@ -315,6 +404,16 @@
         margin-left: 0;
         padding: 20px 16px;
       }
+
+      .profile-section {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+      }
+
+      .profile-section img {
+        margin-bottom: 15px;
+      }
     }
   </style>
 </head>
@@ -322,6 +421,11 @@
 
   <!-- Background TKJ -->
   <div class="tkj-background"></div>
+
+  <!-- Container untuk Visualisasi Suara -->
+  <div id="visualizerContainer">
+    <canvas id="visualizerCanvas"></canvas>
+  </div>
 
   <!-- Popup Bahasa -->
   <div id="langModal" class="modal">
@@ -334,28 +438,44 @@
 
   <div id="mainContent" style="display: none;">
 
-    <!-- Sidebar Kiri -->
-    <aside class="sidebar">
-      <!-- Tombol Musik di Atas -->
-      <div class="music-control">
-        <button class="music-btn" onclick="toggleMusic()" id="musicBtn">
-          ▶️
-        </button>
+    <!-- Floating Menu Container -->
+    <div class="floating-menu-container">
+      <!-- Tombol Musik -->
+      <div class="music-control" onclick="toggleMusic()" id="musicBtn">
+        <i class="fas fa-play"></i>
       </div>
 
       <!-- Navigasi Ikon -->
       <div class="nav-icons">
-        <button class="nav-icon" onclick="bukaProfil()" id="icon-profil">
-          👤
+        <button class="nav-icon active" onclick="bukaProfil()" id="icon-profil">
+          <i class="fas fa-user"></i>
         </button>
         <button class="nav-icon" onclick="bukaPendidikan(event)" id="icon-edu">
-          🎓
+          <i class="fas fa-graduation-cap"></i>
         </button>
+        <!-- Tambahkan tombol lain jika diperlukan -->
+        <!-- <button class="nav-icon" onclick="bukaTentang()">
+          <i class="fas fa-info-circle"></i>
+        </button> -->
       </div>
-    </aside>
+    </div>
 
     <!-- Konten Utama -->
     <main class="main-area">
+      <!-- Profil Section - Ditampilkan di halaman utama -->
+      <div class="profile-section">
+        <img src="profile/profile.jpg" alt="Foto Profil Zhyllan Fyllah">
+        <div class="profile-info">
+          <h2 id="main-profile-name">Zhyllan Fyllah</h2>
+          <p id="main-profile-major">Teknik Komputer dan Jaringan</p>
+          <ul id="main-profile-contact">
+            <li>Email: <a href="mailto:zhyllanf@gmail.com">zhyllanf@gmail.com</a></li>
+            <li>WhatsApp: <a href="https://wa.me/6283831425337" target="_blank">+62 838-3142-5337</a></li>
+            <li>Lokasi: Ujunggading, Lembah Melintang, Indonesia</li>
+          </ul>
+        </div>
+      </div>
+
       <div class="content-section">
         <h2 id="txt-summary-title">RINGKASAN</h2>
         <p id="txt-summary">
@@ -378,7 +498,7 @@
         <div class="logo">ZhyllanFyllah.dev</div>
         &copy; 2025 Zhyllan Fyllah  
         Hosted on GitHub Pages  
-        Dikembangkan dengan CINTA dan dibangun dengan KASIH dan SAYANG, di bantu oleh <strong>Qwen3-Coder</strong>.
+        Dikembakan dengan CINTA dan dibangun dengan KASIH dan SAYANG, di bantu oleh <strong>Qwen3-Coder</strong>.
       </footer>
     </main>
 
@@ -400,7 +520,7 @@
         <ul id="modal-contact-list">
           <li>Email: <a href="mailto:zhyllanf@gmail.com">zhyllanf@gmail.com</a></li>
           <li>WhatsApp: <a href="https://wa.me/6283831425337" target="_blank">+62 838-3142-5337</a></li>
-          <li>LinkedIn: <a href="https://linkedin.com/in/zhyllanfyllah" target="_blank">linkedin.com/in/zhyllanfyllah</a></li>
+          <!-- LinkedIn dihapus dari sini sesuai permintaan -->
           <li>Lokasi: Ujunggading, Lembah Melintang, Indonesia</li>
         </ul>
         <h3 id="modal-about-title">Tentang Saya</h3>
@@ -422,7 +542,7 @@
           <ul>
             <li><strong>Sekolah Dasar:</strong> MIS Muhammadiyah Tamiang, Ujunggading, Lembah Melintang (2016–2021)</li>
             <li>
-              <strong>Sekolah Menengah Pertama:</strong> SMP Tahfidz Al-Qur’an An-Naajiya, Jambak Jalur 3 Timur, Simpang Empat (2021–2025)<br>
+              <strong>Sekolah Menengah Pertama:</strong> SMP Tahfidz Al-Qur'an An-Naajiya, Jambak Jalur 3 Timur, Simpang Empat (2021–2025)<br>
               • Menjabat sebagai Ketua OSIS Bidang Pengelolaan Perangkat Laboratorium Komputer (2023–2024)
             </li>
             <li><strong>Sekolah Menengah Kejuruan:</strong> SMK N 1 Lembah Melintang (2025–sekarang)</li>
@@ -440,7 +560,7 @@
           <ul>
             <li><strong>Elementary School:</strong> MIS Muhammadiyah Tamiang, Ujunggading, Lembah Melintang (2016–2021)</li>
             <li>
-              <strong>Junior High School:</strong> SMP Tahfidz Al-Qur’an An-Naajiya, Jambak Jalur 3 Timur, Simpang Empat (2021–2025)<br>
+              <strong>Junior High School:</strong> SMP Tahfidz Al-Qur'an An-Naajiya, Jambak Jalur 3 Timur, Simpang Empat (2021–2025)<br>
               • Served as OSIS Chairperson for Computer Lab Equipment Management Division (2023–2024)
             </li>
             <li><strong>Vocational High School:</strong> SMK N 1 Lembah Melintang (2025–present)</li>
@@ -483,14 +603,20 @@
         modalContactList: [
           "Email: <a href='mailto:zhyllanf@gmail.com'>zhyllanf@gmail.com</a>",
           "WhatsApp: <a href='https://wa.me/6283831425337' target='_blank'>+62 838-3142-5337</a>",
-          "LinkedIn: <a href='https://linkedin.com/in/zhyllanfyllah' target='_blank'>linkedin.com/in/zhyllanfyllah</a>",
           "Lokasi: Ujunggading, Lembah Melintang, Indonesia"
         ],
         modalAboutTitle: "Tentang Saya",
         modalAboutText: "Saya seorang siswa SMK yang bersemangat di bidang teknologi, jaringan, dan pengembangan perangkat lunak. Aktif di komunitas Linux dan tertarik pada keamanan jaringan serta pengembangan aplikasi mobile.",
         modalEduTitle: "RIWAYAT PENDIDIKAN",
-        musicPlay: "▶️",
-        musicPause: "⏸️"
+        musicPlay: "fas fa-play",
+        musicPause: "fas fa-pause",
+        mainProfileName: "Zhyllan Fyllah",
+        mainProfileMajor: "Teknik Komputer dan Jaringan",
+        mainProfileContact: [
+          "Email: <a href='mailto:zhyllanf@gmail.com'>zhyllanf@gmail.com</a>",
+          "WhatsApp: <a href='https://wa.me/6283831425337' target='_blank'>+62 838-3142-5337</a>",
+          "Lokasi: Ujunggading, Lembah Melintang, Indonesia"
+        ]
       },
       en: {
         summaryTitle: "SUMMARY",
@@ -510,22 +636,133 @@
         modalContactList: [
           "Email: <a href='mailto:zhyllanf@gmail.com'>zhyllanf@gmail.com</a>",
           "WhatsApp: <a href='https://wa.me/6283831425337' target='_blank'>+62 838-3142-5337</a>",
-          "LinkedIn: <a href='https://linkedin.com/in/zhyllanfyllah' target='_blank'>linkedin.com/in/zhyllanfyllah</a>",
-          "Location: Ujunggading, Lembah Melintang, Indonesia"
+          "Lokasi: Ujunggading, Lembah Melintang, Indonesia"
         ],
         modalAboutTitle: "About Me",
         modalAboutText: "I am a passionate vocational high school student in technology, networking, and software development. I am active in the Linux community and interested in network security and mobile app development.",
         modalEduTitle: "EDUCATION HISTORY",
-        musicPlay: "▶️",
-        musicPause: "⏸️"
+        musicPlay: "fas fa-play",
+        musicPause: "fas fa-pause",
+        mainProfileName: "Zhyllan Fyllah",
+        mainProfileMajor: "Computer and Network Engineering",
+        mainProfileContact: [
+          "Email: <a href='mailto:zhyllanf@gmail.com'>zhyllanf@gmail.com</a>",
+          "WhatsApp: <a href='https://wa.me/6283831425337' target='_blank'>+62 838-3142-5337</a>",
+          "Lokasi: Ujunggading, Lembah Melintang, Indonesia"
+        ]
       }
     };
 
+    // --- VISUALIZER LOGIC ---
+    let audioContext, analyser, audioSource, dataArray, canvas, canvasCtx, animationId;
+    const visualizerContainer = document.getElementById('visualizerContainer');
+    const visualizerCanvas = document.getElementById('visualizerCanvas');
+    canvasCtx = visualizerCanvas.getContext('2d');
+
+    function setupVisualizer() {
+        if (!audioContext) {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            analyser = audioContext.createAnalyser();
+            audioSource = audioContext.createMediaElementSource(document.getElementById('bgMusic'));
+            audioSource.connect(analyser);
+            analyser.connect(audioContext.destination);
+            analyser.fftSize = 256;
+            const bufferLength = analyser.frequencyBinCount;
+            dataArray = new Uint8Array(bufferLength);
+        }
+    }
+
+    function drawVisualizer() {
+        if (!analyser || !canvasCtx) return;
+
+        const bufferLength = analyser.frequencyBinCount;
+        analyser.getByteFrequencyData(dataArray);
+
+        canvasCtx.clearRect(0, 0, canvasCtx.canvas.width, canvasCtx.canvas.height);
+
+        const barWidth = (canvasCtx.canvas.width / bufferLength) * 2.5;
+        let barHeight;
+        let x = 0;
+
+        for (let i = 0; i < bufferLength; i++) {
+            barHeight = dataArray[i] / 2; // Skala tinggi bar
+
+            // Warna gradasi
+            const gradient = canvasCtx.createLinearGradient(0, canvasCtx.canvas.height - barHeight, 0, canvasCtx.canvas.height);
+            gradient.addColorStop(0, '#3498db'); // Biru aksen
+            gradient.addColorStop(1, '#e0e0e0'); // Abu-abu terang
+
+            canvasCtx.fillStyle = gradient;
+            canvasCtx.fillRect(x, canvasCtx.canvas.height - barHeight, barWidth, barHeight);
+
+            x += barWidth + 1;
+        }
+
+        animationId = requestAnimationFrame(drawVisualizer);
+    }
+
+    function startVisualizer() {
+        setupVisualizer();
+        if (audioContext.state === 'suspended') {
+            audioContext.resume();
+        }
+        // Atur ukuran canvas saat dimulai
+        canvasCtx.canvas.width = visualizerContainer.clientWidth;
+        canvasCtx.canvas.height = visualizerContainer.clientHeight;
+        visualizerContainer.style.display = 'block';
+        drawVisualizer();
+    }
+
+    function stopVisualizer() {
+        if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+        }
+        visualizerContainer.style.display = 'none';
+    }
+
+    // --- MUSIC LOGIC ---
+    function toggleMusic() {
+        const audio = document.getElementById('bgMusic');
+        const lang = localStorage.getItem('userLang') || 'id';
+        const t = translations[lang];
+        const btn = document.getElementById('musicBtn');
+
+        if (audio.paused) {
+            audio.play()
+                .then(() => {
+                    btn.innerHTML = `<i class="${t.musicPause}"></i>`;
+                    startVisualizer(); // Aktifkan visualisasi saat diputar
+                    document.body.style.animationPlayState = 'paused'; // Jeda efek RGB saat visualisasi aktif
+                })
+                .catch(e => {
+                    console.error('Gagal memutar musik:', e);
+                    alert('Gagal memutar musik. Silakan coba lagi atau periksa file: music/bg.mp3');
+                    // Jika gagal, aktifkan efek RGB sebagai fallback
+                    document.body.style.animationPlayState = 'running';
+                });
+        } else {
+            audio.pause();
+            btn.innerHTML = `<i class="${t.musicPlay}"></i>`;
+            stopVisualizer(); // Hentikan visualisasi saat dijeda
+            document.body.style.animationPlayState = 'running'; // Aktifkan efek RGB saat musik tidak diputar
+        }
+    }
+
+    // --- TRANSLATION & OTHER LOGIC ---
     function initLanguage() {
       const saved = localStorage.getItem('userLang');
       if (saved && translations[saved]) {
         applyLanguage(saved);
         document.getElementById('mainContent').style.display = 'block';
+        // Animasi menu masuk
+        setTimeout(() => {
+            document.querySelectorAll('.nav-icon').forEach(icon => {
+                icon.classList.add('animate-in');
+            });
+        }, 300);
+        // Set awal efek RGB dijeda (karena musik belum diputar)
+        document.body.style.animationPlayState = 'paused';
       } else {
         document.getElementById('langModal').style.display = 'flex';
       }
@@ -537,6 +774,13 @@
         applyLanguage(lang);
         document.getElementById('langModal').style.display = 'none';
         document.getElementById('mainContent').style.display = 'block';
+        // Animasi menu masuk
+        setTimeout(() => {
+            document.querySelectorAll('.nav-icon').forEach(icon => {
+                icon.classList.add('animate-in');
+            });
+        }, 300);
+        document.body.style.animationPlayState = 'paused';
       }
     }
 
@@ -555,6 +799,17 @@
         const li = document.createElement('li');
         li.textContent = item;
         skillsList.appendChild(li);
+      });
+
+      // Main Profile Section
+      document.getElementById('main-profile-name').textContent = t.mainProfileName;
+      document.getElementById('main-profile-major').textContent = t.mainProfileMajor;
+      const mainContactList = document.getElementById('main-profile-contact');
+      mainContactList.innerHTML = '';
+      t.mainProfileContact.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = item;
+        mainContactList.appendChild(li);
       });
 
       // Modal Profil
@@ -584,27 +839,17 @@
         document.getElementById('modal-edu-content-en').style.display = 'block';
       }
 
-      // Musik tombol teks
+      // Musik tombol ikon
       const isPlaying = !document.getElementById('bgMusic').paused;
       const btn = document.getElementById('musicBtn');
-      btn.textContent = isPlaying ? t.musicPause : t.musicPlay;
-    }
-
-    function toggleMusic() {
-      const audio = document.getElementById('bgMusic');
-      const lang = localStorage.getItem('userLang') || 'id';
-      const t = translations[lang];
-      const btn = document.getElementById('musicBtn');
-
-      if (audio.paused) {
-        audio.play().then(() => {
-          btn.textContent = t.musicPause;
-        }).catch(e => {
-          alert('Gagal memutar musik. Pastikan file tersedia di: music/bg.mp3');
-        });
+      btn.innerHTML = `<i class="${isPlaying ? t.musicPause : t.musicPlay}"></i>`;
+      // Set awal efek RGB berdasarkan status musik
+      if (isPlaying) {
+          document.body.style.animationPlayState = 'paused';
+          startVisualizer();
       } else {
-        audio.pause();
-        btn.textContent = t.musicPlay;
+          document.body.style.animationPlayState = 'running';
+          stopVisualizer();
       }
     }
 
@@ -613,6 +858,15 @@
     const modalPendidikan = document.getElementById('modalPendidikan');
 
     function bukaProfil() {
+      // Ambil ikon aktif sebelum membuka modal
+      const activeIcon = document.querySelector('.nav-icon.active');
+      if (activeIcon) activeIcon.classList.remove('active');
+      document.getElementById('icon-profil').classList.add('active');
+      // Animasi menu keluar
+      document.querySelectorAll('.nav-icon').forEach(icon => {
+          icon.classList.remove('animate-in');
+          icon.classList.add('animate-out');
+      });
       modalProfil.style.display = 'flex';
       setTimeout(() => modalProfil.classList.add('active'), 10);
       document.body.style.overflow = 'hidden';
@@ -623,11 +877,27 @@
       setTimeout(() => {
         modalProfil.style.display = 'none';
         document.body.style.overflow = '';
+        // Animasi menu masuk kembali
+        setTimeout(() => {
+            document.querySelectorAll('.nav-icon').forEach(icon => {
+                icon.classList.remove('animate-out');
+                icon.classList.add('animate-in');
+            });
+        }, 10);
       }, 400);
     }
 
     function bukaPendidikan(e) {
       e.preventDefault();
+      // Ambil ikon aktif sebelum membuka modal
+      const activeIcon = document.querySelector('.nav-icon.active');
+      if (activeIcon) activeIcon.classList.remove('active');
+      document.getElementById('icon-edu').classList.add('active');
+      // Animasi menu keluar
+      document.querySelectorAll('.nav-icon').forEach(icon => {
+          icon.classList.remove('animate-in');
+          icon.classList.add('animate-out');
+      });
       modalPendidikan.style.display = 'flex';
       setTimeout(() => modalPendidikan.classList.add('active'), 10);
       document.body.style.overflow = 'hidden';
@@ -638,6 +908,13 @@
       setTimeout(() => {
         modalPendidikan.style.display = 'none';
         document.body.style.overflow = '';
+        // Animasi menu masuk kembali
+        setTimeout(() => {
+            document.querySelectorAll('.nav-icon').forEach(icon => {
+                icon.classList.remove('animate-out');
+                icon.classList.add('animate-in');
+            });
+        }, 10);
       }, 400);
     }
 
@@ -647,6 +924,14 @@
     };
 
     window.onload = initLanguage;
+
+    // Perbarui ukuran canvas saat window diresize
+    window.addEventListener('resize', function() {
+        if (visualizerContainer.style.display === 'block' && canvasCtx) {
+            canvasCtx.canvas.width = visualizerContainer.clientWidth;
+            canvasCtx.canvas.height = visualizerContainer.clientHeight;
+        }
+    });
   </script>
 </body>
 </html>
