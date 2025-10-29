@@ -193,8 +193,10 @@
       border-radius: var(--border-radius);
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
       display: flex;
-      align-items: center;
-      gap: 20px;
+      flex-direction: column; /* Atur elemen dalam kolom */
+      align-items: center; /* Pusatkan secara horizontal */
+      text-align: center; /* Pusatkan teks */
+      gap: 15px; /* Jarak antar elemen */
     }
 
     .profile-section img {
@@ -203,10 +205,6 @@
       border-radius: 50%;
       border: 3px solid var(--accent);
       object-fit: cover;
-    }
-
-    .profile-section .profile-info {
-      flex: 1;
     }
 
     .profile-section .profile-info h2 {
@@ -223,6 +221,25 @@
     .profile-section .profile-info ul {
         padding-left: 20px;
         color: var(--text-secondary);
+        text-align: left; /* Kembalikan teks ke kiri untuk daftar */
+        margin-bottom: 15px; /* Jarak sebelum tombol */
+    }
+
+    .profile-section .profile-btn {
+        background: transparent;
+        color: var(--accent);
+        border: 1px solid var(--accent);
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        width: auto; /* Lebar sesuai isi */
+    }
+
+    .profile-section .profile-btn:hover {
+        background: var(--accent);
+        color: white;
     }
 
     .content-section {
@@ -406,13 +423,11 @@
       }
 
       .profile-section {
-        flex-direction: column;
-        text-align: center;
-        align-items: center;
+        padding: 20px; /* Kurangi padding */
       }
 
       .profile-section img {
-        margin-bottom: 15px;
+        margin-bottom: 15px; /* Jarak antara gambar dan teks */
       }
     }
   </style>
@@ -473,6 +488,10 @@
             <li>WhatsApp: <a href="https://wa.me/6283831425337" target="_blank">+62 838-3142-5337</a></li>
             <li>Lokasi: Ujunggading, Lembah Melintang, Indonesia</li>
           </ul>
+          <!-- Tombol "Lihat Profil Lengkap" -->
+          <button class="profile-btn" onclick="bukaProfil()">
+            Lihat Profil Lengkap
+          </button>
         </div>
       </div>
 
