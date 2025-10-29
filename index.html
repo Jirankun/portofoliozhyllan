@@ -78,21 +78,14 @@
       z-index: -1;
     }
 
-    /* Floating Menu Container */
-    .floating-menu-container {
+    /* Tombol Musik - Sekarang ditempatkan di atas profil */
+    .music-control-top {
       position: fixed;
-      top: 50%;
-      left: 20px; /* Atau right: 20px; jika ingin di kanan */
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 15px; /* Jarak antar tombol */
-      z-index: 1000;
-    }
-
-    .music-control {
-      width: 60px; /* Lebih besar agar sejajar dengan tombol menu */
-      height: 60px;
+      top: 20px;
+      left: 20px; /* Sesuaikan margin kiri jika perlu */
+      z-index: 1000; /* Di atas konten lainnya */
+      width: 50px;
+      height: 50px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -100,78 +93,23 @@
       border-radius: 50%;
       background: var(--bg-secondary);
       cursor: pointer;
-      font-size: 20px;
+      font-size: 18px;
       color: var(--accent);
       transition: all 0.3s ease;
       box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Bayangan default */
     }
 
-    .music-control:hover {
+    .music-control-top:hover {
         background: var(--accent);
         color: white;
         box-shadow: 0 6px 12px rgba(52, 152, 219, 0.4); /* Bayangan lebih besar saat hover */
     }
 
-    .nav-icons {
-      display: flex;
-      flex-direction: column;
-      gap: 15px; /* Jarak antar tombol */
-    }
-
-    .nav-icon {
-      width: 60px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--bg-secondary);
-      border: 2px solid transparent; /* Awalnya tidak ada border */
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 24px;
-      color: var(--text-secondary);
-      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Animasi bouncing */
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Bayangan default */
-      position: relative;
-      opacity: 0;
-      transform: translateX(-100px); /* Mulai dari kiri */
-    }
-
-    .nav-icon.active {
-      border-color: var(--accent);
-      color: white;
-      background: var(--accent);
-      z-index: 1001; /* Di atas yang lain saat aktif */
-      transform: scale(1.1); /* Sedikit membesar saat aktif */
-      box-shadow: 0 0 15px rgba(52, 152, 219, 0.7); /* Bayangan saat aktif */
-    }
-
-    .nav-icon:hover:not(.active) { /* Efek hover hanya untuk yang tidak aktif */
-        color: white;
-        background: var(--accent);
-        box-shadow: 0 6px 12px rgba(52, 152, 219, 0.5); /* Bayangan lebih besar saat hover */
-    }
-
-    .nav-icon:nth-child(1) { transition-delay: 0.1s; }
-    .nav-icon:nth-child(2) { transition-delay: 0.2s; }
-    .nav-icon:nth-child(3) { transition-delay: 0.3s; }
-
-    /* Animasi masuk */
-    .nav-icon.animate-in {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    /* Animasi keluar */
-    .nav-icon.animate-out {
-      opacity: 0;
-      transform: translateX(-100px) translateY(-20px) rotate(-15deg); /* Melayang ke kiri dan atas */
-    }
-
-    /* Konten Utama - margin disesuaikan dengan posisi menu mengambang */
+    /* Konten Utama - margin disesuaikan karena tombol musik sekarang di atas */
     .main-area {
-      margin-left: 100px; /* Lebih besar dari ukuran tombol untuk jarak */
+      margin-left: 0; /* Tidak ada lagi margin untuk menu mengambang */
       padding: 30px;
+      padding-top: 90px; /* Ruang untuk tombol musik di atas */
       min-height: 100vh;
       opacity: 0;
       transform: translateY(20px);
@@ -193,13 +131,52 @@
       border-radius: var(--border-radius);
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
       display: flex;
-      flex-direction: column; /* Atur elemen dalam kolom */
-      align-items: center; /* Pusatkan secara horizontal */
-      text-align: center; /* Pusatkan teks */
-      gap: 15px; /* Jarak antar elemen */
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 20px; /* Jarak antara elemen */
     }
 
-    .profile-section img {
+    .profile-nav {
+        display: flex;
+        gap: 20px; /* Jarak antar tautan */
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap; /* Memungkinkan wrap jika terlalu sempit */
+    }
+
+    .profile-nav a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-weight: bold;
+        padding: 8px 16px;
+        border-radius: 6px;
+        border: 1px solid transparent;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .profile-nav a:hover {
+        color: white;
+        background: var(--accent);
+        border-color: var(--accent);
+    }
+
+    .profile-nav a.active {
+        color: white;
+        background: var(--accent);
+        border-color: var(--accent);
+    }
+
+    .profile-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 15px;
+    }
+
+    .profile-content img {
       width: 120px;
       height: 120px;
       border-radius: 50%;
@@ -207,25 +184,25 @@
       object-fit: cover;
     }
 
-    .profile-section .profile-info h2 {
+    .profile-content .profile-info h2 {
       font-size: 24px;
       margin-bottom: 5px;
       color: var(--accent);
     }
 
-    .profile-section .profile-info p {
+    .profile-content .profile-info p {
       color: var(--text-secondary);
       margin-bottom: 10px;
     }
 
-    .profile-section .profile-info ul {
+    .profile-content .profile-info ul {
         padding-left: 20px;
         color: var(--text-secondary);
-        text-align: left; /* Kembalikan teks ke kiri untuk daftar */
-        margin-bottom: 15px; /* Jarak sebelum tombol */
+        text-align: left;
+        margin-bottom: 15px;
     }
 
-    .profile-section .profile-btn {
+    .profile-content .profile-btn {
         background: transparent;
         color: var(--accent);
         border: 1px solid var(--accent);
@@ -234,10 +211,10 @@
         cursor: pointer;
         font-weight: bold;
         transition: all 0.3s ease;
-        width: auto; /* Lebar sesuai isi */
+        width: auto;
     }
 
-    .profile-section .profile-btn:hover {
+    .profile-content .profile-btn:hover {
         background: var(--accent);
         color: white;
     }
@@ -381,53 +358,37 @@
 
     /* Responsif Mobile */
     @media (max-width: 768px) {
-      .floating-menu-container {
-        top: auto;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        flex-direction: row;
-        gap: 10px;
-        width: auto;
-        max-width: 90%;
-      }
-
-      .nav-icons {
-        flex-direction: row;
-      }
-
-      .nav-icon {
-            width: 50px;
-            height: 50px;
-            font-size: 20px;
-            transform: translateY(100px); /* Mulai dari bawah */
-        }
-
-      .nav-icon.animate-in {
-            transform: translateY(0);
-        }
-
-      .nav-icon.animate-out {
-            transform: translateY(100px) translateX(-20px) rotate(15deg); /* Melayang ke bawah dan kiri */
-        }
-
-      .music-control {
-        width: 50px;
-        height: 50px;
-        font-size: 18px;
+      .music-control-top {
+        top: 10px;
+        left: 10px;
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
       }
 
       .main-area {
-        margin-left: 0;
         padding: 20px 16px;
+        padding-top: 70px; /* Kurangi padding atas */
       }
 
       .profile-section {
-        padding: 20px; /* Kurangi padding */
+        padding: 20px;
+        gap: 15px;
       }
 
-      .profile-section img {
-        margin-bottom: 15px; /* Jarak antara gambar dan teks */
+      .profile-nav {
+        gap: 10px; /* Kurangi jarak tautan */
+        flex-direction: column; /* Tautan menjadi vertikal pada mobile */
+        align-items: center;
+      }
+
+      .profile-nav a {
+        width: 100%; /* Tautan mengisi lebar penuh */
+        text-align: center;
+      }
+
+      .profile-content img {
+        margin-bottom: 10px;
       }
     }
   </style>
@@ -442,6 +403,11 @@
     <canvas id="visualizerCanvas"></canvas>
   </div>
 
+  <!-- Tombol Musik - Sekarang di atas -->
+  <div class="music-control-top" onclick="toggleMusic()" id="musicBtn">
+    <i class="fas fa-play"></i>
+  </div>
+
   <!-- Popup Bahasa -->
   <div id="langModal" class="modal">
     <div class="lang-modal-content">
@@ -453,45 +419,32 @@
 
   <div id="mainContent" style="display: none;">
 
-    <!-- Floating Menu Container -->
-    <div class="floating-menu-container">
-      <!-- Tombol Musik -->
-      <div class="music-control" onclick="toggleMusic()" id="musicBtn">
-        <i class="fas fa-play"></i>
-      </div>
-
-      <!-- Navigasi Ikon -->
-      <div class="nav-icons">
-        <button class="nav-icon active" onclick="bukaProfil()" id="icon-profil">
-          <i class="fas fa-user"></i>
-        </button>
-        <button class="nav-icon" onclick="bukaPendidikan(event)" id="icon-edu">
-          <i class="fas fa-graduation-cap"></i>
-        </button>
-        <!-- Tambahkan tombol lain jika diperlukan -->
-        <!-- <button class="nav-icon" onclick="bukaTentang()">
-          <i class="fas fa-info-circle"></i>
-        </button> -->
-      </div>
-    </div>
-
     <!-- Konten Utama -->
     <main class="main-area">
       <!-- Profil Section - Ditampilkan di halaman utama -->
       <div class="profile-section">
-        <img src="profile/profile.jpg" alt="Foto Profil Zhyllan Fyllah">
-        <div class="profile-info">
-          <h2 id="main-profile-name">Zhyllan Fyllah</h2>
-          <p id="main-profile-major">Teknik Komputer dan Jaringan</p>
-          <ul id="main-profile-contact">
-            <li>Email: <a href="mailto:zhyllanf@gmail.com">zhyllanf@gmail.com</a></li>
-            <li>WhatsApp: <a href="https://wa.me/6283831425337" target="_blank">+62 838-3142-5337</a></li>
-            <li>Lokasi: Ujunggading, Lembah Melintang, Indonesia</li>
-          </ul>
-          <!-- Tombol "Lihat Profil Lengkap" -->
-          <button class="profile-btn" onclick="bukaProfil()">
-            Lihat Profil Lengkap
-          </button>
+        <!-- Navigasi Teks -->
+        <div class="profile-nav">
+          <a href="#" id="nav-profil" class="active" onclick="event.preventDefault(); bukaProfil();">Profil</a>
+          <a href="#" id="nav-edu" onclick="event.preventDefault(); bukaPendidikan(event);">Pendidikan</a>
+        </div>
+
+        <!-- Konten Profil -->
+        <div class="profile-content">
+          <img src="profile/profile.jpg" alt="Foto Profil Zhyllan Fyllah">
+          <div class="profile-info">
+            <h2 id="main-profile-name">Zhyllan Fyllah</h2>
+            <p id="main-profile-major">Teknik Komputer dan Jaringan</p>
+            <ul id="main-profile-contact">
+              <li>Email: <a href="mailto:zhyllanf@gmail.com">zhyllanf@gmail.com</a></li>
+              <li>WhatsApp: <a href="https://wa.me/6283831425337" target="_blank">+62 838-3142-5337</a></li>
+              <li>Lokasi: Ujunggading, Lembah Melintang, Indonesia</li>
+            </ul>
+            <!-- Tombol "Lihat Profil Lengkap" -->
+            <button class="profile-btn" onclick="bukaProfil()">
+              Lihat Profil Lengkap
+            </button>
+          </div>
         </div>
       </div>
 
@@ -774,12 +727,7 @@
       if (saved && translations[saved]) {
         applyLanguage(saved);
         document.getElementById('mainContent').style.display = 'block';
-        // Animasi menu masuk
-        setTimeout(() => {
-            document.querySelectorAll('.nav-icon').forEach(icon => {
-                icon.classList.add('animate-in');
-            });
-        }, 300);
+        // Tidak perlu animasi menu lagi karena tombol dihapus
         // Set awal efek RGB dijeda (karena musik belum diputar)
         document.body.style.animationPlayState = 'paused';
       } else {
@@ -793,12 +741,7 @@
         applyLanguage(lang);
         document.getElementById('langModal').style.display = 'none';
         document.getElementById('mainContent').style.display = 'block';
-        // Animasi menu masuk
-        setTimeout(() => {
-            document.querySelectorAll('.nav-icon').forEach(icon => {
-                icon.classList.add('animate-in');
-            });
-        }, 300);
+        // Tidak perlu animasi menu lagi karena tombol dihapus
         document.body.style.animationPlayState = 'paused';
       }
     }
@@ -877,15 +820,11 @@
     const modalPendidikan = document.getElementById('modalPendidikan');
 
     function bukaProfil() {
-      // Ambil ikon aktif sebelum membuka modal
-      const activeIcon = document.querySelector('.nav-icon.active');
-      if (activeIcon) activeIcon.classList.remove('active');
-      document.getElementById('icon-profil').classList.add('active');
-      // Animasi menu keluar
-      document.querySelectorAll('.nav-icon').forEach(icon => {
-          icon.classList.remove('animate-in');
-          icon.classList.add('animate-out');
-      });
+      // Hapus kelas aktif dari semua tautan navigasi
+      document.querySelectorAll('.profile-nav a').forEach(link => link.classList.remove('active'));
+      // Tambahkan kelas aktif ke tautan Profil
+      document.getElementById('nav-profil').classList.add('active');
+      // Animasi menu keluar (jika ada) dihapus karena tombol navigasi sekarang teks
       modalProfil.style.display = 'flex';
       setTimeout(() => modalProfil.classList.add('active'), 10);
       document.body.style.overflow = 'hidden';
@@ -896,27 +835,17 @@
       setTimeout(() => {
         modalProfil.style.display = 'none';
         document.body.style.overflow = '';
-        // Animasi menu masuk kembali
-        setTimeout(() => {
-            document.querySelectorAll('.nav-icon').forEach(icon => {
-                icon.classList.remove('animate-out');
-                icon.classList.add('animate-in');
-            });
-        }, 10);
+        // Tidak ada animasi menu masuk kembali karena tombol navigasi sekarang teks
       }, 400);
     }
 
     function bukaPendidikan(e) {
       e.preventDefault();
-      // Ambil ikon aktif sebelum membuka modal
-      const activeIcon = document.querySelector('.nav-icon.active');
-      if (activeIcon) activeIcon.classList.remove('active');
-      document.getElementById('icon-edu').classList.add('active');
-      // Animasi menu keluar
-      document.querySelectorAll('.nav-icon').forEach(icon => {
-          icon.classList.remove('animate-in');
-          icon.classList.add('animate-out');
-      });
+      // Hapus kelas aktif dari semua tautan navigasi
+      document.querySelectorAll('.profile-nav a').forEach(link => link.classList.remove('active'));
+      // Tambahkan kelas aktif ke tautan Pendidikan
+      document.getElementById('nav-edu').classList.add('active');
+      // Animasi menu keluar (jika ada) dihapus karena tombol navigasi sekarang teks
       modalPendidikan.style.display = 'flex';
       setTimeout(() => modalPendidikan.classList.add('active'), 10);
       document.body.style.overflow = 'hidden';
@@ -927,13 +856,7 @@
       setTimeout(() => {
         modalPendidikan.style.display = 'none';
         document.body.style.overflow = '';
-        // Animasi menu masuk kembali
-        setTimeout(() => {
-            document.querySelectorAll('.nav-icon').forEach(icon => {
-                icon.classList.remove('animate-out');
-                icon.classList.add('animate-in');
-            });
-        }, 10);
+        // Tidak ada animasi menu masuk kembali karena tombol navigasi sekarang teks
       }, 400);
     }
 
