@@ -239,7 +239,7 @@
             gap: 2rem;
         }
         .greeting {
-            font-size: 1.2rem;
+            font-size: 2.5rem;
             color: var(--accent-primary);
             font-weight: 500;
             margin-bottom: 0.5rem;
@@ -1037,7 +1037,7 @@
         .form-group input:focus,
         .form-group textarea:focus {
             border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+            box-shadow: 0 0 0 0px #4f4f4f20
         }
         .form-group label {
             position: absolute;
@@ -1130,19 +1130,19 @@
         <div class="sidebar-profile">
             <img src="images/profile.jpg" alt="Foto Profil Zhyllan Fyllah" class="sidebar-profile-img">
             <div class="sidebar-profile-name">Zhyllan Fyllah</div>
-            <div class="sidebar-profile-title">TKJ Student</div>
+            <div class="sidebar-profile-title">Jurusan TKJ</div>
         </div>
         <nav class="sidebar-nav">
-            <a href="#home" class="sidebar-nav-link active" onclick="updateActiveNav('#home')"><i class="fas fa-home"></i> Home</a>
-            <a href="#about" class="sidebar-nav-link" onclick="updateActiveNav('#about')"><i class="fas fa-user"></i> About</a>
-            <a href="#skills" class="sidebar-nav-link" onclick="updateActiveNav('#skills')"><i class="fas fa-code"></i> Skills</a>
-            <a href="#service" class="sidebar-nav-link" onclick="updateActiveNav('#service')"><i class="fas fa-graduation-cap"></i> Education</a>
-            <a href="#contact" class="sidebar-nav-link" onclick="updateActiveNav('#contact')"><i class="fas fa-envelope"></i> Contact</a>
+            <a href="#home" class="sidebar-nav-link active" onclick="updateActiveNav('#home')"><i class="fas fa-home"></i> Utama</a>
+            <a href="#about" class="sidebar-nav-link" onclick="updateActiveNav('#about')"><i class="fas fa-user"></i> Tentang</a>
+          <!--  <a href="#skills" class="sidebar-nav-link" onclick="updateActiveNav('#skills')"><i class="fas fa-code"></i> Skills</a> -->
+            <a href="#service" class="sidebar-nav-link" onclick="updateActiveNav('#service')"><i class="fas fa-graduation-cap"></i> Pendidikan</a>
+            <a href="#contact" class="sidebar-nav-link" onclick="updateActiveNav('#contact')"><i class="fas fa-envelope"></i> Kontak</a>
         </nav>
         <div class="sidebar-music-control">
             <button class="sidebar-music-btn" id="musicToggleBtn" onclick="toggleMusic()">
                 <i class="fas fa-music"></i>
-                <span id="musicBtnText">Play Music</span>
+                <span id="musicBtnText">Putar Musik</span>
             </button>
         </div>
     </aside>
@@ -1155,22 +1155,22 @@
             <div class="container">
                 <div class="home-content">
                     <div class="home-text">
-                        <div class="greeting">👋 Hallo!</div>
-                        <h1 class="hero-title">I'm <span class="accent">Zhyllan</span></h1>
-                        <h2 class="hero-subtitle" id="rotating-profession">TKJ Student</h2>
+                        <div class="greeting">👋 Hai!</div>
+                        <h1 class="hero-title">Saya <span class="accent">Zhyllan</span></h1>
+                        <h2 class="hero-subtitle" id="rotating-profession">Jurusan TKJ</h2>
                         <p class="hero-desc">Saya Zhyllan Fyllah, seorang siswa Teknik Komputer dan Jaringan (TKJ) di SMK N 1 Lembah Melintang, Indonesia. Saya aktif dalam komunitas teknologi dan tertarik pada pengembangan web, jaringan, dan sistem operasi.</p>
                         <div class="hero-stats">
                             <div class="stat">
+                                <span class="stat-label">Angkatan Tahun</span>
                                 <span class="stat-number">2025</span>
-                                <span class="stat-label">Graduation Year</span>
                             </div>
                             <div class="stat">
+                                <span class="stat-label">Jurusan</span>
                                 <span class="stat-number">TKJ</span>
-                                <span class="stat-label">Major</span>
                             </div>
                             <div class="stat">
+                                <span class="stat-label">Tempat tinggal</span>
                                 <span class="stat-number">Lembah Melintang</span>
-                                <span class="stat-label">Hometown</span>
                             </div>
                         </div>
                         <div class="social-links">
@@ -1193,15 +1193,15 @@
                             <img src="images/profile.jpg" alt="Profile photo of Zhyllan Fyllah" class="profile-image">
                             <div class="floating-card card-1">
                                 <i class="fas fa-code"></i>
-                                <span>TKJ Skills</span>
+                                <span>Bernalar Kritis</span>
                             </div>
                             <div class="floating-card card-2">
                                 <i class="fas fa-mobile-alt"></i>
-                                <span>Responsive</span>
+                                <span>Tanggap</span>
                             </div>
                             <div class="floating-card card-3">
                                 <i class="fas fa-graduation-cap"></i>
-                                <span>Learning</span>
+                                <span>Belajar Harus</span>
                             </div>
                         </div>
                     </div>
@@ -1221,7 +1221,7 @@
                         </div>
                     </div>
                     <div class="about-text">
-                        <h2 class="section-title">About Me</h2>
+                        <h2 class="section-title">Tentang Saya</h2>
                         <div class="about-description">
                             <p>Nama saya Zhyllan Fyllah. Saya adalah seorang siswa Teknik Komputer dan Jaringan (TKJ) di SMK N 1 Lembah Melintang. Saya aktif dalam organisasi siswa OSIS sebagai Ketua Bidang Pengelolaan Perangkat Laboratorium Komputer dari tahun 2023 hingga 2024. Saya juga terlibat aktif dalam komunitas LINUX UBUNTU Indonesia dan Nusantara Project ROM.</p>
                             <p>Saya memiliki minat yang kuat dalam teknologi komputer dan telekomunikasi, termasuk penetrasi jaringan seluler, pengembangan web, dan pengembangan aplikasi. Saya berharap untuk bekerja di Jepang suatu hari nanti,dan menikah dengan belahan jiwa saya.</p>
@@ -1230,29 +1230,29 @@
                             <div class="highlight">
                                 <i class="fas fa-graduation-cap"></i>
                                 <div>
-                                    <h4>Education</h4>
+                                    <h4>Sekolah Sekarang</h4>
                                     <p>SMK N 1 Lembah Melintang (TKJ)</p>
                                 </div>
                             </div>
                             <div class="highlight">
                                 <i class="fas fa-map-marker-alt"></i>
                                 <div>
-                                    <h4>Location</h4>
+                                    <h4>Alamat</h4>
                                     <p>Ujunggading, Lembah Melintang,pasaman barat,sumatera barat, Indonesia</p>
                                 </div>
                             </div>
                             <div class="highlight">
                                 <i class="fas fa-briefcase"></i>
                                 <div>
-                                    <h4>last position</h4>
-                                    <p>OSIS Chairperson (2023-2024)</p>
+                                    <h4>Jabatan Terakhir</h4>
+                                    <p>-</p>
                                 </div>
                             </div>
-                             <div class="highlight">
+                            <div class="highlight">
                                 <i class="fas fa-heart"></i>
                                 <div>
-                                    <h4>soulmate</h4>
-                                    <p>My soulmate is: <span class="hidden-name">T****** S**** H******</span></p>
+                                    <h4>Calon Istri</h4>
+                                    <p>Calon Istri Saya <span class="hidden-name">******** ***** *******</span></p>
                                 </div>
                             </div>
                         </div>
@@ -1261,6 +1261,7 @@
             </div>
         </section>
         <!-- Skills Section -->
+         <!--
         <section id="skills" class="section skills">
             <div class="container">
                 <h2 class="section-title">Skills & Expertise</h2>
@@ -1332,7 +1333,7 @@
                                 </div>
                             </div>
                         </div>
-                         <div class="skill-category">
+                        <div class="skill-category">
                             <h3>Interests</h3>
                             <div class="skill-items">
                                 <div class="skill-item">
@@ -1361,7 +1362,8 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
+
         <!-- Education Section (What I Do) -->
         <section id="service" class="section services">
             <div class="container">
@@ -1398,7 +1400,7 @@
         <!-- Contact Section -->
         <section id="contact" class="section contact">
             <div class="container">
-                <h2 class="section-title">Get In Touch</h2>
+                <h2 class="section-title">Kontak Saya</h2>
                 <div class="contact-content">
                     <div class="contact-info">
                         <div class="contact-item">
@@ -1408,7 +1410,7 @@
                             <div class="contact-details">
                                 <h3>Email</h3>
                                 <p>zhyllanf@gmail.com</p>
-                                <a href="mailto:zhyllanf@gmail.com">Send Email</a>
+                                <a href="mailto:zhyllanf@gmail.com">Buka Email</a>
                             </div>
                         </div>
                         <div class="contact-item">
@@ -1418,7 +1420,7 @@
                             <div class="contact-details">
                                 <h3>WhatsApp</h3>
                                 <p>+62 851 6572 1384</p>
-                                <a href="https://wa.me/6285165721384" target="_blank">Send Message</a>
+                                <a href="https://wa.me/6285165721384" target="_blank">Buka Whatsapp</a>
                             </div>
                         </div>
                         <div class="contact-item">
@@ -1428,7 +1430,7 @@
                             <div class="contact-details">
                                 <h3>Location</h3>
                                 <p>Ujunggading, Lembah Melintang, Indonesia</p>
-                                <a href="#" target="_blank">View on Map</a>
+                                <a href="https://www.google.com/maps/place/Lubuk+King/@0.3123266,99.5593276,17z/data=!3m1!4b1!4m6!3m5!1s0x302a40139dc188ad:0xc2b89f3934187bd2!8m2!3d0.3123266!4d99.5619025!16s%2Fg%2F11g68zf2w9?entry=ttu&g_ep=EgoyMDI1MTAyOS4yIKXMDSoASAFQAw%3D%3D" target="_blank">Lihat di Map</a>
                             </div>
                         </div>
                         <div class="contact-item">
@@ -1438,7 +1440,7 @@
                             <div class="contact-details">
                                 <h3>LinkedIn</h3>
                                 <p>Zhyllan Fyllah</p>
-                                <a href="https://www.linkedin.com/in/zhyllan-fyllah-56b45a38a/" target="_blank">Connect</a>
+                                <a href="https://www.linkedin.com/in/zhyllan-fyllah-56b45a38a/" target="_blank">Kunjungi</a>
                             </div>
                         </div>
                     </div>
@@ -1489,11 +1491,11 @@
             return audio.play()
                 .then(() => {
                     localStorage.setItem('hasPlayedMusic', 'true');
-                    musicBtnText.textContent = 'Pause Music';
+                    musicBtnText.textContent = 'Tunda Musik';
                 })
                 .catch(e => {
                     console.warn("Autoplay diblokir:", e);
-                    musicBtnText.textContent = 'Play Music';
+                    musicBtnText.textContent = 'Putar Musik';
                 });
         }
 
@@ -1513,7 +1515,7 @@
                 playRandomSong();
             } else {
                 audio.pause();
-                musicBtnText.textContent = 'Play Music';
+                musicBtnText.textContent = 'Putar Musik';
             }
         }
 
@@ -1524,7 +1526,7 @@
         const heroSubtitle = document.getElementById('rotating-profession');
         const contactForm = document.getElementById('contactForm');
 
-        const professions = ['TKJ Student', 'Web Developer', 'APP Developer', 'Linux Ubuntu User', 'Love JAPAN❤️'];
+        const professions = ['Pelajar TKJ', 'Pelajar SMK N 1', 'Developer Website', 'Penggemar Linux', 'Orang Pilihan',];
         let professionIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
@@ -1534,11 +1536,11 @@
             if (!heroSubtitle) return;
             const currentProfession = professions[professionIndex];
             if (isDeleting) {
-                heroSubtitle.innerHTML = "I'm a " + currentProfession.substring(0, charIndex - 1) + '<span class="cursor">|</span>';
+                heroSubtitle.innerHTML = "Saya Adalah : " + currentProfession.substring(0, charIndex - 1) + '<span class="cursor">|</span>';
                 charIndex--;
                 typingSpeed = 75;
             } else {
-                heroSubtitle.innerHTML = "I'm a " + currentProfession.substring(0, charIndex + 1) + '<span class="cursor">|</span>';
+                heroSubtitle.innerHTML = "Saya Adalah : " + currentProfession.substring(0, charIndex + 1) + '<span class="cursor">|</span>';
                 charIndex++;
                 typingSpeed = 150;
             }
@@ -1605,10 +1607,10 @@
                 e.preventDefault();
                 const data = Object.fromEntries(new FormData(this));
                 if (!data.name || !data.email || !data.subject || !data.message) {
-                    alert('Please fill in all fields.');
+                    alert('bagian ini harus di isi.');
                     return;
                 }
-                alert('Thank you for your message!');
+                alert('Terimakasih atas komentar anda!');
                 this.reset();
             });
         }
