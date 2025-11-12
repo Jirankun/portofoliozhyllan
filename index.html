@@ -9,7 +9,7 @@
     <style>
         /* CSS Variables */
         :root {
-            --bg-primary: #0a0a0a;
+            --bg-primary: #000000;
             --bg-secondary: #111111;
             --bg-tertiary: #1a1a1a;
             --text-primary: #ffffff;
@@ -73,14 +73,14 @@
             left: 0;
             width: 250px;
             height: 100vh;
-            background: var(--bg-secondary);
-            border-right: 1px solid var(--glass-border);
+            background:(--bg-secondary);
+            border-right: 1px solid(--glass-border);
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 2rem 1rem;
             z-index: 1001; /* Di atas konten utama */
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(30px);
             overflow-y: auto;
         }
         .sidebar-profile {
@@ -658,14 +658,14 @@
         @media (max-width: 768px) {
             body {
                 padding-left: 0;
-                padding-top: 60px; /* Ruang untuk sidebar mobile */
+                padding-top: 50px; /* Ruang untuk sidebar mobile */
             }
             .container {
                 padding: 0 1rem;
             }
             .sidebar {
                 width: 100%;
-                height: auto;
+                height: 100%;
                 position: fixed;
                 top: 0;
                 left: -100%; /* Sembunyikan secara default */
@@ -1158,6 +1158,7 @@
                         <div class="greeting">👋 Hai!</div>
                         <h1 class="hero-title">Saya <span class="accent">Zhyllan</span></h1>
                         <h2 class="hero-subtitle" id="rotating-profession">Jurusan TKJ</h2>
+                        <h3 class="section-title" id="rotating-profession">Utama</h3>
                         <p class="hero-desc">Saya Zhyllan Fyllah, seorang siswa Teknik Komputer dan Jaringan (TKJ) di SMK N 1 Lembah Melintang, Indonesia. Saya aktif dalam komunitas teknologi dan tertarik pada pengembangan web, jaringan, dan sistem operasi.</p>
                         <div class="hero-stats">
                             <div class="stat">
@@ -1377,7 +1378,7 @@
                             <h3>Pendidikan Formal</h3>
                             <ul>
                                 <li><strong>Sekolah Dasar:</strong> MIS Muhammadiyah Tamiang, Ujunggading, Lembah Melintang (2016–2021)</li>
-                                <li><strong>Sekolah Menengah Pertama:</strong> SMP Tahfidz Al-Qur'an An-Naajiya,kinali, Simpang Empat (2021–2025)<br>
+                                <li><strong>Sekolah Menengah Pertama:</strong> SMP Tahfidz Al-Qur'an An-Naajiya, Jambak Jalur 3 Timur, Simpang Empat (2021–2025)<br>
                                 • Menjabat sebagai Ketua OSIS Bidang Pengelolaan Perangkat Laboratorium Komputer (2023–2024)</li>
                                 <li><strong>Sekolah Menengah Kejuruan:</strong> SMK N 1 Lembah Melintang (2025–sekarang)</li>
                             </ul>
@@ -1445,6 +1446,7 @@
                         </div>
                     </div>
                     <div class="contact-form">
+                        <!-
                         <form id="contactForm">
                             <div class="form-group">
                                 <input type="text" id="name" name="name" required>
@@ -1463,10 +1465,9 @@
                                 <label for="message">Apa Pesan Anda Kepada Saya?*</label>
                             </div>
                             <button type="submit" class="submit-btn">
-                                <span>Kirim Pesan</span>
+                                <a href="https://wa.me/6285165721384">buka whatsapp</a>
                                 <i class="fas fa-paper-plane"></i>
                             </button>
-                            <label>* :WAJIB DI ISI</label>
                         </form>
                     </div>
                 </div>
