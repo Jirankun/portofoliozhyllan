@@ -63,8 +63,13 @@
       transform: translateY(-200px);
     }
 
+    .penjelasan {
+      opacity: 0;
+      transform: translateY(-200px);
+    }
+
     .fall {
-      animation: fall 0.9s forwards;
+      animation: fall 0.5s forwards;
     }
 
     @keyframes fall {
@@ -490,13 +495,14 @@
   <div id="loading-screen">
     <div class="loading-content">
       <i class="fa-solid fa-laptop-code fa-4x main-icon hidden"></i>
-      <h1 id="loading-text" class="hidden">MY PROFILE</h1>
+      <h1 id="loading-text" class="hidden">PORTOFOLIO ZHYLLAN</h1>
       <div class="sub-icons">
         <i class="fa-brands fa-github fa-2x hidden"></i>
         <i class="fa-solid fa-code fa-2x hidden"></i>
         <i class="fa-solid fa-user fa-2x hidden"></i>
       </div>
-      <h2 id="designer-text" class="hidden">Designed by Zhyllan</h2>
+      <h2 id="designer-text" class="hidden">Di desain oleh Zhyllan</h2>
+      <h2 id="designer-tentang" class="penjelasan">Dukungan GitHub Pages</h2>
     </div>
   </div>
 
@@ -638,7 +644,7 @@
         <div class="contact-details">
           <strong>Lokasi</strong><br>
           Ujunggading, Lembah Melintang, Indonesia<br>
-          <a href="https://goo.gl/maps/..." target="_blank">Lihat di Map</a>
+          <a href="https://www.google.com/maps/@0.268027,99.5608486,3a,75y,150.7h,54.91t/data=!3m7!1e1!3m5!1stXTgxIJI0WW3xuAhCFClRA!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D35.09232422208487%26panoid%3DtXTgxIJI0WW3xuAhCFClRA%26yaw%3D150.70499353750228!7i16384!8i8192?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D" target="_blank">Lihat di Map</a>
         </div>
       </div>
       <div class="contact-item">
@@ -654,13 +660,6 @@
 
   <!-- FOOTER -->
   <footer class="footer">
-    <h2>Zhyllan Fyllah</h2>
-    <ul class="footer-links">
-      <li><a href="#home">Utama</a></li>
-      <li><a href="#about">Tentang</a></li>
-      <li><a href="#pendidikan">Pendidikan</a></li>
-      <li><a href="#contact">Kontak</a></li>
-    </ul>
     <div class="footer-social">
       <a href="mailto:zhyllanf@gmail.com"><i class="fas fa-envelope"></i></a>
       <a href="https://wa.me/6285165721384"><i class="fab fa-whatsapp"></i></a>
@@ -718,7 +717,7 @@
     }
 
     // === TYPING EFFECT ===
-    const professions = ['Pelajar TKJ', 'Pelajar SMK N 1', 'Developer Website', 'Penggemar Linux', 'Orang Pilihan'];
+    const professions = ['Pelajar TKJ', 'Pelajar SMK N 1', 'Developer Website', 'User Linux'];
     const heroSubtitle = document.getElementById('rotating-profession');
     let professionIndex = 0;
     let charIndex = 0;
@@ -754,6 +753,7 @@
       const mainIcon = document.querySelector(".main-icon");
       const subIcons = document.querySelectorAll(".sub-icons i");
       const designerText = document.getElementById("designer-text");
+      const designerText2 = document.getElementById("designer-tentang");
       const loadingScreen = document.getElementById("loading-screen");
 
       function showElement(el, delay) {
@@ -767,11 +767,12 @@
       showElement(mainIcon, 800);
       subIcons.forEach((icon, i) => showElement(icon, 1600 + i * 400));
       showElement(designerText, 2800);
+      showElement(designerText2, 3800);
 
       setTimeout(() => {
-        loadingScreen.style.opacity = '0';
-        setTimeout(() => loadingScreen.style.display = 'none', 500);
-      }, 4000);
+        loadingScreen.style.opacity = '80';
+        setTimeout(() => loadingScreen.style.display = 'none', 1000);
+      }, 5000);
 
       typeWriter();
     });
