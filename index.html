@@ -10,7 +10,6 @@
     href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&family=Open+Sans:wght@300..800&display=swap"
     rel="stylesheet" />
   <style>
-    /* === GLOBAL RESET & VARIABLES === */
     :root {
       --bg-primary: #000;
       --bg-secondary: #111;
@@ -41,69 +40,7 @@
       color: inherit;
     }
 
-    /* === LOADING SCREEN === */
-    #loading-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      z-index: 9999;
-      color: var(--accent);
-      text-align: center;
-      transition: opacity 0.5s ease, visibility 0.5s;
-    }
-
-    .loading-content > * {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-
-    .fade-in {
-      animation: fadeIn 0.6s forwards;
-    }
-
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* === SECTIONS === */
-    section {
-      padding: 110px 20px 60px;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .section-title {
-      font-family: "Montserrat", sans-serif;
-      font-size: 2.2rem;
-      font-weight: 800;
-      text-align: center;
-      margin-bottom: 20px;
-      background: linear-gradient(135deg, var(--accent), #0099cc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    hr {
-      width: 60px;
-      height: 3px;
-      background: var(--accent);
-      border: none;
-      margin: 0 auto 30px;
-      border-radius: 2px;
-    }
-
-    /* === NAVBAR (FIXED TOP) === */
+    /* === HEADER (FIXED TOP) === */
     .header-list {
       position: fixed;
       top: 0;
@@ -138,6 +75,52 @@
     .ul-list li.active,
     .ul-list li:hover {
       color: var(--accent);
+    }
+
+    /* === VISUALIZER (MOBILE ONLY, BELOW HEADER) === */
+    #musicVisualizer {
+      display: none;
+      position: fixed;
+      top: 50px;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      z-index: 999;
+      pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+      #musicVisualizer {
+        display: block;
+      }
+    }
+
+    /* === SECTIONS === */
+    section {
+      padding: 110px 20px 60px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-family: "Montserrat", sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--accent), #0099cc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    hr {
+      width: 60px;
+      height: 3px;
+      background: var(--accent);
+      border: none;
+      margin: 0 auto 30px;
+      border-radius: 2px;
     }
 
     /* === HOME === */
@@ -315,7 +298,7 @@
       }
     }
 
-    /* === ABOUT / PENDIDIKAN / CONTACT === */
+    /* === ABOUT / EDUCATION / CONTACT === */
     .about-info p,
     .contact-content p,
     .edu-card p {
@@ -409,18 +392,6 @@
       margin-top: 60px;
     }
 
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 1.2rem;
-      flex-wrap: wrap;
-      margin: 15px 0;
-    }
-
-    .footer-links a:hover {
-      color: var(--accent);
-    }
-
     .footer-social {
       display: flex;
       justify-content: center;
@@ -480,32 +451,13 @@
         flex-direction: column;
         align-items: center;
       }
-
-      .contact-icon {
-        font-size: 1.8rem;
-      }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- LOADING SCREEN -->
-  <div id="loading-screen">
-    <div class="loading-content">
-      <i class="fa-solid fa-laptop-code fa-4x"></i>
-      <h1>PORTOFOLIO ZHYLLAN</h1>
-      <div class="sub-icons" style="display: flex; gap: 20px; margin: 10px 0;">
-        <i class="fa-brands fa-github fa-2x"></i>
-        <i class="fa-solid fa-code fa-2x"></i>
-        <i class="fa-solid fa-user fa-2x"></i>
-      </div>
-      <h2>Designed by Zhyllan</h2>
-      <p>Hosted on GitHub Pages</p>
-    </div>
-  </div>
-
-  <!-- NAVBAR -->
+  <!-- NAVBAR + VISUALIZER -->
   <header class="header-list">
     <ul class="ul-list">
       <li class="active"><i class="fa-regular fa-house"></i><a href="#home">Home</a></li>
@@ -514,6 +466,9 @@
       <li><i class="fa-regular fa-envelope"></i><a href="#contact">Contact</a></li>
     </ul>
   </header>
+
+  <!-- VISUALIZER CANVAS (HANYA DI MOBILE) -->
+  <div id="musicVisualizer"></div>
 
   <!-- HOME -->
   <section id="home" class="home">
@@ -660,7 +615,7 @@
     <p class="footer-copy">&copy; 2025 Zhyllan Fyllah. All Rights Reserved.</p>
   </footer>
 
-  <!-- MUSIC -->
+  <!-- MUSIC SYSTEM -->
   <div id="musicControl">
     <button id="musicToggleBtn" onclick="toggleMusic()">
       <i class="fas fa-music"></i>
@@ -669,8 +624,9 @@
   </div>
   <audio id="bgMusic" loop></audio>
 
+  <!-- === SCRIPTS === -->
   <script>
-    // === MUSIC ===
+    // === SISTEM MUSIK (TETAP SAMA) ===
     const songs = Array.from({ length: 10 }, (_, i) => `music/musik${i + 1}.mp3`);
     const audio = document.getElementById('bgMusic');
     const musicBtnText = document.getElementById('musicBtnText');
@@ -740,105 +696,76 @@
       setTimeout(typeWriter, speed);
     }
 
-    // === LOADING SCREEN ===
-    document.addEventListener("DOMContentLoaded", () => {
-      const loadingScreen = document.getElementById("loading-screen");
-      
-      // Simple fade-out
-      setTimeout(() => {
-        loadingScreen.style.opacity = '0';
-        loadingScreen.style.visibility = 'hidden';
-        setTimeout(() => {
-          loadingScreen.remove();
-        }, 500);
-      }, 2000);
+    // === VISUALIZER p5.js (HANYA DI MOBILE) ===
+    function isMobile() {
+      return window.innerWidth <= 768;
+    }
 
-      // Fade-in loading elements
-      const elements = document.querySelectorAll('.loading-content > *');
-      elements.forEach((el, i) => {
-        setTimeout(() => el.classList.add('fade-in'), 300 + i * 200);
-      });
+    function initVisualizer() {
+      if (!isMobile()) return;
+      const audioEl = document.getElementById('bgMusic');
+      if (!audioEl) return;
 
-      // Start typing effect
-      setTimeout(typeWriter, 2200);
+      const canvasParent = document.getElementById('musicVisualizer');
+      if (!canvasParent) return;
+
+      // Gunakan p5 instance mode
+      new p5((s) => {
+        let canvas, fft;
+
+        s.setup = () => {
+          canvas = s.createCanvas(canvasParent.offsetWidth, 6);
+          canvas.parent(canvasParent);
+          fft = new p5.FFT(0.8, 32);
+          fft.setInput(audioEl);
+        };
+
+        s.draw = () => {
+          s.background(0);
+          const spectrum = fft.analyze();
+          const w = s.width / spectrum.length;
+          s.noStroke();
+          for (let i = 0; i < spectrum.length; i++) {
+            const amp = spectrum[i];
+            const h = s.map(amp, 0, 255, 0, s.height);
+            s.fill(0, 200, 255); // cyan
+            s.rect(i * w, s.height - h, w, h);
+          }
+        };
+      }, canvasParent);
+    }
+
+    // Jalankan setelah DOM siap & musik mulai
+    document.addEventListener('DOMContentLoaded', () => {
+      // Mulai typing
+      setTimeout(typeWriter, 500);
+
+      // Inisialisasi visualizer setelah audio dimainkan
+      const audio = document.getElementById('bgMusic');
+      if (audio) {
+        audio.addEventListener('play', () => {
+          if (isMobile()) {
+            // Tunda sedikit agar Web Audio Context aktif
+            setTimeout(initVisualizer, 300);
+          }
+        });
+      }
     });
-    
-    
   </script>
-  <!-- VISUALISASI MUSIK (HANYA UNTUK MOBILE) -->
-<div id="musicVisualizer" style="display:none; position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); z-index: 999; pointer-events: none;"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/addons/p5.sound.min.js"></script>
+  <!-- p5.js (hanya load jika mobile) -->
+  <script>
+    if (window.innerWidth <= 768) {
+      const p5Script = document.createElement('script');
+      p5Script.src = 'https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js';
+      p5Script.onload = () => {
+        const p5Sound = document.createElement('script');
+        p5Sound.src = 'https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/addons/p5.sound.min.js';
+        document.head.appendChild(p5Sound);
+      };
+      document.head.appendChild(p5Script);
+    }
+  </script>
 
-<script>
-let fft, amplitude;
-let audioElement;
-let isVisualizerReady = false;
-
-// Jalankan visualizer hanya di mobile
-function isMobile() {
-  return window.innerWidth <= 768;
-}
-
-function initVisualizer() {
-  if (!isMobile() || isVisualizerReady) return;
-
-  audioElement = document.getElementById('bgMusic');
-  if (!audioElement || !audioContext) return;
-
-  // Buat canvas p5 di dalam div khusus
-  const canvasParent = document.getElementById('musicVisualizer');
-  canvasParent.style.display = 'block';
-
-  // Gunakan instance mode p5 untuk menghindari konflik global
-  new p5((sketch) => {
-    let canvas;
-
-    sketch.setup = () => {
-      canvas = sketch.createCanvas(280, 60); // lebar penuh mobile kecil, tinggi rendah
-      canvas.parent('musicVisualizer');
-      sketch.angleMode(sketch.DEGREES);
-      fft = new p5.FFT(0.8, 32); // 32 bins → lebih ringan
-      fft.setInput(audioElement); // 🔗 sambungkan ke audio HTML
-      isVisualizerReady = true;
-    };
-
-    sketch.draw = () => {
-      sketch.background(0, 100); // transparan gelap
-      sketch.noStroke();
-      const spectrum = fft.analyze();
-
-      const binCount = spectrum.length;
-      const barWidth = sketch.width / binCount;
-
-      for (let i = 0; i < binCount; i++) {
-        const amp = spectrum[i];
-        const barHeight = sketch.map(amp, 0, 255, 0, sketch.height);
-
-        // Gradien warna: biru → cyan → putih
-        const hue = sketch.map(amp, 0, 255, 180, 0);
-        sketch.fill(hue, 100, 100);
-        sketch.rect(i * barWidth, sketch.height - barHeight, barWidth - 1, barHeight);
-      }
-    };
-  });
-}
-
-// Panggil visualizer setelah audio siap
-document.addEventListener('DOMContentLoaded', () => {
-  const audio = document.getElementById('bgMusic');
-  if (audio) {
-    // Tunggu sampai audio benar-benar dimainkan (agar Web Audio API aktif)
-    audio.addEventListener('play', () => {
-      // Pastikan context audio aktif
-      if (typeof AudioContext !== 'undefined' || typeof webkitAudioContext !== 'undefined') {
-        setTimeout(initVisualizer, 500);
-      }
-    });
-  }
-});
-</script>
 </body>
-
 </html>
