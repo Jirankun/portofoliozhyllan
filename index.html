@@ -77,24 +77,6 @@
       color: var(--accent);
     }
 
-    /* === VISUALIZER (MOBILE ONLY, BELOW HEADER) === */
-    #musicVisualizer {
-      display: none;
-      position: fixed;
-      top: 50px;
-      left: 0;
-      width: 100%;
-      height: 6px;
-      z-index: 999;
-      pointer-events: none;
-    }
-
-    @media (max-width: 768px) {
-      #musicVisualizer {
-        display: block;
-      }
-    }
-
     /* === SECTIONS === */
     section {
       padding: 110px 20px 60px;
@@ -123,7 +105,6 @@
       border-radius: 2px;
     }
 
-    /* === HOME === */
     .home-p {
       background: rgba(128, 128, 128, 0.2);
       display: inline-block;
@@ -298,7 +279,6 @@
       }
     }
 
-    /* === ABOUT / EDUCATION / CONTACT === */
     .about-info p,
     .contact-content p,
     .edu-card p {
@@ -383,7 +363,6 @@
       font-weight: 600;
     }
 
-    /* === FOOTER === */
     .footer {
       background: #000;
       color: #888;
@@ -409,13 +388,13 @@
       color: var(--accent);
     }
 
-    /* === MUSIC BUTTON (MOBILE ONLY) === */
+    /* === MUSIC BUTTON + VISUALIZER (MOBILE ONLY) === */
     #musicControl {
       position: fixed;
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 1000;
+      z-index: 1001;
     }
 
     #musicToggleBtn {
@@ -430,15 +409,36 @@
       align-items: center;
       gap: 8px;
       font-size: 0.95rem;
+      z-index: 1002;
+    }
+
+    /* VISUALIZER CONTAINER */
+    #audioMotionContainer {
+      display: none;
+      position: fixed;
+      bottom: 60px;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      z-index: 1000;
+    }
+
+    @media (max-width: 768px) {
+      #audioMotionContainer {
+        display: block;
+      }
+      #musicControl {
+        bottom: 100px; /* naikkan tombol agar tidak tumpang tindih */
+      }
     }
 
     @media (min-width: 769px) {
-      #musicControl {
+      #musicControl,
+      #audioMotionContainer {
         display: none;
       }
     }
 
-    /* === RESPONSIVE === */
     @media (max-width: 899px) {
       .home-container,
       .about-info,
@@ -457,7 +457,7 @@
 
 <body>
 
-  <!-- NAVBAR + VISUALIZER -->
+  <!-- NAVBAR -->
   <header class="header-list">
     <ul class="ul-list">
       <li class="active"><i class="fa-regular fa-house"></i><a href="#home">Home</a></li>
@@ -466,9 +466,6 @@
       <li><i class="fa-regular fa-envelope"></i><a href="#contact">Contact</a></li>
     </ul>
   </header>
-
-  <!-- VISUALIZER CANVAS (HANYA DI MOBILE) -->
-  <div id="musicVisualizer"></div>
 
   <!-- HOME -->
   <section id="home" class="home">
@@ -604,7 +601,6 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-social">
       <a href="mailto:zhyllanf@gmail.com"><i class="fas fa-envelope"></i></a>
@@ -615,18 +611,23 @@
     <p class="footer-copy">&copy; 2025 Zhyllan Fyllah. All Rights Reserved.</p>
   </footer>
 
-  <!-- MUSIC SYSTEM -->
+  <!-- AUDIO ELEMENT (tanpa kontrol) -->
+  <audio id="bgMusic" loop></audio>
+
+  <!-- VISUALIZER -->
+  <div id="audioMotionContainer"></div>
+
+  <!-- MUSIC BUTTON -->
   <div id="musicControl">
     <button id="musicToggleBtn" onclick="toggleMusic()">
       <i class="fas fa-music"></i>
       <span id="musicBtnText">Play Music</span>
     </button>
   </div>
-  <audio id="bgMusic" loop></audio>
 
-  <!-- === SCRIPTS === -->
+  <!-- CORE LOGIC -->
   <script>
-    // === SISTEM MUSIK (TETAP SAMA) ===
+    // === MUSIK ===
     const songs = Array.from({ length: 10 }, (_, i) => `music/musik${i + 1}.mp3`);
     const audio = document.getElementById('bgMusic');
     const musicBtnText = document.getElementById('musicBtnText');
@@ -642,6 +643,7 @@
         .then(() => {
           localStorage.setItem('hasPlayedMusic', 'true');
           musicBtnText.textContent = 'Pause Music';
+          initVisualizer(); // jalankan visualizer saat musik dimainkan
         })
         .catch(e => {
           console.warn("Autoplay blocked:", e);
@@ -696,76 +698,47 @@
       setTimeout(typeWriter, speed);
     }
 
-    // === VISUALIZER p5.js (HANYA DI MOBILE) ===
-    function isMobile() {
-      return window.innerWidth <= 768;
-    }
+    // === AUDIO MOTION VISUALIZER (MOBILE ONLY) ===
+    let audioMotion = null;
 
     function initVisualizer() {
-      if (!isMobile()) return;
-      const audioEl = document.getElementById('bgMusic');
-      if (!audioEl) return;
+      if (window.innerWidth > 768 || audioMotion) return;
 
-      const canvasParent = document.getElementById('musicVisualizer');
-      if (!canvasParent) return;
-
-      // Gunakan p5 instance mode
-      new p5((s) => {
-        let canvas, fft;
-
-        s.setup = () => {
-          canvas = s.createCanvas(canvasParent.offsetWidth, 6);
-          canvas.parent(canvasParent);
-          fft = new p5.FFT(0.8, 32);
-          fft.setInput(audioEl);
+      // Load audioMotion only once
+      if (typeof AudioMotionAnalyzer === 'undefined') {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.skypack.dev/audiomotion-analyzer?min';
+        script.onload = () => {
+          createVisualizer();
         };
-
-        s.draw = () => {
-          s.background(0);
-          const spectrum = fft.analyze();
-          const w = s.width / spectrum.length;
-          s.noStroke();
-          for (let i = 0; i < spectrum.length; i++) {
-            const amp = spectrum[i];
-            const h = s.map(amp, 0, 255, 0, s.height);
-            s.fill(0, 200, 255); // cyan
-            s.rect(i * w, s.height - h, w, h);
-          }
-        };
-      }, canvasParent);
+        document.head.appendChild(script);
+      } else {
+        createVisualizer();
+      }
     }
 
-    // Jalankan setelah DOM siap & musik mulai
-    document.addEventListener('DOMContentLoaded', () => {
-      // Mulai typing
-      setTimeout(typeWriter, 500);
+    function createVisualizer() {
+      if (audioMotion) return;
+      const container = document.getElementById('audioMotionContainer');
+      if (!container) return;
 
-      // Inisialisasi visualizer setelah audio dimainkan
-      const audio = document.getElementById('bgMusic');
-      if (audio) {
-        audio.addEventListener('play', () => {
-          if (isMobile()) {
-            // Tunda sedikit agar Web Audio Context aktif
-            setTimeout(initVisualizer, 300);
-          }
-        });
-      }
+      audioMotion = new AudioMotionAnalyzer(container, {
+        source: audio,
+        height: 80,
+        mode: 3,          // dual bars
+        barSpace: 0.6,
+        ledBars: true,
+        showScaleX: false,
+        showScaleY: false,
+        radial: false,
+        gradient: ['cyan', 'white']
+      });
+    }
+
+    // === START TYPING & CHECK MOBILE ===
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(typeWriter, 500);
     });
   </script>
-
-  <!-- p5.js (hanya load jika mobile) -->
-  <script>
-    if (window.innerWidth <= 768) {
-      const p5Script = document.createElement('script');
-      p5Script.src = 'https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js';
-      p5Script.onload = () => {
-        const p5Sound = document.createElement('script');
-        p5Sound.src = 'https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/addons/p5.sound.min.js';
-        document.head.appendChild(p5Sound);
-      };
-      document.head.appendChild(p5Script);
-    }
-  </script>
-
 </body>
 </html>
