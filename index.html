@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zhyllan Fyllah - Portofolio</title>
+  <title>Zhyllan Fyllah - Portfolio</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
   <link
     href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&family=Open+Sans:wght@300..800&display=swap"
@@ -56,72 +56,23 @@
       z-index: 9999;
       color: var(--accent);
       text-align: center;
+      transition: opacity 0.5s ease, visibility 0.5s;
     }
 
-    .hidden {
+    .loading-content > * {
       opacity: 0;
-      transform: translateY(-200px);
+      transform: translateY(20px);
     }
 
-    .penjelasan {
-      opacity: 0;
-      transform: translateY(-200px);
+    .fade-in {
+      animation: fadeIn 0.6s forwards;
     }
 
-    .fall {
-      animation: fall 0.5s forwards;
-    }
-
-    @keyframes fall {
-      0% {
-        opacity: 0;
-        transform: translateY(-200px);
-      }
-
-      60% {
+    @keyframes fadeIn {
+      to {
         opacity: 1;
-        transform: translateY(20px);
-      }
-
-      100% {
         transform: translateY(0);
       }
-    }
-
-    /* === NAVBAR (FIXED TOP) === */
-    .header-list {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(10px);
-      z-index: 1000;
-      padding: 12px 20px;
-      display: flex;
-      justify-content: center;
-    }
-
-    .ul-list {
-      list-style: none;
-      display: flex;
-      gap: 1.2rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .ul-list li {
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #888;
-      transition: color 0.3s;
-    }
-
-    .ul-list li.active,
-    .ul-list li:hover {
-      color: var(--accent);
     }
 
     /* === SECTIONS === */
@@ -150,6 +101,43 @@
       border: none;
       margin: 0 auto 30px;
       border-radius: 2px;
+    }
+
+    /* === NAVBAR (FIXED TOP) === */
+    .header-list {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .ul-list {
+      list-style: none;
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 0;
+    }
+
+    .ul-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #888;
+      transition: color 0.3s;
+    }
+
+    .ul-list li.active,
+    .ul-list li:hover {
+      color: var(--accent);
     }
 
     /* === HOME === */
@@ -251,6 +239,9 @@
       font-size: 0.95rem;
       cursor: pointer;
       transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .btn-primary {
@@ -324,8 +315,10 @@
       }
     }
 
-    /* === ABOUT === */
-    .about-info p {
+    /* === ABOUT / PENDIDIKAN / CONTACT === */
+    .about-info p,
+    .contact-content p,
+    .edu-card p {
       margin-bottom: 15px;
       color: #ccc;
     }
@@ -352,7 +345,6 @@
       min-width: 36px;
     }
 
-    /* === PENDIDIKAN === */
     .edu-cards {
       display: flex;
       flex-direction: column;
@@ -382,7 +374,6 @@
       margin-bottom: 8px;
     }
 
-    /* === CONTACT === */
     .contact-content {
       display: flex;
       flex-direction: column;
@@ -447,7 +438,7 @@
       color: var(--accent);
     }
 
-    /* === MUSIC BUTTON (HP ONLY) === */
+    /* === MUSIC BUTTON (MOBILE ONLY) === */
     #musicControl {
       position: fixed;
       bottom: 20px;
@@ -478,12 +469,20 @@
 
     /* === RESPONSIVE === */
     @media (max-width: 899px) {
-
       .home-container,
-      .about-container,
-      .pendidikan-container,
-      .contact-container {
+      .about-info,
+      .edu-cards,
+      .contact-content {
         text-align: center;
+      }
+
+      .contact-item {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .contact-icon {
+        font-size: 1.8rem;
       }
     }
   </style>
@@ -494,50 +493,49 @@
   <!-- LOADING SCREEN -->
   <div id="loading-screen">
     <div class="loading-content">
-      <i class="fa-solid fa-laptop-code fa-4x main-icon hidden"></i>
-      <h1 id="loading-text" class="hidden">PORTOFOLIO ZHYLLAN</h1>
-      <div class="sub-icons">
-        <i class="fa-brands fa-github fa-2x hidden"></i>
-        <i class="fa-solid fa-code fa-2x hidden"></i>
-        <i class="fa-solid fa-user fa-2x hidden"></i>
+      <i class="fa-solid fa-laptop-code fa-4x"></i>
+      <h1>PORTOFOLIO ZHYLLAN</h1>
+      <div class="sub-icons" style="display: flex; gap: 20px; margin: 10px 0;">
+        <i class="fa-brands fa-github fa-2x"></i>
+        <i class="fa-solid fa-code fa-2x"></i>
+        <i class="fa-solid fa-user fa-2x"></i>
       </div>
-      <h2 id="designer-text" class="hidden">Di desain oleh Zhyllan</h2>
-      <h2 id="designer-tentang" class="penjelasan">Dukungan GitHub Pages</h2>
+      <h2>Designed by Zhyllan</h2>
+      <p>Hosted on GitHub Pages</p>
     </div>
   </div>
 
   <!-- NAVBAR -->
   <header class="header-list">
     <ul class="ul-list">
-      <li class="active"><i class="fa-regular fa-house"></i><a href="#home">Utama</a></li>
-      <li><i class="fa-regular fa-address-card"></i><a href="#about">Tentang</a></li>
-      <li><i class="fa-solid fa-graduation-cap"></i><a href="#pendidikan">Pendidikan</a></li>
-      <li><i class="fa-regular fa-envelope"></i><a href="#contact">Kontak</a></li>
+      <li class="active"><i class="fa-regular fa-house"></i><a href="#home">Home</a></li>
+      <li><i class="fa-regular fa-address-card"></i><a href="#about">About</a></li>
+      <li><i class="fa-solid fa-graduation-cap"></i><a href="#pendidikan">Education</a></li>
+      <li><i class="fa-regular fa-envelope"></i><a href="#contact">Contact</a></li>
     </ul>
   </header>
 
   <!-- HOME -->
   <section id="home" class="home">
-    <p class="home-p"><span style="color:var(--accent)">•</span> Siswa TKJ Aktif</p>
+    <p class="home-p"><span style="color:var(--accent)">•</span> Active TKJ Student</p>
     <div class="home-container">
       <div class="info-home">
-        <h1>Hai, Saya Zhyllan</h1>
-        <h3 id="rotating-profession">Jurusan TKJ</h3>
-        <p>Saya Zhyllan Fyllah, seorang siswa Teknik Komputer dan Jaringan (TKJ) di SMK N 1 Lembah Melintang, Indonesia.
-        </p>
-        <p>Saya aktif dalam komunitas teknologi dan tertarik pada pengembangan web, jaringan, dan sistem operasi.</p>
+        <h1>Hello, I'm Zhyllan</h1>
+        <h3 id="rotating-profession">Computer & Network Engineering</h3>
+        <p>I'm Zhyllan Fyllah, a Computer and Network Engineering (TKJ) student at SMK N 1 Lembah Melintang.</p>
+        <p>I'm actively involved in the LINUX UBUNTU Indonesia and Nusantara Project ROM communities. My interests span web development and android application development.</p>
 
         <div class="hero-stats">
           <div class="stat">
-            <span class="stat-label">Angkatan</span>
+            <span class="stat-label">Cohort</span>
             <span class="stat-number">2025</span>
           </div>
           <div class="stat">
-            <span class="stat-label">Jurusan</span>
+            <span class="stat-label">Major</span>
             <span class="stat-number">TKJ</span>
           </div>
           <div class="stat">
-            <span class="stat-label">Lokasi</span>
+            <span class="stat-label">Location</span>
             <span class="stat-number">Lembah Melintang</span>
           </div>
         </div>
@@ -547,15 +545,14 @@
             <i class="fab fa-whatsapp"></i> Chat via WhatsApp
           </a>
           <a href="mailto:zhyllanf@gmail.com" class="btn btn-secondary">
-            <i class="fas fa-envelope"></i> Email Saya
+            <i class="fas fa-envelope"></i> Email Me
           </a>
         </div>
 
         <div class="social-links">
           <a href="mailto:zhyllanf@gmail.com" class="social-icon"><i class="fas fa-envelope"></i></a>
           <a href="https://wa.me/6285165721384" target="_blank" class="social-icon"><i class="fab fa-whatsapp"></i></a>
-          <a href="https://www.linkedin.com/in/zhyllan-fyllah-56b45a38a/" target="_blank" class="social-icon"><i
-              class="fab fa-linkedin-in"></i></a>
+          <a href="https://www.linkedin.com/in/zhyllan-fyllah-56b45a38a/" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
           <a href="https://github.com/jirankun" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
         </div>
       </div>
@@ -567,51 +564,45 @@
 
   <!-- ABOUT -->
   <section id="about" class="about">
-    <p class="section-subtitle">TENTANG SAYA</p>
-    <h2 class="section-title">Tentang Saya</h2>
+    <p class="section-subtitle">ABOUT ME</p>
+    <h2 class="section-title">About</h2>
     <hr />
     <div class="about-info">
-      <p>Nama saya Zhyllan Fyllah. Saya adalah seorang siswa Teknik Komputer dan Jaringan (TKJ) di SMK N 1 Lembah
-        Melintang. Saya aktif dalam organisasi siswa OSIS sebagai Ketua Bidang Pengelolaan Perangkat Laboratorium
-        Komputer dari tahun 2023 hingga 2024.</p>
-      <p>Saya juga terlibat aktif dalam komunitas LINUX UBUNTU Indonesia dan Nusantara Project ROM. Saya memiliki minat
-        yang kuat dalam teknologi komputer dan telekomunikasi, termasuk penetrasi jaringan seluler, pengembangan web,
-        dan pengembangan aplikasi.</p>
+      <p>I'm Zhyllan Fyllah, a Computer and Network Engineering (TKJ) student at SMK N 1 Lembah Melintang. I'm actively involved in the LINUX UBUNTU Indonesia and Nusantara Project ROM communities. My interests span web development and android application development.</p>
 
       <div class="highlights">
         <div class="highlight-card">
           <i class="fas fa-graduation-cap highlight-icon"></i>
-          <div><strong>Sekolah Sekarang</strong><br>SMK N 1 Lembah Melintang (TKJ)</div>
+          <div><strong>Current School</strong><br>SMK N 1 Lembah Melintang (TKJ)</div>
         </div>
         <div class="highlight-card">
           <i class="fas fa-map-marker-alt highlight-icon"></i>
-          <div><strong>Alamat</strong><br>Ujunggading, Lembah Melintang, Pasaman Barat, Sumatera Barat</div>
+          <div><strong>Location</strong><br>Ujunggading, Lembah Melintang, West Sumatra, Indonesia</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PENDIDIKAN -->
+  <!-- EDUCATION -->
   <section id="pendidikan" class="pendidikan">
-    <p class="section-subtitle">RIWAYAT PENDIDIKAN</p>
-    <h2 class="section-title">Pendidikan</h2>
+    <p class="section-subtitle">EDUCATION HISTORY</p>
+    <h2 class="section-title">Education</h2>
     <hr />
     <div class="edu-cards">
       <div class="edu-card">
-        <h3>Pendidikan Formal</h3>
+        <h3>Formal Education</h3>
         <ul>
-          <li><strong>Sekolah Dasar:</strong> MIS Muhammadiyah Tamiang, Ujunggading, Lembah Melintang (2016–2021)</li>
-          <li><strong>SMP:</strong> SMP Tahfidz Al-Qur'an An-Naajiya, Jambak Jalur 3 Timur, Simpang Empat
-            (2021–2025)<br>• Ketua OSIS Bidang Pengelolaan Perangkat Laboratorium Komputer (2023–2024)</li>
-          <li><strong>SMK:</strong> SMK N 1 Lembah Melintang (2025–sekarang)</li>
+          <li><strong>Elementary School:</strong> MIS Muhammadiyah Tamiang, Ujunggading (2016–2021)</li>
+          <li><strong>Junior High:</strong> SMP Tahfidz Al-Qur'an An-Naajiya, Simpang Empat (2021–2025)<br>• Head of Computer Lab Device Management, Student Council (2023–2024)</li>
+          <li><strong>Vocational High:</strong> SMK N 1 Lembah Melintang (2025–present)</li>
         </ul>
       </div>
       <div class="edu-card">
-        <h3>Pendidikan Non-Formal</h3>
+        <h3>Non-Formal Education</h3>
         <ul>
-          <li>Aktif di Komunitas Linux Ubuntu Indonesia (2021–sekarang)</li>
-          <li>Aktif di Komunitas Nusantara Project ROM (2020–sekarang)</li>
-          <li>Menempuh Pembelajaran Online di Dicoding.com (2024–sekarang)</li>
+          <li>Active Member – LINUX UBUNTU Indonesia Community (2021–present)</li>
+          <li>Active Member – Nusantara Project ROM Community (2020–present)</li>
+          <li>Online Learning – Dicoding.com (2024–present)</li>
         </ul>
       </div>
     </div>
@@ -619,8 +610,8 @@
 
   <!-- CONTACT -->
   <section id="contact" class="contact">
-    <p class="section-subtitle">KONTAK SAYA</p>
-    <h2 class="section-title">Kontak</h2>
+    <p class="section-subtitle">CONTACT ME</p>
+    <h2 class="section-title">Contact</h2>
     <hr />
     <div class="contact-content">
       <div class="contact-item">
@@ -628,7 +619,7 @@
         <div class="contact-details">
           <strong>Email</strong><br>
           zhyllanf@gmail.com<br>
-          <a href="mailto:zhyllanf@gmail.com">Buka Email</a>
+          <a href="mailto:zhyllanf@gmail.com">Send Email</a>
         </div>
       </div>
       <div class="contact-item">
@@ -636,15 +627,15 @@
         <div class="contact-details">
           <strong>WhatsApp</strong><br>
           +62 851 6572 1384<br>
-          <a href="https://wa.me/6285165721384" target="_blank">Buka WhatsApp</a>
+          <a href="https://wa.me/6285165721384" target="_blank">Open Chat</a>
         </div>
       </div>
       <div class="contact-item">
         <i class="fas fa-map-marker-alt contact-icon"></i>
         <div class="contact-details">
-          <strong>Lokasi</strong><br>
+          <strong>Location</strong><br>
           Ujunggading, Lembah Melintang, Indonesia<br>
-          <a href="https://www.google.com/maps/@0.268027,99.5608486,3a,75y,150.7h,54.91t/data=!3m7!1e1!3m5!1stXTgxIJI0WW3xuAhCFClRA!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D35.09232422208487%26panoid%3DtXTgxIJI0WW3xuAhCFClRA%26yaw%3D150.70499353750228!7i16384!8i8192?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D" target="_blank">Lihat di Map</a>
+          <a href="https://www.google.com/maps/@0.268027,99.5608486,3a,75y,150.7h,54.91t/data=!3m7!1e1!3m5!1stXTgxIJI0WW3xuAhCFClRA!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D35.09232422208487%26panoid%3DtXTgxIJI0WW3xuAhCFClRA%26yaw%3D150.70499353750228!7i16384!8i8192?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D" target="_blank">View on Map</a>
         </div>
       </div>
       <div class="contact-item">
@@ -652,7 +643,7 @@
         <div class="contact-details">
           <strong>LinkedIn</strong><br>
           Zhyllan Fyllah<br>
-          <a href="https://www.linkedin.com/in/zhyllan-fyllah-56b45a38a/" target="_blank">Kunjungi</a>
+          <a href="https://www.linkedin.com/in/zhyllan-fyllah-56b45a38a/" target="_blank">Visit Profile</a>
         </div>
       </div>
     </div>
@@ -673,13 +664,13 @@
   <div id="musicControl">
     <button id="musicToggleBtn" onclick="toggleMusic()">
       <i class="fas fa-music"></i>
-      <span id="musicBtnText">Putar Musik</span>
+      <span id="musicBtnText">Play Music</span>
     </button>
   </div>
   <audio id="bgMusic" loop></audio>
 
   <script>
-    // === MUSIK ===
+    // === MUSIC ===
     const songs = Array.from({ length: 10 }, (_, i) => `music/musik${i + 1}.mp3`);
     const audio = document.getElementById('bgMusic');
     const musicBtnText = document.getElementById('musicBtnText');
@@ -694,11 +685,11 @@
       return audio.play()
         .then(() => {
           localStorage.setItem('hasPlayedMusic', 'true');
-          musicBtnText.textContent = 'Tunda Musik';
+          musicBtnText.textContent = 'Pause Music';
         })
         .catch(e => {
-          console.warn("Autoplay diblokir:", e);
-          musicBtnText.textContent = 'Putar Musik';
+          console.warn("Autoplay blocked:", e);
+          musicBtnText.textContent = 'Play Music';
         });
     }
 
@@ -712,99 +703,142 @@
         playRandomSong();
       } else {
         audio.pause();
-        musicBtnText.textContent = 'Putar Musik';
+        musicBtnText.textContent = 'Play Music';
       }
     }
 
     // === TYPING EFFECT ===
-    const professions = ['Pelajar TKJ', 'Pelajar SMK N 1', 'Developer Website', 'User Linux'];
+    const professions = ['TKJ Student', 'SMK Student', 'Web Developer', 'Linux Enthusiast'];
     const heroSubtitle = document.getElementById('rotating-profession');
     let professionIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
-    let typingSpeed = 150;
 
     function typeWriter() {
       if (!heroSubtitle) return;
       const current = professions[professionIndex];
+      const fullText = 'I am a ' + current;
+
       if (isDeleting) {
-        heroSubtitle.textContent = 'Saya Adalah: ' + current.substring(0, charIndex - 1);
+        heroSubtitle.textContent = fullText.substring(0, charIndex - 1);
         charIndex--;
-        typingSpeed = 75;
       } else {
-        heroSubtitle.textContent = 'Saya Adalah: ' + current.substring(0, charIndex + 1);
+        heroSubtitle.textContent = fullText.substring(0, charIndex + 1);
         charIndex++;
-        typingSpeed = 150;
       }
-      if (!isDeleting && charIndex === current.length) {
-        typingSpeed = 2000;
+
+      let speed = 120;
+      if (!isDeleting && charIndex === fullText.length) {
+        speed = 1500;
         isDeleting = true;
       } else if (isDeleting && charIndex === 0) {
         isDeleting = false;
         professionIndex = (professionIndex + 1) % professions.length;
-        typingSpeed = 500;
+        speed = 500;
       }
-      setTimeout(typeWriter, typingSpeed);
+
+      setTimeout(typeWriter, speed);
     }
 
     // === LOADING SCREEN ===
     document.addEventListener("DOMContentLoaded", () => {
-      const loadingText = document.getElementById("loading-text");
-      const mainIcon = document.querySelector(".main-icon");
-      const subIcons = document.querySelectorAll(".sub-icons i");
-      const designerText = document.getElementById("designer-text");
-      const designerText2 = document.getElementById("designer-tentang");
       const loadingScreen = document.getElementById("loading-screen");
-
-      function showElement(el, delay) {
-        setTimeout(() => {
-          el.classList.remove("hidden");
-          el.classList.add("fall");
-        }, delay);
-      }
-
-      showElement(loadingText, 0);
-      showElement(mainIcon, 800);
-      subIcons.forEach((icon, i) => showElement(icon, 1600 + i * 400));
-      showElement(designerText, 2800);
-      showElement(designerText2, 3800);
-
+      
+      // Simple fade-out
       setTimeout(() => {
-        loadingScreen.style.opacity = '80';
-        setTimeout(() => loadingScreen.style.display = 'none', 1000);
-      }, 5000);
+        loadingScreen.style.opacity = '0';
+        loadingScreen.style.visibility = 'hidden';
+        setTimeout(() => {
+          loadingScreen.remove();
+        }, 500);
+      }, 2000);
 
-      typeWriter();
-    });
-
-    // === SMOOTH SCROLL & ACTIVE NAV ===
-    const navLinks = document.querySelectorAll('.ul-list li a');
-    function setActive(link) {
-      document.querySelectorAll('.ul-list li').forEach(li => li.classList.remove('active'));
-      link.parentElement.classList.add('active');
-    }
-
-    navLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = document.querySelector(link.getAttribute('href'));
-        if (target) {
-          window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
-          setActive(link);
-        }
+      // Fade-in loading elements
+      const elements = document.querySelectorAll('.loading-content > *');
+      elements.forEach((el, i) => {
+        setTimeout(() => el.classList.add('fade-in'), 300 + i * 200);
       });
-    });
 
-    window.addEventListener('scroll', () => {
-      let scrollPos = window.scrollY + 100;
-      document.querySelectorAll('section').forEach(sec => {
-        if (scrollPos >= sec.offsetTop && scrollPos < sec.offsetTop + sec.offsetHeight) {
-          const link = document.querySelector(`.ul-list a[href="#${sec.id}"]`);
-          if (link) setActive(link);
-        }
-      });
+      // Start typing effect
+      setTimeout(typeWriter, 2200);
     });
+    
+    
   </script>
+  <!-- VISUALISASI MUSIK (HANYA UNTUK MOBILE) -->
+<div id="musicVisualizer" style="display:none; position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); z-index: 999; pointer-events: none;"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/addons/p5.sound.min.js"></script>
+
+<script>
+let fft, amplitude;
+let audioElement;
+let isVisualizerReady = false;
+
+// Jalankan visualizer hanya di mobile
+function isMobile() {
+  return window.innerWidth <= 768;
+}
+
+function initVisualizer() {
+  if (!isMobile() || isVisualizerReady) return;
+
+  audioElement = document.getElementById('bgMusic');
+  if (!audioElement || !audioContext) return;
+
+  // Buat canvas p5 di dalam div khusus
+  const canvasParent = document.getElementById('musicVisualizer');
+  canvasParent.style.display = 'block';
+
+  // Gunakan instance mode p5 untuk menghindari konflik global
+  new p5((sketch) => {
+    let canvas;
+
+    sketch.setup = () => {
+      canvas = sketch.createCanvas(280, 60); // lebar penuh mobile kecil, tinggi rendah
+      canvas.parent('musicVisualizer');
+      sketch.angleMode(sketch.DEGREES);
+      fft = new p5.FFT(0.8, 32); // 32 bins → lebih ringan
+      fft.setInput(audioElement); // 🔗 sambungkan ke audio HTML
+      isVisualizerReady = true;
+    };
+
+    sketch.draw = () => {
+      sketch.background(0, 100); // transparan gelap
+      sketch.noStroke();
+      const spectrum = fft.analyze();
+
+      const binCount = spectrum.length;
+      const barWidth = sketch.width / binCount;
+
+      for (let i = 0; i < binCount; i++) {
+        const amp = spectrum[i];
+        const barHeight = sketch.map(amp, 0, 255, 0, sketch.height);
+
+        // Gradien warna: biru → cyan → putih
+        const hue = sketch.map(amp, 0, 255, 180, 0);
+        sketch.fill(hue, 100, 100);
+        sketch.rect(i * barWidth, sketch.height - barHeight, barWidth - 1, barHeight);
+      }
+    };
+  });
+}
+
+// Panggil visualizer setelah audio siap
+document.addEventListener('DOMContentLoaded', () => {
+  const audio = document.getElementById('bgMusic');
+  if (audio) {
+    // Tunggu sampai audio benar-benar dimainkan (agar Web Audio API aktif)
+    audio.addEventListener('play', () => {
+      // Pastikan context audio aktif
+      if (typeof AudioContext !== 'undefined' || typeof webkitAudioContext !== 'undefined') {
+        setTimeout(initVisualizer, 500);
+      }
+    });
+  }
+});
+</script>
 </body>
 
 </html>
