@@ -388,7 +388,18 @@
       color: var(--accent);
     }
 
-    /* === MUSIC BUTTON + VISUALIZER (MOBILE ONLY) === */
+    /* === MUSIC & VISUALIZER (MOBILE ONLY) === */
+    #audioMotionContainer {
+      position: fixed;
+      bottom: 60px;
+      left: 0;
+      width: 100%;
+      height: 0;
+      z-index: 1000;
+      transition: height 0.3s ease;
+      overflow: hidden;
+    }
+
     #musicControl {
       position: fixed;
       bottom: 20px;
@@ -409,32 +420,11 @@
       align-items: center;
       gap: 8px;
       font-size: 0.95rem;
-      z-index: 1002;
-    }
-
-    /* VISUALIZER CONTAINER */
-    #audioMotionContainer {
-      display: none;
-      position: fixed;
-      bottom: 60px;
-      left: 0;
-      width: 100%;
-      height: 80px;
-      z-index: 1000;
-    }
-
-    @media (max-width: 768px) {
-      #audioMotionContainer {
-        display: block;
-      }
-      #musicControl {
-        bottom: 100px; /* naikkan tombol agar tidak tumpang tindih */
-      }
     }
 
     @media (min-width: 769px) {
-      #musicControl,
-      #audioMotionContainer {
+      #audioMotionContainer,
+      #musicControl {
         display: none;
       }
     }
@@ -611,13 +601,9 @@
     <p class="footer-copy">&copy; 2025 Zhyllan Fyllah. All Rights Reserved.</p>
   </footer>
 
-  <!-- AUDIO ELEMENT (tanpa kontrol) -->
+  <!-- AUDIO & VISUALIZER -->
   <audio id="bgMusic" loop></audio>
-
-  <!-- VISUALIZER -->
   <div id="audioMotionContainer"></div>
-
-  <!-- MUSIC BUTTON -->
   <div id="musicControl">
     <button id="musicToggleBtn" onclick="toggleMusic()">
       <i class="fas fa-music"></i>
@@ -625,35 +611,72 @@
     </button>
   </div>
 
-  <!-- CORE LOGIC -->
+  <!-- SCRIPT UTAMA -->
   <script>
-    // === MUSIK ===
+    // ===== SISTEM MUSIK + VISUALIZER =====
     const songs = Array.from({ length: 10 }, (_, i) => `music/musik${i + 1}.mp3`);
     const audio = document.getElementById('bgMusic');
     const musicBtnText = document.getElementById('musicBtnText');
-    const hasPlayedBefore = localStorage.getItem('hasPlayedMusic') === 'true';
+    const container = document.getElementById('audioMotionContainer');
+    let audioMotion = null;
+    let hasInitVisualizer = false;
 
     function getRandomSong() {
       return songs[Math.floor(Math.random() * songs.length)];
+    }
+
+    function createVisualizer() {
+      if (audioMotion || !container) return;
+      try {
+        audioMotion = new AudioMotionAnalyzer(container, {
+          source: audio,
+          height: 80,
+          mode: 3,
+          barSpace: 0.6,
+          ledBars: true,
+          showScaleX: false,
+          showScaleY: false,
+          radial: false,
+          gradient: ['cyan', 'white']
+        });
+        container.style.height = '80px';
+      } catch (e) {
+        console.error('Visualizer gagal:', e);
+      }
+    }
+
+    function ensureAudioMotionLoaded() {
+      if (typeof AudioMotionAnalyzer !== 'undefined') {
+        createVisualizer();
+        return;
+      }
+      if (!window._audioMotionLoading) {
+        window._audioMotionLoading = true;
+        const s = document.createElement('script');
+        s.src = 'https://cdn.skypack.dev/audiomotion-analyzer?min';
+        s.onload = () => {
+          setTimeout(createVisualizer, 100);
+        };
+        document.head.appendChild(s);
+      }
     }
 
     function playRandomSong() {
       audio.src = getRandomSong();
       return audio.play()
         .then(() => {
-          localStorage.setItem('hasPlayedMusic', 'true');
           musicBtnText.textContent = 'Pause Music';
-          initVisualizer(); // jalankan visualizer saat musik dimainkan
+          if (window.innerWidth <= 768 && !hasInitVisualizer) {
+            hasInitVisualizer = true;
+            ensureAudioMotionLoaded();
+          }
         })
         .catch(e => {
-          console.warn("Autoplay blocked:", e);
+          console.warn('Autoplay ditolak:', e);
           musicBtnText.textContent = 'Play Music';
         });
     }
 
-    if (!hasPlayedBefore) {
-      setTimeout(() => { playRandomSong(); }, 800);
-    }
     audio.addEventListener('ended', playRandomSong);
 
     function toggleMusic() {
@@ -665,28 +688,22 @@
       }
     }
 
-    // === TYPING EFFECT ===
-    const professions = ['TKJ Student', 'SMK Student', 'Web Developer', 'Linux Enthusiast'];
+    // ===== TYPING EFFECT =====
+    const professions = ['TKJ Student', 'Web Developer', 'Linux User', 'Android Enthusiast'];
     const heroSubtitle = document.getElementById('rotating-profession');
-    let professionIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
+    let professionIndex = 0, charIndex = 0, isDeleting = false;
 
     function typeWriter() {
       if (!heroSubtitle) return;
       const current = professions[professionIndex];
-      const fullText = 'I am a ' + current;
-
+      const full = 'I am a ' + current;
       if (isDeleting) {
-        heroSubtitle.textContent = fullText.substring(0, charIndex - 1);
-        charIndex--;
+        heroSubtitle.textContent = full.substring(0, --charIndex);
       } else {
-        heroSubtitle.textContent = fullText.substring(0, charIndex + 1);
-        charIndex++;
+        heroSubtitle.textContent = full.substring(0, ++charIndex);
       }
-
       let speed = 120;
-      if (!isDeleting && charIndex === fullText.length) {
+      if (!isDeleting && charIndex === full.length) {
         speed = 1500;
         isDeleting = true;
       } else if (isDeleting && charIndex === 0) {
@@ -694,50 +711,20 @@
         professionIndex = (professionIndex + 1) % professions.length;
         speed = 500;
       }
-
       setTimeout(typeWriter, speed);
     }
 
-    // === AUDIO MOTION VISUALIZER (MOBILE ONLY) ===
-    let audioMotion = null;
-
-    function initVisualizer() {
-      if (window.innerWidth > 768 || audioMotion) return;
-
-      // Load audioMotion only once
-      if (typeof AudioMotionAnalyzer === 'undefined') {
-        const script = document.createElement('script');
-        script.src = 'https://cdn.skypack.dev/audiomotion-analyzer?min';
-        script.onload = () => {
-          createVisualizer();
-        };
-        document.head.appendChild(script);
-      } else {
-        createVisualizer();
-      }
-    }
-
-    function createVisualizer() {
-      if (audioMotion) return;
-      const container = document.getElementById('audioMotionContainer');
-      if (!container) return;
-
-      audioMotion = new AudioMotionAnalyzer(container, {
-        source: audio,
-        height: 80,
-        mode: 3,          // dual bars
-        barSpace: 0.6,
-        ledBars: true,
-        showScaleX: false,
-        showScaleY: false,
-        radial: false,
-        gradient: ['cyan', 'white']
-      });
-    }
-
-    // === START TYPING & CHECK MOBILE ===
+    // ===== INISIALISASI =====
     document.addEventListener('DOMContentLoaded', () => {
       setTimeout(typeWriter, 500);
+      const played = localStorage.getItem('hasPlayedMusic') === 'true';
+      if (!played && window.innerWidth <= 768) {
+        setTimeout(() => {
+          playRandomSong().then(() => {
+            localStorage.setItem('hasPlayedMusic', 'true');
+          });
+        }, 800);
+      }
     });
   </script>
 </body>
