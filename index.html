@@ -3,728 +3,1211 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zhyllan Fyllah - Portfolio</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&family=Open+Sans:wght@300..800&display=swap"
-    rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Zhyllan Fyllah • Mobile Development Journey</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg-primary: #000;
-      --bg-secondary: #111;
-      --text-primary: #fff;
-      --text-secondary: #aaa;
-      --accent: #00d4ff;
-      --glass-bg: rgba(255, 255, 255, 0.05);
-      --glass-border: rgba(255, 255, 255, 0.1);
-      --border-radius: 16px;
+      --bg-primary: #0f0c29;
+      --bg-secondary: #1a1a3a;
+      --bg-card: rgba(30, 25, 65, 0.7);
+      --text-primary: #ffffff;
+      --text-secondary: #b8c1ec;
+      --accent-start: #00d4ff;
+      --accent-end: #7c3aed;
+      --accent-glow: rgba(124, 58, 237, 0.4);
+      --border-color: rgba(255, 255, 255, 0.1);
+      --success: #00f5a0;
+      --radius: 16px;
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      font-family: "Open Sans", sans-serif;
-      background: var(--bg-primary);
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #1a1a3a);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
       color: var(--text-primary);
       line-height: 1.6;
       overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
     }
 
-    a {
-      text-decoration: none;
-      color: inherit;
+    /* === SHIMMER BACKGROUND EFFECT === */
+    body::before {      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(0, 245, 160, 0.1) 0%, transparent 40%);
+      animation: shimmer 8s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
     }
 
-    /* === HEADER (FIXED TOP) === */
-    .header-list {
+    body::after {
+      content: "";
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: transparent;
+      background-image: 
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 212, 255, 0.03) 2px, rgba(0, 212, 255, 0.03) 4px);
+      animation: shimmerScan 10s linear infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes shimmer {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+
+    @keyframes shimmerScan {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(-50px) rotate(2deg); }
+    }
+
+    /* === FOG/SMOKE EFFECT === */
+    .fog-container {
+      position: fixed;
+      top: 0;      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .fog {
+      position: absolute;
+      width: 300%;
+      height: 100%;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      opacity: 0.08;
+      animation: fogMove 30s linear infinite;
+    }
+
+    .fog:nth-child(1) { top: 10%; animation-duration: 35s; opacity: 0.06; }
+    .fog:nth-child(2) { top: 40%; animation-duration: 25s; opacity: 0.08; animation-direction: reverse; }
+    .fog:nth-child(3) { top: 70%; animation-duration: 40s; opacity: 0.05; }
+
+    @keyframes fogMove {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* === BUBBLE/PARTICLE EFFECTS === */
+    .bubbles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 2;
+      overflow: hidden;
+    }
+
+    .bubble {
+      position: absolute;
+      bottom: -20px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.2));
+      box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+      animation: bubbleFloat linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes bubbleFloat {
+      0% {        transform: translateY(0) scale(0.8);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-120vh) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    /* === CONTENT WRAPPER (ABOVE EFFECTS) === */
+    .content-wrapper {
+      position: relative;
+      z-index: 10;
+    }
+
+    /* === DESKTOP WARNING OVERLAY === */
+    #desktop-warning {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 12, 41, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+    }
+
+    #desktop-warning.show {
+      display: flex;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .warning-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 30px;
+      max-width: 400px;
+      animation: slideUp 0.6s ease;
+    }
+
+    .warning-icon {      font-size: 3rem;
+      color: var(--accent-start);
+      margin-bottom: 16px;
+      animation: bounce 2s infinite;
+    }
+
+    .warning-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .warning-text {
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+
+    .warning-btn {
+      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+      color: #fff;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      animation: pulse 2s infinite;
+    }
+
+    /* === ANIMATIONS === */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+      50% { box-shadow: 0 0 0 12px transparent; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* === HEADER === */
+    header {
       position: fixed;
       top: 0;
       width: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(10px);
-      z-index: 1000;
-      padding: 12px 20px;
-      display: flex;
-      justify-content: center;
+      background: rgba(15, 12, 41, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      z-index: 100;
+      padding: 12px 16px;
     }
 
-    .ul-list {
-      list-style: none;
+    .nav-scroll {
       display: flex;
-      gap: 1.2rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin: 0;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 4px 0;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
     }
 
-    .ul-list li {
+    .nav-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav-chip {
+      flex-shrink: 0;
+      padding: 8px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-secondary);
       display: flex;
       align-items: center;
-      gap: 0.3rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #888;
-      transition: color 0.3s;
+      gap: 6px;
+      transition: var(--transition);
+      white-space: nowrap;    }
+
+    .nav-chip.active,
+    .nav-chip:hover {
+      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+      color: #fff;
+      border-color: transparent;
+      transform: scale(1.05);
     }
 
-    .ul-list li.active,
-    .ul-list li:hover {
-      color: var(--accent);
+    .nav-chip i {
+      font-size: 0.9rem;
     }
 
     /* === SECTIONS === */
     section {
-      padding: 110px 20px 60px;
-      max-width: 1400px;
-      margin: 0 auto;
+      padding: 90px 16px 40px;
+      max-width: 100%;
+      opacity: 1;
+      transform: translateY(0);
+      transition: var(--transition);
     }
 
-    .section-title {
-      font-family: "Montserrat", sans-serif;
-      font-size: 2.2rem;
-      font-weight: 800;
+    section.fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    section.fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-header {
       text-align: center;
-      margin-bottom: 20px;
-      background: linear-gradient(135deg, var(--accent), #0099cc);
+      margin-bottom: 28px;
+    }
+
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      animation: gradientShift 3s ease infinite;
+      background-size: 200% 200%;    }
+
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .section-divider {
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
+      margin: 12px auto;
+      border-radius: 2px;
+      animation: gradientShift 2s ease infinite;
+      background-size: 200% 100%;
+    }
+
+    /* === HERO === */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 24px;
+    }
+
+    .hero-avatar {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .avatar-ring {
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-start), var(--accent-end), var(--accent-start));
+      animation: gradientShift 2s linear infinite;
+      background-size: 300% 300%;
+      z-index: -1;
+    }
+
+    .profile-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--bg-primary);      background: var(--bg-secondary);
+      display: block;
+    }
+
+    .hero-name {
+      font-size: 1.9rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 0;
+    }
+
+    .hero-name span {
+      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
-    hr {
-      width: 60px;
-      height: 3px;
-      background: var(--accent);
-      border: none;
-      margin: 0 auto 30px;
-      border-radius: 2px;
-    }
-
-    .home-p {
-      background: rgba(128, 128, 128, 0.2);
-      display: inline-block;
-      padding: 5px 12px;
-      border-radius: 20px;
+    .hero-tagline {
+      font-family: "Fira Code", monospace;
       font-size: 0.9rem;
-      color: #aaa;
-      margin-bottom: 20px;
-    }
-
-    .home-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 3rem;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .info-home {
-      flex: 1;
-      min-width: 300px;
-      text-align: center;
-    }
-
-    @media (min-width: 900px) {
-      .info-home {
-        text-align: left;
-        max-width: 600px;
-      }
-    }
-
-    .info-home h1 {
-      font-size: 2.8rem;
-      font-family: "Montserrat", sans-serif;
-      margin-bottom: 12px;
-    }
-
-    .info-home h3 {
-      font-size: 1.6rem;
-      font-family: "Montserrat", sans-serif;
-      margin-bottom: 20px;
-      color: var(--accent);
-    }
-
-    .info-home p {
-      margin-bottom: 12px;
-      color: #ccc;
-    }
-
-    .hero-stats {
-      display: flex;
-      justify-content: center;
-      gap: 1.2rem;
-      flex-wrap: wrap;
-      margin: 20px 0;
-    }
-
-    .stat {
-      background: var(--glass-bg);
-      padding: 12px 20px;
+      color: var(--accent-start);
+      background: rgba(0, 212, 255, 0.1);
+      padding: 8px 16px;
       border-radius: 12px;
-      text-align: center;
-      min-width: 100px;
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      display: inline-block;
     }
 
-    .stat-number {
-      display: block;
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: var(--accent);
+    .hero-desc {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      max-width: 320px;
+      margin: 0 auto;
     }
 
-    .stat-label {
+    .hero-desc strong {
+      color: var(--text-primary);
+    }
+
+    /* === BADGES === */
+    .focus-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .focus-badge {      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 8px 14px;
+      border-radius: 12px;
       font-size: 0.8rem;
-      color: #aaa;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      animation: slideUp 0.5s ease backwards;
     }
 
-    .btn-group {
+    .focus-badge:nth-child(1) { animation-delay: 0.1s; }
+    .focus-badge:nth-child(2) { animation-delay: 0.2s; }
+    .focus-badge:nth-child(3) { animation-delay: 0.3s; }
+    .focus-badge:nth-child(4) { animation-delay: 0.4s; }
+
+    .focus-badge i {
+      color: var(--success);
+    }
+
+    /* === BUTTONS === */
+    .btn-row {
       display: flex;
       gap: 12px;
-      flex-wrap: wrap;
       justify-content: center;
+      flex-wrap: wrap;
       margin: 20px 0;
-    }
-
-    @media (min-width: 900px) {
-      .btn-group {
-        justify-content: flex-start;
-      }
     }
 
     .btn {
-      padding: 10px 20px;
-      border-radius: 25px;
+      padding: 12px 24px;
+      border-radius: 14px;
       font-weight: 600;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all 0.3s;
+      font-size: 0.9rem;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      text-align: center;
     }
 
     .btn-primary {
-      background: var(--accent);
-      color: #000;
+      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+      color: #fff;
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 30px var(--accent-glow);
     }
 
-    .btn-secondary {
+    .btn-outline {
       background: transparent;
-      border: 1px solid var(--accent);
-      color: var(--accent);
+      border: 2px solid var(--border-color);
+      color: var(--text-primary);
     }
 
-    .btn:hover {
+    .btn-outline:hover {
+      border-color: var(--accent-start);
+      background: rgba(0, 212, 255, 0.1);
       transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
     }
 
-    .social-links {
+    .btn-works {
+      background: linear-gradient(135deg, var(--success), #00c896);
+      color: #0f0c29;
+      box-shadow: 0 4px 20px rgba(0, 245, 160, 0.3);
+    }
+
+    .btn-works:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 30px rgba(0, 245, 160, 0.4);
+    }
+
+    /* === SOCIAL === */
+    .social-row {
       display: flex;
-      gap: 1.2rem;
+      gap: 14px;
       justify-content: center;
-      margin-top: 20px;
+      margin-top: 12px;
     }
 
-    @media (min-width: 900px) {
-      .social-links {
-        justify-content: flex-start;
-      }
-    }
-
-    .social-icon {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
+    .social-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--glass-bg);
-      color: #ccc;
-      font-size: 1.2rem;
-      transition: all 0.3s;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      transition: var(--transition);
+    }
+    .social-btn:hover {
+      color: #fff;
+      border-color: var(--accent-start);
+      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+      transform: translateY(-4px) scale(1.1);
     }
 
-    .social-icon:hover {
-      background: var(--accent);
-      color: #000;
-      transform: scale(1.1);
+    /* === CARDS === */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: var(--transition);
+      animation: slideUp 0.5s ease backwards;
     }
 
-    .profile-img-container {
-      flex: 1;
-      min-width: 280px;
-      display: flex;
-      justify-content: center;
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+
+    .card:hover {
+      border-color: var(--accent-start);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
     }
 
-    .profile-img {
-      width: 280px;
-      height: 380px;
-      object-fit: cover;
-      border-radius: 16px;
-      border: 2px solid var(--glass-border);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-    }
-
-    @media (min-width: 900px) {
-      .profile-img {
-        width: 350px;
-        height: 450px;
-      }
-    }
-
-    .about-info p,
-    .contact-content p,
-    .edu-card p {
-      margin-bottom: 15px;
-      color: #ccc;
-    }
-
-    .highlights {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      margin: 25px 0;
-    }
-
-    .highlight-card {
-      background: var(--glass-bg);
-      padding: 15px;
-      border-radius: 12px;
+    .card-head {
       display: flex;
       align-items: center;
       gap: 12px;
+      margin-bottom: 14px;
     }
 
-    .highlight-icon {
-      color: var(--accent);
-      font-size: 1.4rem;
-      min-width: 36px;
-    }
-
-    .edu-cards {
+    .card-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
       display: flex;
-      flex-direction: column;
-      gap: 20px;
-      margin-top: 20px;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.2rem;
+      flex-shrink: 0;
     }
 
-    .edu-card {
-      background: var(--glass-bg);
-      padding: 20px;
-      border-radius: 16px;
-      border-left: 3px solid var(--accent);
+    .card-title {
+      font-weight: 600;      font-size: 1.1rem;
     }
 
-    .edu-card h3 {
-      color: var(--accent);
-      margin-bottom: 10px;
-      font-size: 1.3rem;
+    .card-body {
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      line-height: 1.7;
     }
 
-    .edu-card ul {
-      padding-left: 20px;
-      color: #ccc;
+    .card-body strong {
+      color: var(--text-primary);
     }
 
-    .edu-card li {
+    /* === SKILLS GRID === */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .skill-tile {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 16px 12px;
+      text-align: center;
+      transition: var(--transition);
+      animation: slideUp 0.5s ease backwards;
+    }
+
+    .skill-tile:hover {
+      border-color: var(--accent-start);
+      transform: scale(1.03);
+    }
+
+    .skill-tile:nth-child(1) { animation-delay: 0.1s; }
+    .skill-tile:nth-child(2) { animation-delay: 0.15s; }
+    .skill-tile:nth-child(3) { animation-delay: 0.2s; }
+    .skill-tile:nth-child(4) { animation-delay: 0.25s; }
+    .skill-tile:nth-child(5) { animation-delay: 0.3s; }
+    .skill-tile:nth-child(6) { animation-delay: 0.35s; }
+    .skill-tile:nth-child(7) { animation-delay: 0.4s; }
+    .skill-tile:nth-child(8) { animation-delay: 0.45s; }
+
+    .skill-icon {
+      font-size: 1.6rem;
+      color: var(--accent-start);
       margin-bottom: 8px;
     }
+    .skill-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
 
-    .contact-content {
+    /* === TIMELINE === */
+    .timeline {
+      position: relative;
+      padding-left: 28px;
+      margin-top: 8px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 8px;
+      top: 4px;
+      bottom: 4px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent-start), var(--accent-end));
+      border-radius: 2px;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 24px;
+      animation: slideUp 0.5s ease backwards;
+    }
+
+    .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+    .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+    .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -24px;
+      top: 6px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+      border: 3px solid var(--bg-primary);
+      animation: pulse 2s infinite;
+    }
+
+    .timeline-head {
+      font-weight: 600;      margin-bottom: 4px;
+      font-size: 1rem;
+    }
+
+    .timeline-sub {
+      font-family: "Fira Code", monospace;
+      font-size: 0.8rem;
+      color: var(--accent-start);
+      margin-bottom: 6px;
+    }
+
+    .timeline-desc {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* === CONTACT LIST === */
+    .contact-list {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 14px;
     }
 
     .contact-item {
       display: flex;
       align-items: flex-start;
-      gap: 15px;
-      padding: 15px;
-      background: var(--glass-bg);
-      border-radius: 12px;
+      gap: 14px;
+      padding: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      transition: var(--transition);
+      animation: slideUp 0.5s ease backwards;
     }
 
-    .contact-icon {
-      color: var(--accent);
-      font-size: 1.3rem;
-      min-width: 24px;
+    .contact-item:nth-child(1) { animation-delay: 0.1s; }
+    .contact-item:nth-child(2) { animation-delay: 0.2s; }
+    .contact-item:nth-child(3) { animation-delay: 0.3s; }
+    .contact-item:nth-child(4) { animation-delay: 0.4s; }
+    .contact-item:nth-child(5) { animation-delay: 0.5s; }
+
+    .contact-item:hover {
+      border-color: var(--accent-start);
+      transform: translateX(4px);
     }
 
-    .contact-details a {
-      color: var(--accent);
-      font-weight: 600;
+    .contact-ico {
+      width: 40px;
+      height: 40px;      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.1rem;
+      flex-shrink: 0;
     }
 
-    .footer {
-      background: #000;
-      color: #888;
-      padding: 30px 20px;
+    .contact-txt strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+    }
+
+    .contact-txt a {
+      color: var(--accent-start);
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .contact-txt a:hover {
+      text-decoration: underline;
+    }
+
+    /* === FOOTER === */
+    footer {
+      background: rgba(15, 12, 41, 0.9);
+      border-top: 1px solid var(--border-color);
+      padding: 28px 16px 40px;
       text-align: center;
-      margin-top: 60px;
+      margin-top: 20px;
+      position: relative;
+      z-index: 10;
     }
 
     .footer-social {
       display: flex;
       justify-content: center;
-      gap: 15px;
-      margin: 15px 0;
+      gap: 14px;
+      margin: 16px 0;
     }
 
-    .footer-social i {
-      font-size: 1.3rem;
-      color: #888;
-      transition: color 0.3s;
+    .footer-social a {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;      align-items: center;
+      justify-content: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      font-size: 1rem;
+      transition: var(--transition);
     }
 
-    .footer-social i:hover {
-      color: var(--accent);
+    .footer-social a:hover {
+      color: #fff;
+      border-color: var(--accent-start);
+      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+      transform: translateY(-4px);
     }
 
-    /* === MUSIC & VISUALIZER (MOBILE ONLY) === */
-    #audioMotionContainer {
-      position: fixed;
-      bottom: 60px;
-      left: 0;
-      width: 100%;
-      height: 0;
-      z-index: 1000;
-      transition: height 0.3s ease;
-      overflow: hidden;
+    .footer-copy {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      margin-top: 12px;
     }
 
-    #musicControl {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1001;
+    .footer-copy span {
+      color: var(--accent-start);
     }
 
-    #musicToggleBtn {
-      background: var(--accent);
-      color: #000;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 25px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.95rem;
-    }
-
+    /* === MOBILE OPTIMIZATIONS === */
     @media (min-width: 769px) {
-      #audioMotionContainer,
-      #musicControl {
-        display: none;
+      body.mobile-optimized::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 12, 41, 0.4);
+        z-index: 50;
+        pointer-events: none;
       }
     }
 
-    @media (max-width: 899px) {
-      .home-container,
-      .about-info,
-      .edu-cards,
-      .contact-content {
-        text-align: center;
-      }
+    @media (max-width: 480px) {
+      .hero-name { font-size: 1.7rem; }
+      .section-title { font-size: 1.6rem; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .btn-row { flex-direction: column; align-items: center; }
+      .btn { width: 100%; max-width: 280px; justify-content: center; }
+    }
 
-      .contact-item {
-        flex-direction: column;
-        align-items: center;
-      }
+    /* === UTILS === */
+    .text-accent {
+      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+      -webkit-background-clip: text;      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .mono {
+      font-family: "Fira Code", monospace;
     }
   </style>
 </head>
 
-<body>
+<body class="mobile-optimized">
 
-  <!-- NAVBAR -->
-  <header class="header-list">
-    <ul class="ul-list">
-      <li class="active"><i class="fa-regular fa-house"></i><a href="#home">Home</a></li>
-      <li><i class="fa-regular fa-address-card"></i><a href="#about">About</a></li>
-      <li><i class="fa-solid fa-graduation-cap"></i><a href="#pendidikan">Education</a></li>
-      <li><i class="fa-regular fa-envelope"></i><a href="#contact">Contact</a></li>
-    </ul>
-  </header>
-
-  <!-- HOME -->
-  <section id="home" class="home">
-    <p class="home-p"><span style="color:var(--accent)">•</span> Active TKJ Student</p>
-    <div class="home-container">
-      <div class="info-home">
-        <h1>Hello, I'm Zhyllan</h1>
-        <h3 id="rotating-profession">Computer & Network Engineering</h3>
-        <p>I'm Zhyllan Fyllah, a Computer and Network Engineering (TKJ) student at SMK N 1 Lembah Melintang.</p>
-        <p>I'm actively involved in the LINUX UBUNTU Indonesia and Nusantara Project ROM communities. My interests span web development and android application development.</p>
-
-        <div class="hero-stats">
-          <div class="stat">
-            <span class="stat-label">Cohort</span>
-            <span class="stat-number">2025</span>
-          </div>
-          <div class="stat">
-            <span class="stat-label">Major</span>
-            <span class="stat-number">TKJ</span>
-          </div>
-          <div class="stat">
-            <span class="stat-label">Location</span>
-            <span class="stat-number">Lembah Melintang</span>
-          </div>
-        </div>
-
-        <div class="btn-group">
-          <a href="https://wa.me/6285165721384" target="_blank" class="btn btn-primary">
-            <i class="fab fa-whatsapp"></i> Chat via WhatsApp
-          </a>
-          <a href="mailto:zhyllanf@gmail.com" class="btn btn-secondary">
-            <i class="fas fa-envelope"></i> Email Me
-          </a>
-        </div>
-
-        <div class="social-links">
-          <a href="mailto:zhyllanf@gmail.com" class="social-icon"><i class="fas fa-envelope"></i></a>
-          <a href="https://wa.me/6285165721384" target="_blank" class="social-icon"><i class="fab fa-whatsapp"></i></a>
-          <a href="https://www.linkedin.com/in/zhyllan-fyllah-56b45a38a/" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-          <a href="https://github.com/jirankun" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
-        </div>
-      </div>
-      <div class="profile-img-container">
-        <img src="images/profile.jpg" alt="Zhyllan Fyllah" class="profile-img">
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about" class="about">
-    <p class="section-subtitle">ABOUT ME</p>
-    <h2 class="section-title">About</h2>
-    <hr />
-    <div class="about-info">
-      <p>I'm Zhyllan Fyllah, a Computer and Network Engineering (TKJ) student at SMK N 1 Lembah Melintang. I'm actively involved in the LINUX UBUNTU Indonesia and Nusantara Project ROM communities. My interests span web development and android application development.</p>
-
-      <div class="highlights">
-        <div class="highlight-card">
-          <i class="fas fa-graduation-cap highlight-icon"></i>
-          <div><strong>Current School</strong><br>SMK N 1 Lembah Melintang (TKJ)</div>
-        </div>
-        <div class="highlight-card">
-          <i class="fas fa-map-marker-alt highlight-icon"></i>
-          <div><strong>Location</strong><br>Ujunggading, Lembah Melintang, West Sumatra, Indonesia</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- EDUCATION -->
-  <section id="pendidikan" class="pendidikan">
-    <p class="section-subtitle">EDUCATION HISTORY</p>
-    <h2 class="section-title">Education</h2>
-    <hr />
-    <div class="edu-cards">
-      <div class="edu-card">
-        <h3>Formal Education</h3>
-        <ul>
-          <li><strong>Elementary School:</strong> MIS Muhammadiyah Tamiang, Ujunggading (2016–2021)</li>
-          <li><strong>Junior High:</strong> SMP Tahfidz Al-Qur'an An-Naajiya, Simpang Empat (2021–2025)<br>• Head of Computer Lab Device Management, Student Council (2023–2024)</li>
-          <li><strong>Vocational High:</strong> SMK N 1 Lembah Melintang (2025–present)</li>
-        </ul>
-      </div>
-      <div class="edu-card">
-        <h3>Non-Formal Education</h3>
-        <ul>
-          <li>Active Member – LINUX UBUNTU Indonesia Community (2021–present)</li>
-          <li>Active Member – Nusantara Project ROM Community (2020–present)</li>
-          <li>Online Learning – Dicoding.com (2024–present)</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact" class="contact">
-    <p class="section-subtitle">CONTACT ME</p>
-    <h2 class="section-title">Contact</h2>
-    <hr />
-    <div class="contact-content">
-      <div class="contact-item">
-        <i class="fas fa-envelope contact-icon"></i>
-        <div class="contact-details">
-          <strong>Email</strong><br>
-          zhyllanf@gmail.com<br>
-          <a href="mailto:zhyllanf@gmail.com">Send Email</a>
-        </div>
-      </div>
-      <div class="contact-item">
-        <i class="fab fa-whatsapp contact-icon"></i>
-        <div class="contact-details">
-          <strong>WhatsApp</strong><br>
-          +62 851 6572 1384<br>
-          <a href="https://wa.me/6285165721384" target="_blank">Open Chat</a>
-        </div>
-      </div>
-      <div class="contact-item">
-        <i class="fas fa-map-marker-alt contact-icon"></i>
-        <div class="contact-details">
-          <strong>Location</strong><br>
-          Ujunggading, Lembah Melintang, Indonesia<br>
-          <a href="https://www.google.com/maps/@0.268027,99.5608486,3a,75y,150.7h,54.91t/data=!3m7!1e1!3m5!1stXTgxIJI0WW3xuAhCFClRA!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D35.09232422208487%26panoid%3DtXTgxIJI0WW3xuAhCFClRA%26yaw%3D150.70499353750228!7i16384!8i8192?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D" target="_blank">View on Map</a>
-        </div>
-      </div>
-      <div class="contact-item">
-        <i class="fab fa-linkedin contact-icon"></i>
-        <div class="contact-details">
-          <strong>LinkedIn</strong><br>
-          Zhyllan Fyllah<br>
-          <a href="https://www.linkedin.com/in/zhyllan-fyllah-56b45a38a/" target="_blank">Visit Profile</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="footer-social">
-      <a href="mailto:zhyllanf@gmail.com"><i class="fas fa-envelope"></i></a>
-      <a href="https://wa.me/6285165721384"><i class="fab fa-whatsapp"></i></a>
-      <a href="https://github.com/jirankun"><i class="fab fa-github"></i></a>
-      <a href="https://www.linkedin.com/in/zhyllan-fyllah-56b45a38a/"><i class="fab fa-linkedin-in"></i></a>
-    </div>
-    <p class="footer-copy">&copy; 2025 Zhyllan Fyllah. All Rights Reserved.</p>
-  </footer>
-
-  <!-- AUDIO & VISUALIZER -->
-  <audio id="bgMusic" loop></audio>
-  <div id="audioMotionContainer"></div>
-  <div id="musicControl">
-    <button id="musicToggleBtn" onclick="toggleMusic()">
-      <i class="fas fa-music"></i>
-      <span id="musicBtnText">Play Music</span>
-    </button>
+  <!-- BACKGROUND EFFECTS -->
+  <div class="fog-container">
+    <div class="fog"></div>
+    <div class="fog"></div>
+    <div class="fog"></div>
   </div>
 
-  <!-- SCRIPT UTAMA -->
+  <div class="bubbles" id="bubbles"></div>
+
+  <!-- DESKTOP WARNING -->
+  <div id="desktop-warning">
+    <div class="warning-card">
+      <div class="warning-icon">📱</div>
+      <div class="warning-title">Optimized for Mobile</div>
+      <div class="warning-text">This portfolio is designed for the best experience on mobile devices. Please view on your smartphone to enjoy full animations and layout.</div>
+      <button class="warning-btn" onclick="document.getElementById('desktop-warning').classList.remove('show')">
+        <i class="fas fa-check"></i> Understood
+      </button>
+    </div>
+  </div>
+
+  <!-- CONTENT WRAPPER -->
+  <div class="content-wrapper">
+
+    <!-- HEADER NAV -->
+    <header>
+      <nav class="nav-scroll">
+        <a href="#home" class="nav-chip active"><i class="fas fa-home"></i> Home</a>
+        <a href="#about" class="nav-chip"><i class="fas fa-user"></i> About</a>
+        <a href="#skills" class="nav-chip"><i class="fas fa-code"></i> Skills</a>
+        <a href="#journey" class="nav-chip"><i class="fas fa-route"></i> Journey</a>
+        <a href="#contact" class="nav-chip"><i class="fas fa-paper-plane"></i> Contact</a>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <section id="home" class="hero fade-in">
+      <div class="hero-avatar">        <div class="avatar-ring"></div>
+        <img src="./images/profile.jpg" alt="Zhyllan Fyllah" class="profile-img" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#00d4ff,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:2.5rem;font-weight:700;color:#fff;\'>ZF</div>'">
+      </div>
+      
+      <h1 class="hero-name">Hello, I'm <span>Zhyllan Fyllah</span> 👋</h1>
+      <div class="hero-tagline mono"><MobileDev_Journey /></div>
+      
+      <p class="hero-desc">
+        A Computer and Network Engineering student passionate about <strong>learning Android Native</strong> and <strong>Apache Cordova</strong> development. Focused on writing clean code, optimizing performance, and growing every day. 🚀
+      </p>
+
+      <div class="focus-badges">
+        <span class="focus-badge"><i class="fas fa-graduation-cap"></i> Aspiring Developer</span>
+        <span class="focus-badge"><i class="fab fa-android"></i> Android Native</span>
+        <span class="focus-badge"><i class="fas fa-mobile"></i> Apache Cordova</span>
+        <span class="focus-badge"><i class="fas fa-heart"></i> Open Source</span>
+      </div>
+
+      <div class="btn-row">
+        <a href="https://jirankun.github.io/portofoliozhyllan/karya/index.html" target="_blank" class="btn btn-works">
+          <i class="fas fa-folder-open"></i> View My Works
+        </a>
+        <a href="https://wa.me/6285165721384" target="_blank" class="btn btn-primary">
+          <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+        </a>
+        <a href="mailto:zhyllanf@gmail.com" class="btn btn-outline">
+          <i class="fas fa-envelope"></i> Send Email
+        </a>
+      </div>
+
+      <div class="social-row">
+        <a href="https://github.com/jirankun" target="_blank" class="social-btn" title="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/zhyllan-fyllah-56b45a38a/" target="_blank" class="social-btn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="mailto:zhyllanf@gmail.com" class="social-btn" title="Email"><i class="fas fa-envelope"></i></a>
+        <a href="https://wa.me/6285165721384" target="_blank" class="social-btn" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="fade-in">
+      <div class="section-header">
+        <span class="section-badge"><i class="fas fa-sparkles"></i> ABOUT</span>
+        <h2 class="section-title">About Me</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon"><i class="fas fa-rocket"></i></div>
+          <div class="card-title">Current Focus</div>        </div>
+        <div class="card-body">
+          I am currently exploring <strong>mobile application development</strong> through two primary paths:<br><br>
+          • <strong>Native Android:</strong> Java/Kotlin, Android SDK, Gradle build system<br>
+          • <strong>Hybrid with Cordova:</strong> HTML/CSS/JavaScript with custom plugin integration<br><br>
+          My goal is to build lightweight, maintainable applications while continuously improving my technical skills. Progress over perfection. 💪
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon"><i class="fas fa-map-pin"></i></div>
+          <div class="card-title">Location & Status</div>
+        </div>
+        <div class="card-body">
+          📍 Ujunggading, Lembah Melintang, West Sumatra, Indonesia<br>
+          🎓 Student of Computer and Network Engineering — SMK N 1 Lembah Melintang (2025–Present)<br>
+          🐧 Active contributor in LINUX UBUNTU Indonesia & Nusantara Project ROM communities
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="fade-in">
+      <div class="section-header">
+        <span class="section-badge"><i class="fas fa-code"></i> SKILLS</span>
+        <h2 class="section-title">Technical Skills</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="skills-grid">
+        <div class="skill-tile">
+          <div class="skill-icon"><i class="fab fa-android"></i></div>
+          <div class="skill-label">Android Native</div>
+        </div>
+        <div class="skill-tile">
+          <div class="skill-icon"><i class="fas fa-mobile-alt"></i></div>
+          <div class="skill-label">Apache Cordova</div>
+        </div>
+        <div class="skill-tile">
+          <div class="skill-icon"><i class="fab fa-java"></i></div>
+          <div class="skill-label">Java / Kotlin</div>
+        </div>
+        <div class="skill-tile">
+          <div class="skill-icon"><i class="fab fa-js"></i></div>
+          <div class="skill-label">JavaScript</div>
+        </div>
+        <div class="skill-tile">
+          <div class="skill-icon"><i class="fab fa-html5"></i></div>
+          <div class="skill-label">HTML5 / CSS3</div>        </div>
+        <div class="skill-tile">
+          <div class="skill-icon"><i class="fas fa-plug"></i></div>
+          <div class="skill-label">Cordova Plugins</div>
+        </div>
+        <div class="skill-tile">
+          <div class="skill-icon"><i class="fab fa-git-alt"></i></div>
+          <div class="skill-label">Git & GitHub</div>
+        </div>
+        <div class="skill-tile">
+          <div class="skill-icon"><i class="fas fa-graduation-cap"></i></div>
+          <div class="skill-label">Continuous Learning</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- JOURNEY -->
+    <section id="journey" class="fade-in">
+      <div class="section-header">
+        <span class="section-badge"><i class="fas fa-route"></i> JOURNEY</span>
+        <h2 class="section-title">Learning Journey</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon"><i class="fas fa-school"></i></div>
+          <div class="card-title">Education</div>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-head">SMK N 1 Lembah Melintang</div>
+            <div class="timeline-sub mono">Computer & Network Engineering • 2025 – Present</div>
+            <div class="timeline-desc">Studying computer networking, Linux systems, Android development fundamentals, and building small-scale projects.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-head">SMP Tahfidz Al-Qur'an An-Naajiya</div>
+            <div class="timeline-sub mono">Simpang Empat • 2021 – 2025</div>
+            <div class="timeline-desc">Developed interest in technology, assisted with computer lab maintenance, and began exploring basic programming concepts.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon"><i class="fas fa-users"></i></div>
+          <div class="card-title">Communities & Projects</div>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item">            <div class="timeline-head">Nusantara Project ROM</div>
+            <div class="timeline-sub mono">Contributor • 2020 – Present</div>
+            <div class="timeline-desc">Participating in Android custom ROM testing, feature documentation, and user support activities.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-head">LINUX UBUNTU Indonesia</div>
+            <div class="timeline-sub mono">Active Member • 2021 – Present</div>
+            <div class="timeline-desc">Engaging in technical discussions, troubleshooting sessions, and knowledge sharing about Linux system administration.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-head">Personal Cordova Projects</div>
+            <div class="timeline-sub mono">Experiment • 2024 – Present</div>
+            <div class="timeline-desc">Building hybrid mobile applications, experimenting with custom plugin integration, and learning Play Store deployment workflows.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="fade-in">
+      <div class="section-header">
+        <span class="section-badge"><i class="fas fa-paper-plane"></i> CONTACT</span>
+        <h2 class="section-title">Let's Connect</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="contact-list">
+        <div class="contact-item">
+          <div class="contact-ico"><i class="fas fa-envelope"></i></div>
+          <div class="contact-txt">
+            <strong>Email</strong>
+            <a href="mailto:zhyllanf@gmail.com">zhyllanf@gmail.com</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-ico"><i class="fab fa-whatsapp"></i></div>
+          <div class="contact-txt">
+            <strong>WhatsApp</strong>
+            <a href="https://wa.me/6285165721384" target="_blank">+62 851 6572 1384</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-ico"><i class="fab fa-github"></i></div>
+          <div class="contact-txt">
+            <strong>GitHub</strong>
+            <a href="https://github.com/jirankun" target="_blank">github.com/jirankun</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-ico"><i class="fab fa-linkedin-in"></i></div>          <div class="contact-txt">
+            <strong>LinkedIn</strong>
+            <a href="https://www.linkedin.com/in/zhyllan-fyllah-56b45a38a/" target="_blank">Zhyllan Fyllah</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-ico"><i class="fas fa-map-marker-alt"></i></div>
+          <div class="contact-txt">
+            <strong>Location</strong>
+            Ujunggading, Lembah Melintang, West Sumatra, Indonesia 🇮🇩
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-social">
+        <a href="https://github.com/jirankun" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/zhyllan-fyllah-56b45a38a/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        <a href="mailto:zhyllanf@gmail.com"><i class="fas fa-envelope"></i></a>
+        <a href="https://wa.me/6285165721384" target="_blank"><i class="fab fa-whatsapp"></i></a>
+      </div>
+      <p class="footer-copy">© 2025 <span>Zhyllan Fyllah</span> • Built with ❤️ for mobile</p>
+    </footer>
+
+  </div>
+
+  <!-- SCRIPTS -->
   <script>
-    // ===== SISTEM MUSIK + VISUALIZER =====
-    const songs = Array.from({ length: 10 }, (_, i) => `music/musik${i + 1}.mp3`);
-    const audio = document.getElementById('bgMusic');
-    const musicBtnText = document.getElementById('musicBtnText');
-    const container = document.getElementById('audioMotionContainer');
-    let audioMotion = null;
-    let hasInitVisualizer = false;
+    // === BUBBLE GENERATOR (RANDOM & LIGHTWEIGHT) ===
+    function createBubbles() {
+      const container = document.getElementById('bubbles');
+      const bubbleCount = 35;
+      const colors = ['#00d4ff', '#7c3aed', '#00f5a0', '#ff6b9d', '#ffd93d'];
 
-    function getRandomSong() {
-      return songs[Math.floor(Math.random() * songs.length)];
-    }
-
-    function createVisualizer() {
-      if (audioMotion || !container) return;
-      try {
-        audioMotion = new AudioMotionAnalyzer(container, {
-          source: audio,
-          height: 80,
-          mode: 3,
-          barSpace: 0.6,
-          ledBars: true,
-          showScaleX: false,
-          showScaleY: false,
-          radial: false,
-          gradient: ['cyan', 'white']
-        });
-        container.style.height = '80px';
-      } catch (e) {
-        console.error('Visualizer gagal:', e);
+      for (let i = 0; i < bubbleCount; i++) {
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        
+        // Random properties
+        const size = Math.random() * 5 + 3; // 3px to 8px
+        const left = Math.random() * 100; // 0-100%
+        const delay = Math.random() * 15; // 0-15s
+        const duration = Math.random() * 10 + 15; // 15-25s
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const opacity = Math.random() * 0.4 + 0.2; // 0.2 to 0.6
+        
+        // Apply styles
+        bubble.style.width = `${size}px`;        bubble.style.height = `${size}px`;
+        bubble.style.left = `${left}%`;
+        bubble.style.animationDelay = `${delay}s`;
+        bubble.style.animationDuration = `${duration}s`;
+        bubble.style.color = color;
+        bubble.style.opacity = opacity;
+        
+        container.appendChild(bubble);
       }
     }
 
-    function ensureAudioMotionLoaded() {
-      if (typeof AudioMotionAnalyzer !== 'undefined') {
-        createVisualizer();
-        return;
-      }
-      if (!window._audioMotionLoading) {
-        window._audioMotionLoading = true;
-        const s = document.createElement('script');
-        s.src = 'https://cdn.skypack.dev/audiomotion-analyzer?min';
-        s.onload = () => {
-          setTimeout(createVisualizer, 100);
-        };
-        document.head.appendChild(s);
-      }
+    // === DEVICE DETECTION ===
+    function isMobile() {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
     }
 
-    function playRandomSong() {
-      audio.src = getRandomSong();
-      return audio.play()
-        .then(() => {
-          musicBtnText.textContent = 'Pause Music';
-          if (window.innerWidth <= 768 && !hasInitVisualizer) {
-            hasInitVisualizer = true;
-            ensureAudioMotionLoaded();
-          }
-        })
-        .catch(e => {
-          console.warn('Autoplay ditolak:', e);
-          musicBtnText.textContent = 'Play Music';
-        });
-    }
-
-    audio.addEventListener('ended', playRandomSong);
-
-    function toggleMusic() {
-      if (audio.paused) {
-        playRandomSong();
-      } else {
-        audio.pause();
-        musicBtnText.textContent = 'Play Music';
-      }
-    }
-
-    // ===== TYPING EFFECT =====
-    const professions = ['TKJ Student', 'Web Developer', 'Linux User', 'Android Enthusiast'];
-    const heroSubtitle = document.getElementById('rotating-profession');
-    let professionIndex = 0, charIndex = 0, isDeleting = false;
-
-    function typeWriter() {
-      if (!heroSubtitle) return;
-      const current = professions[professionIndex];
-      const full = 'I am a ' + current;
-      if (isDeleting) {
-        heroSubtitle.textContent = full.substring(0, --charIndex);
-      } else {
-        heroSubtitle.textContent = full.substring(0, ++charIndex);
-      }
-      let speed = 120;
-      if (!isDeleting && charIndex === full.length) {
-        speed = 1500;
-        isDeleting = true;
-      } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        professionIndex = (professionIndex + 1) % professions.length;
-        speed = 500;
-      }
-      setTimeout(typeWriter, speed);
-    }
-
-    // ===== INISIALISASI =====
     document.addEventListener('DOMContentLoaded', () => {
-      setTimeout(typeWriter, 500);
-      const played = localStorage.getItem('hasPlayedMusic') === 'true';
-      if (!played && window.innerWidth <= 768) {
+      // Create bubbles
+      createBubbles();
+
+      // Show desktop warning if not mobile
+      if (!isMobile()) {
         setTimeout(() => {
-          playRandomSong().then(() => {
-            localStorage.setItem('hasPlayedMusic', 'true');
-          });
+          document.getElementById('desktop-warning').classList.add('show');
         }, 800);
       }
+
+      // === SCROLL ANIMATIONS ===
+      const sections = document.querySelectorAll('section.fade-in');
+      
+      // Show first section immediately
+      if (sections.length > 0) {
+        sections[0].classList.add('visible');
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      sections.forEach(sec => observer.observe(sec));
+
+      // === NAV ACTIVE STATE ===
+      const navChips = document.querySelectorAll('.nav-chip');
+      const navObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {            const id = entry.target.getAttribute('id');
+            navChips.forEach(chip => {
+              chip.classList.remove('active');
+              if (chip.getAttribute('href') === `#${id}`) {
+                chip.classList.add('active');
+              }
+            });
+          }
+        });
+      }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
+
+      sections.forEach(sec => navObserver.observe(sec));
+
+      // === SMOOTH SCROLL FOR NAV ===
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            document.getElementById('desktop-warning').classList.remove('show');
+          }
+        });
+      });
+
+      // === TOUCH FEEDBACK FOR BUTTONS ===
+      document.querySelectorAll('.btn, .social-btn, .nav-chip').forEach(el => {
+        el.addEventListener('touchstart', function() {
+          this.style.transform = 'scale(0.98)';
+        });
+        el.addEventListener('touchend', function() {
+          this.style.transform = '';
+        });
+      });
     });
   </script>
 </body>
