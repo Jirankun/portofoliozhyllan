@@ -129,20 +129,52 @@
     }
     @keyframes toastProgress { from { width: 100%; } to { width: 0%; } }
 
+    /* === DESKTOP WARNING MODAL === */
+    #desktop-warning {
+      display: none; position: fixed; inset: 0; background: rgba(15, 12, 41, 0.95);
+      backdrop-filter: blur(10px); z-index: 9999; align-items: center; justify-content: center; 
+      padding: 20px; text-align: center;
+    }
+    #desktop-warning.show { display: flex; animation: fadeIn 0.5s ease; }
+    .warning-card {
+      background: var(--bg-card); border: 1px solid var(--border-color);
+      border-radius: var(--radius); padding: 30px; max-width: 420px; 
+      animation: slideUp 0.6s ease;
+    }
+    .warning-icon { font-size: 3rem; color: var(--accent-start); margin-bottom: 16px; animation: bounce 2s infinite; }
+    .warning-title { font-size: 1.4rem; font-weight: 600; margin-bottom: 12px; }
+    .warning-text { color: var(--text-secondary); margin-bottom: 20px; font-size: 0.95rem; }
+    .warning-btn {
+      background: linear-gradient(135deg, var(--accent-start), var(--accent-end)); color: #fff;
+      border: none; padding: 12px 28px; border-radius: 25px; font-weight: 600; cursor: pointer; 
+      animation: pulse 2s infinite;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); } 50% { box-shadow: 0 0 0 12px transparent; } }
+
     /* === HEADER === */
     header {
       position: fixed; top: 0; width: 100%;
       background: rgba(15, 12, 41, 0.85); backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-color); z-index: 100; padding: 12px 16px;
     }
-    .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .nav-container { 
+      max-width: 1200px; margin: 0 auto; 
+      display: flex; align-items: center; gap: 16px; 
+    }
     .back-btn {
       display: flex; align-items: center; gap: 8px;
       color: var(--text-secondary); font-weight: 500; font-size: 0.9rem;
       padding: 8px 14px; border-radius: 10px; transition: var(--transition);
+      flex-shrink: 0;
     }
     .back-btn:hover { color: var(--accent-start); background: var(--accent-glow); }
-    .page-title { font-weight: 600; font-size: 1.1rem; }
+    .page-title { 
+      font-weight: 600; font-size: 1.1rem; 
+      color: var(--text-primary);
+    }
 
     /* === HERO === */
     .works-hero {
@@ -158,7 +190,7 @@
     /* === SEARCH & FILTER === */
     .controls {
       display: flex; flex-direction: column; gap: 12px;
-      max-width: 600px; margin: 0 auto 30px; padding: 0 16px;
+      max-width: 800px; margin: 0 auto 30px; padding: 0 16px;
     }
     .search-box {
       position: relative;
@@ -184,59 +216,68 @@
     .filter-chip[data-filter="all"] { color: var(--accent-start); border-color: var(--accent-start); }
     .filter-chip.active[data-filter="all"] { background: var(--accent-start); color: #0f0c29; }
 
-    /* === PROJECTS LIST - DESKTOP GRID FIX === */
+    /* === PROJECTS LIST - GITHUB STYLE LAYOUT === */
     .projects-container {
-      max-width: 1200px; margin: 0 auto; padding: 0 16px 40px;
-      display: grid; grid-template-columns: 1fr; gap: 16px;
-      align-items: start; /* 🔥 FIX: Biar card gak stretch ke tinggi yang sama */
+      max-width: 900px; margin: 0 auto; padding: 0 16px 40px;
+      display: flex; flex-direction: column; gap: 12px;
     }
 
     .project-card {
       background: var(--bg-card); border: 1px solid var(--border-color);
       border-radius: var(--radius); overflow: hidden;
       transition: var(--transition); animation: slideUp 0.5s ease backwards;
-      display: flex; flex-direction: column;
-      align-self: start; /* 🔥 FIX: Biar tiap card independen tingginya */
+      width: 100%;
     }
     .project-card:nth-child(1) { animation-delay: 0.1s; }
     .project-card:nth-child(2) { animation-delay: 0.15s; }
     .project-card:nth-child(3) { animation-delay: 0.2s; }
-    .project-card:nth-child(4) { animation-delay: 0.25s; }
-    .project-card:nth-child(5) { animation-delay: 0.3s; }
-
+    
     .project-card:hover {
       border-color: var(--accent-start);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
     }
 
-    .project-header {
-      display: flex; align-items: center; gap: 14px;
-      padding: 16px; cursor: pointer;
+    /* GITHUB STYLE: 2 COLUMN LAYOUT */
+    .project-row {
+      display: grid;
+      grid-template-columns: 60px 1fr 40px;
+      gap: 16px;
+      align-items: center;
+      padding: 16px;
+      cursor: pointer;
     }
 
-    .project-icon {
-      width: 50px; height: 50px; border-radius: 12px;
+    .project-icon-wrapper {
+      width: 48px; height: 48px;
+      border-radius: 12px;
       background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0; overflow: hidden;
+      transition: var(--transition);
     }
-    .project-icon img {
+    .project-card:hover .project-icon-wrapper {
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px var(--accent-glow);
+    }
+    .project-icon-wrapper img {
       width: 100%; height: 100%; object-fit: cover; display: block;
     }
-    .project-icon i {
+    .project-icon-wrapper i {
       font-size: 1.4rem; color: #fff;
     }
 
-    .project-info { flex: 1; min-width: 0; }
+    .project-info {
+      min-width: 0; flex: 1;
+    }
     .project-name {
       font-weight: 600; font-size: 1.05rem; margin-bottom: 4px;
       color: var(--text-primary); display: block; text-decoration: none;
+      transition: var(--transition);
     }
     .project-name:hover { color: var(--accent-start); }
-    .project-category {
-      font-size: 0.8rem; color: var(--text-secondary);
-      display: inline-flex; align-items: center; gap: 4px;
+    .project-meta-inline {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
     }
     .category-badge {
       padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 500;
@@ -245,45 +286,60 @@
     .category-cordova { background: rgba(124, 58, 237, 0.2); color: var(--accent-end); }
     .category-web { background: rgba(0, 245, 160, 0.2); color: var(--success); }
     .category-tools { background: rgba(255, 217, 61, 0.2); color: var(--warning); }
-    
-    .toggle-btn {
-      width: 36px; height: 36px; border-radius: 10px;
+    .project-date {
+      font-size: 0.8rem; color: var(--text-secondary);
+      display: flex; align-items: center; gap: 4px;
+    }
+    .project-date i { color: var(--accent-start); font-size: 0.75rem; }
+
+    .toggle-indicator {
+      width: 32px; height: 32px; border-radius: 8px;
       background: var(--bg-secondary); border: 1px solid var(--border-color);
       display: flex; align-items: center; justify-content: center;
-      color: var(--text-secondary); cursor: pointer; transition: var(--transition);
+      color: var(--text-secondary); transition: var(--transition);
       flex-shrink: 0;
     }
-    .toggle-btn:hover, .toggle-btn.active {
+    .project-card:hover .toggle-indicator {
       background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
-      color: #fff; border-color: transparent; transform: rotate(180deg);
+      color: #fff; border-color: transparent;
+    }
+    .toggle-indicator.active {
+      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+      color: #fff; border-color: transparent;
+      transform: rotate(180deg);
     }
 
+    /* DROPDOWN DESCRIPTION */
     .project-description {
       max-height: 0; overflow: hidden;
       padding: 0 16px;
       transition: max-height 0.4s ease, padding 0.4s ease;
+      border-top: 1px solid transparent;
     }
     .project-description.expanded {
-      max-height: 500px; padding: 0 16px 16px;
+      max-height: 600px; 
+      padding: 16px;
+      border-top-color: var(--border-color);
+      background: rgba(0, 0, 0, 0.2);
     }
     .project-description p {
       color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7;
-      padding-top: 8px; border-top: 1px solid var(--border-color);
+      margin-bottom: 12px;
     }
-
-    .project-meta {
-      display: flex; gap: 12px; padding: 0 16px 16px; flex-wrap: wrap;
+    .project-meta-tags {
+      display: flex; gap: 12px; flex-wrap: wrap;
     }
     .meta-tag {
       font-size: 0.8rem; color: var(--text-secondary);
       display: flex; align-items: center; gap: 4px;
+      padding: 4px 10px; background: rgba(255,255,255,0.05);
+      border-radius: 8px;
     }
     .meta-tag i { color: var(--accent-start); }
 
     /* === EMPTY STATE === */
     .empty-state {
       text-align: center; padding: 40px 20px; color: var(--text-secondary);
-      grid-column: 1 / -1;
     }
     .empty-state i { font-size: 3rem; color: var(--accent-start); margin-bottom: 16px; opacity: 0.6; }
     .empty-state p { margin-bottom: 20px; }
@@ -301,93 +357,53 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    /* === RESPONSIVE - DESKTOP FIXES === */
+    /* === RESPONSIVE === */
     @media (min-width: 769px) {
-      /* Disable fog/blur for clarity */
       .fog-container { display: none; }
       body::after { display: none; }
       
-      /* Reduce header blur */
       header {
         backdrop-filter: blur(6px);
         background: rgba(15, 12, 41, 0.95);
       }
       
-      /* Center content */
       .content-wrapper {
-        max-width: 1200px;
-        margin: 0 auto;
-        width: 100%;
+        max-width: 1200px; margin: 0 auto; width: 100%;
       }
       
-      /* Section padding */
       .works-hero {
-        padding: 110px 24px 40px;
+        padding: 110px 24px 40px; text-align: left;
       }
+      .works-hero h1 { text-align: left; }
+      .works-hero p { text-align: left; max-width: 600px; margin-left: auto; margin-right: auto; }
       
-      /* Projects grid - 2 columns on desktop */
+      .controls { max-width: 900px; }
+      
       .projects-container {
-        grid-template-columns: repeat(2, 1fr);
-        padding: 0 24px 50px;
-        gap: 20px;
-        align-items: start; /* 🔥 FIX: Pastikan align-items start di desktop juga */
+        max-width: 900px; padding: 0 24px 50px;
       }
       
-      /* Hero text alignment */
-      .works-hero {
-        text-align: left;
-      }
-      .works-hero h1 {
-        text-align: left;
-      }
-      .works-hero p {
-        text-align: left;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-      
-      /* Controls center on desktop */
-      .controls {
-        max-width: 700px;
-      }
-      
-      /* Toast position on desktop */
       #toast-container {
-        bottom: 30px;
-        right: 30px;
-        left: auto;
-        transform: none;
-        max-width: 380px;
+        bottom: 30px; right: 30px; left: auto; transform: none; max-width: 380px;
       }
       
-      /* Disable mobile overlay */
-      body.mobile-optimized::after {
-        display: none;
-      }
+      body.mobile-optimized::after { display: none; }
     }
     
-    @media (min-width: 1024px) {
-      /* 3 columns on large screens */
-      .projects-container {
-        grid-template-columns: repeat(3, 1fr);
+    @media (max-width: 600px) {
+      .project-row {
+        grid-template-columns: 50px 1fr 32px;
+        gap: 12px;
+        padding: 14px;
       }
-    }
-    
-    @media (max-width: 480px) {
-      .works-hero h1 { font-size: 1.7rem; }
-      .project-header { padding: 14px; }
-      .project-icon { width: 44px; height: 44px; }
-      .project-name { font-size: 1rem; }
-      #toast-container {
-        bottom: 16px;
-        left: 50%;
-        right: auto;
-        transform: translateX(-50%);
-        max-width: 95%;
+      .project-icon-wrapper {
+        width: 42px; height: 42px;
       }
+      .project-name { font-size: 0.95rem; }
+      .project-meta-inline { gap: 8px; }
+      .category-badge { font-size: 0.7rem; padding: 2px 8px; }
+      .project-date { font-size: 0.75rem; }
     }
 
     /* === UTILS === */
@@ -399,13 +415,23 @@
 <body class="mobile-optimized">
 
   <!-- BACKGROUND EFFECTS -->
-  <div class="fog-container">
-    <div class="fog"></div><div class="fog"></div><div class="fog"></div>
-  </div>
+  <div class="fog-container"><div class="fog"></div><div class="fog"></div><div class="fog"></div></div>
   <div class="bubbles" id="bubbles"></div>
 
   <!-- TOAST CONTAINER -->
   <div id="toast-container"></div>
+
+  <!-- DESKTOP WARNING -->
+  <div id="desktop-warning">
+    <div class="warning-card">
+      <div class="warning-icon">📱</div>
+      <div class="warning-title">Optimized for Mobile</div>
+      <div class="warning-text">This works page is designed for the best experience on mobile devices.</div>
+      <button class="warning-btn" onclick="document.getElementById('desktop-warning').classList.remove('show')">
+        <i class="fas fa-check"></i> Understood
+      </button>
+    </div>
+  </div>
 
   <!-- CONTENT -->
   <div class="content-wrapper">
@@ -414,16 +440,16 @@
     <header>
       <div class="nav-container">
         <a href="../index.html" class="back-btn">
-          <i class="fas fa-arrow-left"></i> Back to Portfolio
+          <i class="fas fa-arrow-left"></i> Back
         </a>
-        <span class="page-title">My Works</span>
+        <span class="page-title">🚀 My Projects</span>
       </div>
     </header>
 
     <!-- HERO -->
     <section class="works-hero">
-      <h1>🚀 My Projects</h1>
-      <p>A collection of applications I've built while learning Android Native and Apache Cordova development. Click a project name to visit, or tap <strong>▼</strong> to see details.</p>
+      <h1>My Works Collection</h1>
+      <p>Click on any project to view details. Filter by category or search to find specific projects.</p>
     </section>
 
     <!-- CONTROLS -->
@@ -434,88 +460,65 @@
       </div>
       <div class="filter-chips">
         <span class="filter-chip active" data-filter="all">All</span>
-        <span class="filter-chip" data-filter="android">Android</span>
-        <span class="filter-chip" data-filter="cordova">Cordova</span>
+        <span class="filter-chip" data-filter="app">App</span>
         <span class="filter-chip" data-filter="web">Web</span>
         <span class="filter-chip" data-filter="tools">Tools</span>
       </div>
     </div>
 
-    <!-- PROJECTS LIST -->
+    <!-- PROJECTS LIST - GITHUB STYLE -->
     <div class="projects-container" id="projectsList">
 
-      <!-- PROJECT CARD TEMPLATE -->
-<!--      <div class="project-card" data-category="cordova" data-link="https://example.com/project1">
-        <div class="project-header">
-          <div class="project-icon">
-            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%237c3aed' width='100' height='100' rx='12'/%3E%3Ctext x='50' y='58' font-family='Arial' font-size='40' fill='white' text-anchor='middle'%3E📱%3C/text%3E%3C/svg%3E" alt="Icon">
-          </div>
-          <div class="project-info">
-            <a href="https://example.com/project1" target="_blank" class="project-name">Cordova Gallery App</a>
-            <span class="project-category">
-              <span class="category-badge category-cordova">Cordova</span>
-            </span>
-          </div>
-          <div class="toggle-btn" aria-label="Toggle description">
-            <i class="fas fa-chevron-down"></i>
-          </div>
-        </div>
-        <div class="project-description">
-          <p>A lightweight photo gallery application built with Apache Cordova. Features include lazy loading, offline support via local storage, category filtering, and a responsive dark/light theme. Designed for educational purposes and easy customization.</p>
-          <div class="project-meta">
-            <span class="meta-tag"><i class="fas fa-code"></i> HTML/CSS/JS + Cordova</span>
-            <span class="meta-tag"><i class="fas fa-calendar"></i> 2024</span>
-            <span class="meta-tag"><i class="fas fa-check-circle"></i> Completed</span>
-          </div>
-        </div>
-      </div> -->
-
-      <div class="project-card" data-category="android" data-link="https://github.com/Jirankun/TKJ-One">
-        <div class="project-header">
-          <div class="project-icon">
+      <!-- PROJECT: TKJ OnE App -->
+      <div class="project-card" data-category="app" data-link="https://github.com/Jirankun/TKJ-One">
+        <div class="project-row">
+          <div class="project-icon-wrapper">
             <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%2300d4ff' width='100' height='100' rx='12'/%3E%3Ctext x='50' y='58' font-family='Arial' font-size='40' fill='white' text-anchor='middle'%3E🤖%3C/text%3E%3C/svg%3E" alt="Icon">
           </div>
           <div class="project-info">
-            <a href="https://example.com/project2" target="_blank" class="project-name">TKJ OnE app</a>
-            <span class="project-category">
-              <span class="category-badge category-android">Android</span>
-            </span>
+            <a href="https://github.com/Jirankun/TKJ-One" target="_blank" class="project-name">TKJ OnE App</a>
+            <div class="project-meta-inline">
+              <span class="category-badge category-android">App (Native/Hybrid)</span>
+              <span class="project-date"><i class="fas fa-calendar"></i> 2025-2026</span>
+            </div>
           </div>
-          <div class="toggle-btn" aria-label="Toggle description">
+          <div class="toggle-indicator">
             <i class="fas fa-chevron-down"></i>
           </div>
         </div>
         <div class="project-description">
-          <p>Aplikasi TKJ OnE native maupun hybrid dari berbagai  versi,mulai dari versi awal hybrid sampai versi terbaru native.</p>
-          <div class="project-meta">
-            <span class="meta-tag"><i class="fas fa-code"></i>Kotlin/GRADLE/HTML/JS/CSS</span>
-            <span class="meta-tag"><i class="fas fa-calendar"></i> 2025-2026</span>
-            <span class="meta-tag"><i class="fas fa-hourglass-half"></i>Complete and Live</span>
+          <p>Aplikasi TKJ OnE native maupun hybrid dari berbagai versi, mulai dari versi awal hybrid sampai versi terbaru native.</p>
+          <div class="project-meta-tags">
+            <span class="meta-tag"><i class="fas fa-code"></i> Kotlin/Gradle</span>
+            <span class="meta-tag"><i class="fas fa-code"></i> HTML/JS/CSS</span>
+            <span class="meta-tag"><i class="fas fa-check-circle"></i> Complete & Live</span>
           </div>
         </div>
       </div>
 
-      <div class="project-card" data-category="web" data-link="https://example.com/project3">
-        <div class="project-header">
-          <div class="project-icon">
+      <!-- PROJECT: TKJ OnE Web -->
+      <div class="project-card" data-category="web" data-link="https://github.com/Jirankun/tkj1">
+        <div class="project-row">
+          <div class="project-icon-wrapper">
             <i class="fas fa-globe" style="font-size:1.4rem;color:#fff;"></i>
           </div>
           <div class="project-info">
-            <a href="https://github.com/Jirankun/tkj1" target="_blank" class="project-name">TKJ OnE web and workers</a>
-            <span class="project-category">
+            <a href="https://github.com/Jirankun/tkj1" target="_blank" class="project-name">TKJ OnE Web & Workers</a>
+            <div class="project-meta-inline">
               <span class="category-badge category-web">Web</span>
-            </span>
+              <span class="project-date"><i class="fas fa-calendar"></i> 2025</span>
+            </div>
           </div>
-          <div class="toggle-btn" aria-label="Toggle description">
+          <div class="toggle-indicator">
             <i class="fas fa-chevron-down"></i>
           </div>
         </div>
         <div class="project-description">
-          <p>Ini adalah projek forntend worker TKJ OnE dan termasuk halaman web nya, disinilah sistem TKJ OnE apk dan web mengambil database link foto dan link nya,termasuk halaman web utama tempat handle semua data link foto dan video.</p>
-          <div class="project-meta">
-            <span class="meta-tag"><i class="fas fa-code"></i> HTML/CSS/JS/JSON</span>
-            <span class="meta-tag"><i class="fas fa-calendar"></i> 2025</span>
-            <span class="meta-tag"><i class="fas fa-check-circle"></i> Complete and Live</span>
+          <p>Frontend worker TKJ OnE dan halaman web untuk handle database link foto dan video. Sistem ini mengambil data untuk aplikasi dan web TKJ OnE.</p>
+          <div class="project-meta-tags">
+            <span class="meta-tag"><i class="fas fa-code"></i> HTML/CSS/JS</span>
+            <span class="meta-tag"><i class="fas fa-database"></i> JSON</span>
+            <span class="meta-tag"><i class="fas fa-check-circle"></i> Complete & Live</span>
           </div>
         </div>
       </div>
@@ -538,6 +541,11 @@
 
   <!-- SCRIPTS -->
   <script>
+    // === DEVICE DETECTION ===
+    function isMobile() {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+    }
+
     // === BUBBLE GENERATOR ===
     function createBubbles() {
       const container = document.getElementById('bubbles');
@@ -566,23 +574,15 @@
     // === TOAST NOTIFICATION SYSTEM ===
     const Toast = {
       container: null,
-      
-      init() {
-        this.container = document.getElementById('toast-container');
-      },
-      
+      init() { this.container = document.getElementById('toast-container'); },
       show({ type = 'info', title, message, duration = 4000, onClick = null }) {
         const toast = document.createElement('div');
         toast.className = `toast ${type}`;
         toast.setAttribute('role', 'alert');
-        
         const icons = {
-          success: 'fas fa-check-circle',
-          warning: 'fas fa-exclamation-triangle',
-          error: 'fas fa-times-circle',
-          info: 'fas fa-info-circle'
+          success: 'fas fa-check-circle', warning: 'fas fa-exclamation-triangle',
+          error: 'fas fa-times-circle', info: 'fas fa-info-circle'
         };
-        
         toast.innerHTML = `
           <div class="toast-icon"><i class="${icons[type]}"></i></div>
           <div class="toast-content">
@@ -592,95 +592,58 @@
           <button class="toast-close" aria-label="Close"><i class="fas fa-times"></i></button>
           <div class="toast-progress"></div>
         `;
-        
         const progress = toast.querySelector('.toast-progress');
         progress.style.animationDuration = `${duration}ms`;
-        
         const close = () => {
           toast.style.animation = 'toastExit 0.3s ease forwards';
           setTimeout(() => toast.remove(), 300);
         };
-        
-        toast.querySelector('.toast-close').addEventListener('click', (e) => {
-          e.stopPropagation();
-          close();
-        });
-        
+        toast.querySelector('.toast-close').addEventListener('click', (e) => { e.stopPropagation(); close(); });
         if (onClick) {
           toast.style.cursor = 'pointer';
-          toast.addEventListener('click', (e) => {
-            if (!e.target.closest('.toast-close')) onClick();
-          });
-        } else {
-          setTimeout(close, duration);
-        }
-        
+          toast.addEventListener('click', (e) => { if (!e.target.closest('.toast-close')) onClick(); });
+        } else { setTimeout(close, duration); }
         this.container.appendChild(toast);
         return toast;
       },
-      
-      success(title, message, opts = {}) {
-        return this.show({ type: 'success', title, message, ...opts });
-      },
-      
-      warning(title, message, opts = {}) {
-        return this.show({ type: 'warning', title, message, ...opts });
-      },
-      
-      error(title, message, opts = {}) {
-        return this.show({ type: 'error', title, message, ...opts });
-      },
-      
-      info(title, message, opts = {}) {
-        return this.show({ type: 'info', title, message, ...opts });
-      }
+      success(title, message, opts = {}) { return this.show({ type: 'success', title, message, ...opts }); },
+      warning(title, message, opts = {}) { return this.show({ type: 'warning', title, message, ...opts }); },
+      error(title, message, opts = {}) { return this.show({ type: 'error', title, message, ...opts }); },
+      info(title, message, opts = {}) { return this.show({ type: 'info', title, message, ...opts }); }
     };
 
-    // === PROJECT CARD TOGGLE - ACCORDION MODE (FIX BUG) ===
+    // === PROJECT TOGGLE (GITHUB STYLE) ===
     function initProjectToggles() {
-      const toggleBtns = document.querySelectorAll('.toggle-btn');
-      
-      toggleBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const card = btn.closest('.project-card');
-          const desc = card.querySelector('.project-description');
-          const icon = btn.querySelector('i');
+      document.querySelectorAll('.project-card').forEach(card => {
+        const row = card.querySelector('.project-row');
+        const desc = card.querySelector('.project-description');
+        const indicator = card.querySelector('.toggle-indicator');
+        
+        row.addEventListener('click', (e) => {
+          // Don't toggle if clicking the project link
+          if (e.target.closest('.project-name')) return;
+          
           const isExpanding = !desc.classList.contains('expanded');
           
-          // 🔥 FIX: Tutup semua card lain dulu (accordion behavior)
+          // Close all other cards (accordion)
           document.querySelectorAll('.project-card').forEach(otherCard => {
             if (otherCard !== card) {
               const otherDesc = otherCard.querySelector('.project-description');
-              const otherBtn = otherCard.querySelector('.toggle-btn');
-              const otherIcon = otherBtn?.querySelector('i');
-              
-              otherDesc.classList.remove('expanded');
-              otherBtn?.classList.remove('active');
-              if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
+              const otherIndicator = otherCard.querySelector('.toggle-indicator');
+              otherDesc?.classList.remove('expanded');
+              otherIndicator?.classList.remove('active');
             }
           });
           
-          // Toggle card yang diklik
+          // Toggle current card
           desc.classList.toggle('expanded');
-          btn.classList.toggle('active');
-          icon.style.transform = isExpanding ? 'rotate(180deg)' : 'rotate(0deg)';
+          indicator.classList.toggle('active');
           
-          // 🔥 FIX: Smooth scroll ke card pas expand di desktop
+          // Smooth scroll on desktop
           if (isExpanding && window.innerWidth >= 769) {
             setTimeout(() => {
               card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }, 300);
-          }
-        });
-      });
-
-      // Header click to toggle (optional)
-      document.querySelectorAll('.project-header').forEach(header => {
-        header.addEventListener('click', (e) => {
-          if (!e.target.closest('.project-name')) {
-            const btn = header.querySelector('.toggle-btn');
-            if (btn) btn.click();
           }
         });
       });
@@ -697,14 +660,12 @@
       function filterProjects() {
         const searchTerm = searchInput.value.toLowerCase().trim();
         const activeFilter = document.querySelector('.filter-chip.active')?.dataset.filter || 'all';
-        
         let visibleCount = 0;
         
         projects.forEach(card => {
           const name = card.querySelector('.project-name').textContent.toLowerCase();
           const category = card.dataset.category;
           const desc = card.querySelector('.project-description p')?.textContent.toLowerCase() || '';
-          
           const matchesSearch = name.includes(searchTerm) || desc.includes(searchTerm);
           const matchesCategory = activeFilter === 'all' || category === activeFilter;
           
@@ -726,15 +687,12 @@
       }
 
       searchInput.addEventListener('input', filterProjects);
-      
       filterChips.forEach(chip => {
         chip.addEventListener('click', () => {
           filterChips.forEach(c => c.classList.remove('active'));
           chip.classList.add('active');
           filterProjects();
-          
-          const filterName = chip.textContent;
-          Toast.info('Filter Applied', `Showing ${filterName} projects`, { duration: 2500 });
+          Toast.info('Filter Applied', `Showing ${chip.textContent} projects`, { duration: 2500 });
         });
       });
     }
@@ -750,13 +708,10 @@
     }
 
     // === PROJECT LINK CLICK ===
-    function initCopyLinks() {
+    function initProjectLinks() {
       document.querySelectorAll('.project-name').forEach(link => {
-        link.addEventListener('click', (e) => {
-          const projectName = link.textContent;
-          Toast.success('Opening Project', `Loading ${projectName}...`, { 
-            duration: 2000
-          });
+        link.addEventListener('click', () => {
+          Toast.success('Opening Project', `Loading ${link.textContent}...`, { duration: 2000 });
         });
       });
     }
@@ -764,20 +719,28 @@
     // === WELCOME TOAST ===
     function showWelcomeToast() {
       setTimeout(() => {
-        Toast.info('Welcome! 👋', 'Click project names to visit, or ▼ for details', { 
-          duration: 5000 
-        });
+        Toast.info('Welcome! 👋', 'Click any project row to view details', { duration: 5000 });
       }, 1500);
+    }
+
+    // === DESKTOP WARNING ===
+    function initDesktopWarning() {
+      if (!isMobile()) {
+        setTimeout(() => {
+          document.getElementById('desktop-warning')?.classList.add('show');
+        }, 1000);
+      }
     }
 
     // === INIT ===
     document.addEventListener('DOMContentLoaded', () => {
       createBubbles();
       Toast.init();
-      initProjectToggles(); // 🔥 FIX: Accordion behavior + smooth scroll
+      initProjectToggles();
       initFilters();
-      initCopyLinks();
+      initProjectLinks();
       showWelcomeToast();
+      initDesktopWarning();
     });
   </script>
 </body>
