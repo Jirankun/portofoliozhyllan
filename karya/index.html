@@ -60,7 +60,7 @@
     .fog-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: 1; }
     .fog {
       position: absolute; width: 300%; height: 100%;
-      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background: url("image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
       opacity: 0.08; animation: fogMove 30s linear infinite;
     }
     .fog:nth-child(1) { top: 10%; animation-duration: 35s; opacity: 0.06; }
@@ -93,14 +93,14 @@
       background: var(--bg-card); border: 1px solid var(--border-color);
       border-radius: 12px; padding: 14px 18px; display: flex; align-items: center; gap: 12px;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4); animation: toastSlide 0.4s ease;
-      pointer-events: auto; cursor: pointer;
+      pointer-events: auto; cursor: pointer; position: relative; overflow: hidden;
     }
     .toast.success { border-left: 4px solid var(--success); }
     .toast.warning { border-left: 4px solid var(--warning); }
     .toast.error { border-left: 4px solid var(--danger); }
     .toast.info { border-left: 4px solid var(--info); }
     .toast-icon {
-      width: 28px; height: 28px; border-radius: 8px; display: flex;
+      width: 28px; height: 28px; border-radius: 8px; display: flex; 
       align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.9rem;
     }
     .toast.success .toast-icon { background: rgba(0, 245, 160, 0.2); color: var(--success); }
@@ -111,12 +111,12 @@
     .toast-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 2px; }
     .toast-message { font-size: 0.85rem; color: var(--text-secondary); }
     .toast-close {
-      background: none; border: none; color: var(--text-secondary);
+      background: none; border: none; color: var(--text-secondary); 
       font-size: 1.1rem; cursor: pointer; padding: 4px; transition: var(--transition);
     }
     .toast-close:hover { color: var(--text-primary); transform: scale(1.1); }
     .toast-progress {
-      position: absolute; bottom: 0; left: 0; height: 3px;
+      position: absolute; bottom: 0; left: 0; height: 3px; 
       background: var(--accent-start); border-radius: 0 0 12px 12px;
       animation: toastProgress linear forwards;
     }
@@ -184,10 +184,11 @@
     .filter-chip[data-filter="all"] { color: var(--accent-start); border-color: var(--accent-start); }
     .filter-chip.active[data-filter="all"] { background: var(--accent-start); color: #0f0c29; }
 
-    /* === PROJECTS LIST - DESKTOP GRID === */
+    /* === PROJECTS LIST - DESKTOP GRID FIX === */
     .projects-container {
       max-width: 1200px; margin: 0 auto; padding: 0 16px 40px;
       display: grid; grid-template-columns: 1fr; gap: 16px;
+      align-items: start; /* 🔥 FIX: Biar card gak stretch ke tinggi yang sama */
     }
 
     .project-card {
@@ -195,6 +196,7 @@
       border-radius: var(--radius); overflow: hidden;
       transition: var(--transition); animation: slideUp 0.5s ease backwards;
       display: flex; flex-direction: column;
+      align-self: start; /* 🔥 FIX: Biar tiap card independen tingginya */
     }
     .project-card:nth-child(1) { animation-delay: 0.1s; }
     .project-card:nth-child(2) { animation-delay: 0.15s; }
@@ -243,7 +245,7 @@
     .category-cordova { background: rgba(124, 58, 237, 0.2); color: var(--accent-end); }
     .category-web { background: rgba(0, 245, 160, 0.2); color: var(--success); }
     .category-tools { background: rgba(255, 217, 61, 0.2); color: var(--warning); }
-
+    
     .toggle-btn {
       width: 36px; height: 36px; border-radius: 10px;
       background: var(--bg-secondary); border: 1px solid var(--border-color);
@@ -306,32 +308,33 @@
       /* Disable fog/blur for clarity */
       .fog-container { display: none; }
       body::after { display: none; }
-
+      
       /* Reduce header blur */
       header {
         backdrop-filter: blur(6px);
         background: rgba(15, 12, 41, 0.95);
       }
-
+      
       /* Center content */
       .content-wrapper {
         max-width: 1200px;
         margin: 0 auto;
         width: 100%;
       }
-
+      
       /* Section padding */
       .works-hero {
         padding: 110px 24px 40px;
       }
-
+      
       /* Projects grid - 2 columns on desktop */
       .projects-container {
         grid-template-columns: repeat(2, 1fr);
         padding: 0 24px 50px;
         gap: 20px;
+        align-items: start; /* 🔥 FIX: Pastikan align-items start di desktop juga */
       }
-
+      
       /* Hero text alignment */
       .works-hero {
         text-align: left;
@@ -345,12 +348,12 @@
         margin-left: auto;
         margin-right: auto;
       }
-
+      
       /* Controls center on desktop */
       .controls {
         max-width: 700px;
       }
-
+      
       /* Toast position on desktop */
       #toast-container {
         bottom: 30px;
@@ -359,20 +362,20 @@
         transform: none;
         max-width: 380px;
       }
-
+      
       /* Disable mobile overlay */
       body.mobile-optimized::after {
         display: none;
       }
     }
-
+    
     @media (min-width: 1024px) {
       /* 3 columns on large screens */
       .projects-container {
         grid-template-columns: repeat(3, 1fr);
       }
     }
-
+    
     @media (max-width: 480px) {
       .works-hero h1 { font-size: 1.7rem; }
       .project-header { padding: 14px; }
@@ -442,7 +445,7 @@
     <div class="projects-container" id="projectsList">
 
       <!-- PROJECT CARD TEMPLATE -->
-      <div class="project-card" data-category="cordova" data-link="https://example.com/project1">
+<!--      <div class="project-card" data-category="cordova" data-link="https://example.com/project1">
         <div class="project-header">
           <div class="project-icon">
             <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%237c3aed' width='100' height='100' rx='12'/%3E%3Ctext x='50' y='58' font-family='Arial' font-size='40' fill='white' text-anchor='middle'%3E📱%3C/text%3E%3C/svg%3E" alt="Icon">
@@ -465,15 +468,15 @@
             <span class="meta-tag"><i class="fas fa-check-circle"></i> Completed</span>
           </div>
         </div>
-      </div>
+      </div> -->
 
-      <div class="project-card" data-category="android" data-link="https://example.com/project2">
+      <div class="project-card" data-category="android" data-link="https://github.com/Jirankun/TKJ-One">
         <div class="project-header">
           <div class="project-icon">
             <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%2300d4ff' width='100' height='100' rx='12'/%3E%3Ctext x='50' y='58' font-family='Arial' font-size='40' fill='white' text-anchor='middle'%3E🤖%3C/text%3E%3C/svg%3E" alt="Icon">
           </div>
           <div class="project-info">
-            <a href="https://example.com/project2" target="_blank" class="project-name">Simple Notes (Native)</a>
+            <a href="https://example.com/project2" target="_blank" class="project-name">TKJ OnE app</a>
             <span class="project-category">
               <span class="category-badge category-android">Android</span>
             </span>
@@ -483,11 +486,11 @@
           </div>
         </div>
         <div class="project-description">
-          <p>A minimal note-taking app built with native Android (Java). Implements Room database for local storage, Material Design components, and basic CRUD operations. Created as a learning project to understand Android architecture patterns.</p>
+          <p>Aplikasi TKJ OnE native maupun hybrid dari berbagai  versi,mulai dari versi awal hybrid sampai versi terbaru native.</p>
           <div class="project-meta">
-            <span class="meta-tag"><i class="fas fa-code"></i> Java + Room DB</span>
-            <span class="meta-tag"><i class="fas fa-calendar"></i> 2025</span>
-            <span class="meta-tag"><i class="fas fa-hourglass-half"></i> In Progress</span>
+            <span class="meta-tag"><i class="fas fa-code"></i>Kotlin/GRADLE/HTML/JS/CSS</span>
+            <span class="meta-tag"><i class="fas fa-calendar"></i> 2025-2026</span>
+            <span class="meta-tag"><i class="fas fa-hourglass-half"></i>Complete and Live</span>
           </div>
         </div>
       </div>
@@ -498,7 +501,7 @@
             <i class="fas fa-globe" style="font-size:1.4rem;color:#fff;"></i>
           </div>
           <div class="project-info">
-            <a href="https://example.com/project3" target="_blank" class="project-name">Portfolio Website</a>
+            <a href="https://github.com/Jirankun/tkj1" target="_blank" class="project-name">TKJ OnE web and workers</a>
             <span class="project-category">
               <span class="category-badge category-web">Web</span>
             </span>
@@ -508,11 +511,11 @@
           </div>
         </div>
         <div class="project-description">
-          <p>This portfolio website! Built with pure HTML/CSS/JS, featuring animated background effects, mobile-optimized layout, and smooth scroll interactions. Designed to showcase my learning journey in mobile development.</p>
+          <p>Ini adalah projek forntend worker TKJ OnE dan termasuk halaman web nya, disinilah sistem TKJ OnE apk dan web mengambil database link foto dan link nya,termasuk halaman web utama tempat handle semua data link foto dan video.</p>
           <div class="project-meta">
-            <span class="meta-tag"><i class="fas fa-code"></i> HTML/CSS/JS</span>
+            <span class="meta-tag"><i class="fas fa-code"></i> HTML/CSS/JS/JSON</span>
             <span class="meta-tag"><i class="fas fa-calendar"></i> 2025</span>
-            <span class="meta-tag"><i class="fas fa-check-circle"></i> Live</span>
+            <span class="meta-tag"><i class="fas fa-check-circle"></i> Complete and Live</span>
           </div>
         </div>
       </div>
@@ -563,23 +566,23 @@
     // === TOAST NOTIFICATION SYSTEM ===
     const Toast = {
       container: null,
-
+      
       init() {
         this.container = document.getElementById('toast-container');
       },
-
+      
       show({ type = 'info', title, message, duration = 4000, onClick = null }) {
         const toast = document.createElement('div');
         toast.className = `toast ${type}`;
         toast.setAttribute('role', 'alert');
-
+        
         const icons = {
           success: 'fas fa-check-circle',
           warning: 'fas fa-exclamation-triangle',
           error: 'fas fa-times-circle',
           info: 'fas fa-info-circle'
         };
-
+        
         toast.innerHTML = `
           <div class="toast-icon"><i class="${icons[type]}"></i></div>
           <div class="toast-content">
@@ -589,68 +592,90 @@
           <button class="toast-close" aria-label="Close"><i class="fas fa-times"></i></button>
           <div class="toast-progress"></div>
         `;
-
-        // Progress bar animation
+        
         const progress = toast.querySelector('.toast-progress');
         progress.style.animationDuration = `${duration}ms`;
-
-        // Close handler
+        
         const close = () => {
           toast.style.animation = 'toastExit 0.3s ease forwards';
           setTimeout(() => toast.remove(), 300);
         };
-
+        
         toast.querySelector('.toast-close').addEventListener('click', (e) => {
           e.stopPropagation();
           close();
         });
-
+        
         if (onClick) {
           toast.style.cursor = 'pointer';
           toast.addEventListener('click', (e) => {
             if (!e.target.closest('.toast-close')) onClick();
           });
         } else {
-          // Auto close
           setTimeout(close, duration);
         }
-
+        
         this.container.appendChild(toast);
         return toast;
       },
-
+      
       success(title, message, opts = {}) {
         return this.show({ type: 'success', title, message, ...opts });
       },
-
+      
       warning(title, message, opts = {}) {
         return this.show({ type: 'warning', title, message, ...opts });
       },
-
+      
       error(title, message, opts = {}) {
         return this.show({ type: 'error', title, message, ...opts });
       },
-
+      
       info(title, message, opts = {}) {
         return this.show({ type: 'info', title, message, ...opts });
       }
     };
 
-    // === PROJECT CARD TOGGLE ===
+    // === PROJECT CARD TOGGLE - ACCORDION MODE (FIX BUG) ===
     function initProjectToggles() {
-      document.querySelectorAll('.toggle-btn').forEach(btn => {
+      const toggleBtns = document.querySelectorAll('.toggle-btn');
+      
+      toggleBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
           e.stopPropagation();
           const card = btn.closest('.project-card');
           const desc = card.querySelector('.project-description');
           const icon = btn.querySelector('i');
-
+          const isExpanding = !desc.classList.contains('expanded');
+          
+          // 🔥 FIX: Tutup semua card lain dulu (accordion behavior)
+          document.querySelectorAll('.project-card').forEach(otherCard => {
+            if (otherCard !== card) {
+              const otherDesc = otherCard.querySelector('.project-description');
+              const otherBtn = otherCard.querySelector('.toggle-btn');
+              const otherIcon = otherBtn?.querySelector('i');
+              
+              otherDesc.classList.remove('expanded');
+              otherBtn?.classList.remove('active');
+              if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
+            }
+          });
+          
+          // Toggle card yang diklik
           desc.classList.toggle('expanded');
           btn.classList.toggle('active');
-          icon.style.transform = desc.classList.contains('expanded') ? 'rotate(180deg)' : 'rotate(0deg)';
+          icon.style.transform = isExpanding ? 'rotate(180deg)' : 'rotate(0deg)';
+          
+          // 🔥 FIX: Smooth scroll ke card pas expand di desktop
+          if (isExpanding && window.innerWidth >= 769) {
+            setTimeout(() => {
+              card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 300);
+          }
         });
       });
 
+      // Header click to toggle (optional)
       document.querySelectorAll('.project-header').forEach(header => {
         header.addEventListener('click', (e) => {
           if (!e.target.closest('.project-name')) {
@@ -672,17 +697,17 @@
       function filterProjects() {
         const searchTerm = searchInput.value.toLowerCase().trim();
         const activeFilter = document.querySelector('.filter-chip.active')?.dataset.filter || 'all';
-
+        
         let visibleCount = 0;
-
+        
         projects.forEach(card => {
           const name = card.querySelector('.project-name').textContent.toLowerCase();
           const category = card.dataset.category;
           const desc = card.querySelector('.project-description p')?.textContent.toLowerCase() || '';
-
+          
           const matchesSearch = name.includes(searchTerm) || desc.includes(searchTerm);
           const matchesCategory = activeFilter === 'all' || category === activeFilter;
-
+          
           if (matchesSearch && matchesCategory) {
             card.classList.remove('hidden');
             visibleCount++;
@@ -701,14 +726,13 @@
       }
 
       searchInput.addEventListener('input', filterProjects);
-
+      
       filterChips.forEach(chip => {
         chip.addEventListener('click', () => {
           filterChips.forEach(c => c.classList.remove('active'));
           chip.classList.add('active');
           filterProjects();
-
-          // Show toast on filter change
+          
           const filterName = chip.textContent;
           Toast.info('Filter Applied', `Showing ${filterName} projects`, { duration: 2500 });
         });
@@ -725,26 +749,23 @@
       Toast.success('Filters Reset', 'Showing all projects', { duration: 2500 });
     }
 
-    // === COPY PROJECT LINK TO CLIPBOARD ===
+    // === PROJECT LINK CLICK ===
     function initCopyLinks() {
       document.querySelectorAll('.project-name').forEach(link => {
         link.addEventListener('click', (e) => {
-          // Show toast when clicking project link
           const projectName = link.textContent;
-          Toast.success('Opening Project', `Loading ${projectName}...`, {
-            duration: 2000,
-            onClick: () => window.open(link.href, '_blank')
+          Toast.success('Opening Project', `Loading ${projectName}...`, { 
+            duration: 2000
           });
-          // Note: Actual navigation happens via href, toast is just feedback
         });
       });
     }
 
-    // === SHOW WELCOME TOAST ===
+    // === WELCOME TOAST ===
     function showWelcomeToast() {
       setTimeout(() => {
-        Toast.info('Welcome! 👋', 'Click project names to visit, or ▼ for details', {
-          duration: 5000
+        Toast.info('Welcome! 👋', 'Click project names to visit, or ▼ for details', { 
+          duration: 5000 
         });
       }, 1500);
     }
@@ -753,7 +774,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       createBubbles();
       Toast.init();
-      initProjectToggles();
+      initProjectToggles(); // 🔥 FIX: Accordion behavior + smooth scroll
       initFilters();
       initCopyLinks();
       showWelcomeToast();
