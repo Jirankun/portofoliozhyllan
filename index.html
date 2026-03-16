@@ -54,7 +54,7 @@
     @keyframes shimmer { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.05); } }
     @keyframes shimmerScan { 0% { transform: translateY(0) rotate(0deg); } 100% { transform: translateY(-50px) rotate(2deg); } }
 
-    /* === FOG EFFECT === */
+    /* === FOG EFFECT - DISABLED ON DESKTOP === */
     .fog-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: 1; }
     .fog {
       position: absolute; width: 300%; height: 100%;
@@ -106,7 +106,7 @@
     @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
     @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-    /* === HEADER === */
+    /* === HEADER - REDUCED BLUR ON DESKTOP === */
     header {
       position: fixed; top: 0; width: 100%; background: rgba(15, 12, 41, 0.85);
       backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-color); z-index: 100; padding: 12px 16px;
@@ -124,10 +124,11 @@
     }
     .nav-chip i { font-size: 0.9rem; }
 
-    /* === SECTIONS === */
+    /* === SECTIONS - DESKTOP CONTAINER === */
     section { padding: 90px 16px 40px; max-width: 100%; opacity: 1; transform: translateY(0); transition: var(--transition); }
     section.fade-in { opacity: 0; transform: translateY(20px); }
     section.fade-in.visible { opacity: 1; transform: translateY(0); }
+    
     .section-header { text-align: center; margin-bottom: 28px; }
     .section-badge {
       display: inline-flex; align-items: center; gap: 6px;
@@ -141,11 +142,19 @@
       margin: 12px auto; border-radius: 2px; animation: gradientShift 2s ease infinite; background-size: 200% 100%;
     }
 
+    /* === DESKTOP CONTAINER WRAPPER === */
+    .container {
+      width: 100%;
+      max-width: 1200px;      margin: 0 auto;
+      padding: 0 20px;
+    }
+
     /* === HERO === */
     .hero { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 24px; }
     .hero-avatar { position: relative; width: 140px; height: 140px; animation: float 3s ease-in-out infinite; }
     .avatar-ring {
-      position: absolute; inset: -8px; border-radius: 50%;      background: linear-gradient(135deg, var(--accent-start), var(--accent-end), var(--accent-start));
+      position: absolute; inset: -8px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-start), var(--accent-end), var(--accent-start));
       animation: gradientShift 2s linear infinite; background-size: 300% 300%; z-index: -1;
     }
     .profile-img {
@@ -185,8 +194,7 @@
       display: inline-flex; align-items: center; gap: 8px; transition: var(--transition);
       border: none; cursor: pointer; text-align: center;
     }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+    .btn-primary {      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
       color: #fff; box-shadow: 0 4px 20px var(--accent-glow);
     }
     .btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 30px var(--accent-glow); }
@@ -194,7 +202,8 @@
     .btn-outline:hover { border-color: var(--accent-start); background: rgba(0, 212, 255, 0.1); transform: translateY(-3px); }
     .btn-works {
       background: linear-gradient(135deg, var(--success), #00c896); color: #0f0c29;
-      box-shadow: 0 4px 20px rgba(0, 245, 160, 0.3);    }
+      box-shadow: 0 4px 20px rgba(0, 245, 160, 0.3);
+    }
     .btn-works:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 30px rgba(0, 245, 160, 0.4); }
 
     /* === SOCIAL === */
@@ -210,7 +219,7 @@
       transform: translateY(-4px) scale(1.1);
     }
 
-    /* === CLICKABLE CARDS === */
+    /* === CLICKABLE CARDS - DESKTOP GRID === */
     .card {
       background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius);
       padding: 20px; margin-bottom: 16px; transition: var(--transition);
@@ -227,8 +236,14 @@
     .card-body { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7; }
     .card-body strong { color: var(--text-primary); }
 
-    /* === SKILLS GRID === */
-    .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 16px; }
+    /* === CARDS GRID CONTAINER === */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    /* === SKILLS GRID === */    .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 16px; }
     .skill-tile {
       background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 14px;
       padding: 16px 12px; text-align: center; transition: var(--transition);
@@ -243,7 +258,8 @@
     .skill-label { font-size: 0.8rem; font-weight: 500; color: var(--text-secondary); }
 
     /* === TIMELINE ITEMS (CLICKABLE) === */
-    .timeline { position: relative; padding-left: 28px; margin-top: 8px; }    .timeline::before {
+    .timeline { position: relative; padding-left: 28px; margin-top: 8px; }
+    .timeline::before {
       content: ""; position: absolute; left: 8px; top: 4px; bottom: 4px; width: 2px;
       background: linear-gradient(180deg, var(--accent-start), var(--accent-end)); border-radius: 2px;
     }
@@ -263,14 +279,20 @@
     .timeline-sub { font-family: "Fira Code", monospace; font-size: 0.8rem; color: var(--accent-start); margin-bottom: 6px; }
     .timeline-desc { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
 
+    /* === TIMELINE GRID CONTAINER === */
+    .timeline-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
     /* === CONTACT ITEMS (CLICKABLE) === */
     .contact-list { display: flex; flex-direction: column; gap: 14px; }
     .contact-item {
       display: flex; align-items: flex-start; gap: 14px; padding: 16px;
       background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius);
       transition: var(--transition); animation: slideUp 0.5s ease backwards; cursor: pointer;
-    }
-    .contact-item:hover { border-color: var(--accent-start); transform: translateX(4px); }
+    }    .contact-item:hover { border-color: var(--accent-start); transform: translateX(4px); }
     .contact-item:nth-child(1) { animation-delay: 0.1s; } .contact-item:nth-child(2) { animation-delay: 0.2s; }
     .contact-item:nth-child(3) { animation-delay: 0.3s; } .contact-item:nth-child(4) { animation-delay: 0.4s; }
     .contact-item:nth-child(5) { animation-delay: 0.5s; }
@@ -283,6 +305,13 @@
     .contact-txt a { color: var(--accent-start); font-weight: 500; font-size: 0.9rem; }
     .contact-txt a:hover { text-decoration: underline; }
 
+    /* === CONTACT GRID CONTAINER === */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
     /* === GENERIC MODAL === */
     .modal-overlay {
       position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(10px);
@@ -292,7 +321,8 @@
     .modal-overlay.active { opacity: 1; visibility: visible; }
     .modal-content {
       background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius);
-      width: 100%; max-width: 520px; max-height: 85vh; overflow-y: auto; padding: 28px;      position: relative; transform: scale(0.85) translateY(30px); opacity: 0;
+      width: 100%; max-width: 520px; max-height: 85vh; overflow-y: auto; padding: 28px;
+      position: relative; transform: scale(0.85) translateY(30px); opacity: 0;
       transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
       box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
     }
@@ -311,8 +341,7 @@
     }
     .modal-title {
       font-size: 1.5rem; font-weight: 700; text-align: center; margin-bottom: 14px;
-      color: var(--text-primary);
-    }
+      color: var(--text-primary);    }
     .modal-desc {
       color: var(--text-secondary); font-size: 0.95rem; line-height: 1.9; text-align: justify;
     }
@@ -341,7 +370,8 @@
     .footer-social a {
       width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
       background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-secondary);
-      font-size: 1rem; transition: var(--transition);    }
+      font-size: 1rem; transition: var(--transition);
+    }
     .footer-social a:hover {
       color: #fff; border-color: var(--accent-start);
       background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
@@ -350,20 +380,114 @@
     .footer-copy { color: var(--text-secondary); font-size: 0.85rem; margin-top: 12px; }
     .footer-copy span { color: var(--accent-start); }
 
-    /* === RESPONSIVE === */
+    /* === RESPONSIVE - DESKTOP FIXES === */
     @media (min-width: 769px) {
+      /* Remove fog/blur effects on desktop for clarity */
+      .fog-container { display: none; }
+      body::after { display: none; }
+      
+      /* Reduce header blur on desktop */
+      header {
+        backdrop-filter: blur(6px);
+        background: rgba(15, 12, 41, 0.95);
+      }      
+      /* Center content with max-width */
+      .content-wrapper {
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+      }
+      
+      /* Section padding adjustment */
+      section {
+        padding: 100px 24px 50px;
+      }
+      
+      /* Cards grid - 2 columns */
+      .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      /* Skills grid - 4 columns on desktop */
+      .skills-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+      }
+      
+      /* Timeline grid - 2 columns */
+      .timeline-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      /* Contact grid - 2 columns */
+      .contact-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      /* Hero layout - side by side */
+      .hero {
+        flex-direction: row;
+        text-align: left;
+        gap: 40px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .hero-avatar {
+        width: 160px;
+        height: 160px;
+      }
+      .hero-content {
+        max-width: 500px;
+        text-align: left;
+      }      .hero-desc {
+        max-width: 100%;
+        margin: 0;
+      }
+      .focus-badges {
+        justify-content: flex-start;
+      }
+      .btn-row {
+        justify-content: flex-start;
+      }
+      .social-row {
+        justify-content: flex-start;
+      }
+      
+      /* Modal - slightly larger on desktop */
+      .modal-content {
+        max-width: 600px;
+      }
+      
+      /* Disable mobile-optimized overlay */
       body.mobile-optimized::after {
-        content: ""; position: fixed; inset: 0; background: rgba(15, 12, 41, 0.4);
-        z-index: 50; pointer-events: none;
+        display: none;
       }
     }
+    
+    @media (min-width: 1024px) {
+      /* Larger screens - 3 column cards */
+      .cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      /* Timeline - can stay 2 col or go 3 */
+      .timeline-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      /* Contact - 3 columns */
+      .contact-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    
     @media (max-width: 480px) {
-      .hero-name { font-size: 1.7rem; } .section-title { font-size: 1.6rem; }
+      .hero-name { font-size: 1.7rem; } 
+      .section-title { font-size: 1.6rem; }
       .skills-grid { grid-template-columns: repeat(2, 1fr); }
       .btn-row { flex-direction: column; align-items: center; }
       .btn { width: 100%; max-width: 280px; justify-content: center; }
     }
-
     /* === UTILS === */
     .text-accent {
       background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
@@ -391,6 +515,7 @@
       </button>
     </div>
   </div>
+  
   <!-- CONTENT WRAPPER -->
   <div class="content-wrapper">
 
@@ -411,163 +536,176 @@
         <div class="avatar-ring"></div>
         <img src="./images/profile.jpg" alt="Zhyllan Fyllah" class="profile-img" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#00d4ff,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:2.5rem;font-weight:700;color:#fff;\'>ZF</div>'">
       </div>
-      <h1 class="hero-name">Hello, I'm <span>Zhyllan Fyllah</span> 👋</h1>
-      <div class="hero-tagline mono"><MobileDev_Journey /></div>
-      <p class="hero-desc">
-        A Computer and Network Engineering student passionate about <strong>learning Android Native</strong> and <strong>Apache Cordova</strong> development. Focused on writing clean code, optimizing performance, and growing every day. 🚀
-      </p>
-      <div class="focus-badges">
-        <span class="focus-badge"><i class="fas fa-graduation-cap"></i> Aspiring Developer</span>
-        <span class="focus-badge"><i class="fab fa-android"></i> Android Native</span>
-        <span class="focus-badge"><i class="fas fa-mobile"></i> Apache Cordova</span>
-        <span class="focus-badge"><i class="fas fa-heart"></i> Open Source</span>
-      </div>
-      <div class="btn-row">
-        <a href="https://jirankun.github.io/portofoliozhyllan/karya/index.html" target="_blank" class="btn btn-works"><i class="fas fa-folder-open"></i> View My Works</a>
-        <a href="https://wa.me/6285165721384" target="_blank" class="btn btn-primary"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
-        <a href="mailto:zhyllanf@gmail.com" class="btn btn-outline"><i class="fas fa-envelope"></i> Send Email</a>
-      </div>
-      <div class="social-row">
-        <a href="https://github.com/jirankun" target="_blank" class="social-btn" title="GitHub"><i class="fab fa-github"></i></a>
-        <a href="https://www.linkedin.com/in/zhyllan-fyllah-56b45a38a/" target="_blank" class="social-btn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-        <a href="mailto:zhyllanf@gmail.com" class="social-btn" title="Email"><i class="fas fa-envelope"></i></a>
-        <a href="https://wa.me/6285165721384" target="_blank" class="social-btn" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <div class="hero-content">
+        <h1 class="hero-name">Hello, I'm <span>Zhyllan Fyllah</span> 👋</h1>        <div class="hero-tagline mono"><MobileDev_Journey /></div>
+        <p class="hero-desc">
+          A Computer and Network Engineering student passionate about <strong>learning Android Native</strong> and <strong>Apache Cordova</strong> development. Focused on writing clean code, optimizing performance, and growing every day. 🚀
+        </p>
+        <div class="focus-badges">
+          <span class="focus-badge"><i class="fas fa-graduation-cap"></i> Aspiring Developer</span>
+          <span class="focus-badge"><i class="fab fa-android"></i> Android Native</span>
+          <span class="focus-badge"><i class="fas fa-mobile"></i> Apache Cordova</span>
+          <span class="focus-badge"><i class="fas fa-heart"></i> Open Source</span>
+        </div>
+        <div class="btn-row">
+          <a href="https://jirankun.github.io/portofoliozhyllan/karya/index.html" target="_blank" class="btn btn-works"><i class="fas fa-folder-open"></i> View My Works</a>
+          <a href="https://wa.me/6285165721384" target="_blank" class="btn btn-primary"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+          <a href="mailto:zhyllanf@gmail.com" class="btn btn-outline"><i class="fas fa-envelope"></i> Send Email</a>
+        </div>
+        <div class="social-row">
+          <a href="https://github.com/jirankun" target="_blank" class="social-btn" title="GitHub"><i class="fab fa-github"></i></a>
+          <a href="https://www.linkedin.com/in/zhyllan-fyllah-56b45a38a/" target="_blank" class="social-btn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="mailto:zhyllanf@gmail.com" class="social-btn" title="Email"><i class="fas fa-envelope"></i></a>
+          <a href="https://wa.me/6285165721384" target="_blank" class="social-btn" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
       </div>
     </section>
 
     <!-- ABOUT -->
     <section id="about" class="fade-in">
-      <div class="section-header">
-        <span class="section-badge"><i class="fas fa-sparkles"></i> ABOUT</span>
-        <h2 class="section-title">About Me</h2>        <div class="section-divider"></div>
-      </div>
-
-      <div class="card" data-modal-icon="fas fa-rocket" data-modal-title="Mobile Application Development" data-modal-desc="<strong>Mobile application development</strong> adalah proses pembuatan perangkat lunak yang berjalan pada perangkat mobile seperti smartphone dan tablet. Menurut <a href='https://en.wikipedia.org/wiki/Mobile_app_development' target='_blank'>Wikipedia</a>, pengembangan aplikasi mobile dapat dilakukan secara native (menggunakan bahasa spesifik platform seperti Java/Kotlin untuk Android), hybrid (menggunakan web teknologi dengan wrapper seperti Apache Cordova), atau cross-platform (menggunakan framework seperti Flutter atau React Native).<br><br>Proses pengembangan meliputi: analisis kebutuhan, desain UI/UX, implementasi kode, testing, dan deployment ke app store. Fokus utama adalah menciptakan pengalaman pengguna yang responsif, efisien dalam penggunaan resource, dan kompatibel dengan berbagai versi sistem operasi.">
-        <div class="card-head"><div class="card-icon"><i class="fas fa-rocket"></i></div><div class="card-title">Current Focus</div></div>
-        <div class="card-body">
-          I am currently exploring <strong>mobile application development</strong> through two primary paths:<br><br>
-          • <strong>Native Android:</strong> Java/Kotlin, Android SDK, Gradle build system<br>
-          • <strong>Hybrid with Cordova:</strong> HTML/CSS/JavaScript with custom plugin integration<br><br>
-          My goal is to build lightweight, maintainable applications while continuously improving my technical skills. Progress over perfection. 💪
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge"><i class="fas fa-sparkles"></i> ABOUT</span>
+          <h2 class="section-title">About Me</h2>
+          <div class="section-divider"></div>
         </div>
-      </div>
 
-      <div class="card" data-modal-icon="fas fa-map-pin" data-modal-title="Vocational Education in Indonesia" data-modal-desc="<strong>Pendidikan kejuruan</strong> di Indonesia, khususnya program Teknik Komputer dan Jaringan (TKJ), dirancang untuk mempersiapkan siswa dengan kompetensi praktis di bidang teknologi informasi dan jaringan komputer. Berdasarkan kurikulum Kemendikbud, siswa mempelajari: instalasi jaringan, konfigurasi server, administrasi sistem Linux/Windows, keamanan jaringan, dan dasar pengembangan perangkat lunak.<br><br>Lulusan TKJ diharapkan mampu bekerja sebagai teknisi jaringan, administrator sistem, atau melanjutkan ke pendidikan tinggi di bidang informatika. Partisipasi dalam komunitas open source seperti <a href='https://id.wikipedia.org/wiki/Ubuntu' target='_blank'>Ubuntu Indonesia</a> dan proyek ROM kustom merupakan bentuk aplikasi nyata dari kompetensi yang dipelajari.">
-        <div class="card-head"><div class="card-icon"><i class="fas fa-map-pin"></i></div><div class="card-title">Location & Status</div></div>
-        <div class="card-body">
-          📍 Ujunggading, Lembah Melintang, West Sumatra, Indonesia<br>
-          🎓 Student of Computer and Network Engineering — SMK N 1 Lembah Melintang (2025–Present)<br>
-          🐧 Active contributor in LINUX UBUNTU Indonesia & Nusantara Project ROM communities
+        <div class="cards-grid">
+          <div class="card" data-modal-icon="fas fa-rocket" data-modal-title="Mobile Application Development" data-modal-desc="<strong>Mobile application development</strong> adalah proses pembuatan perangkat lunak yang berjalan pada perangkat mobile seperti smartphone dan tablet. Menurut <a href='https://en.wikipedia.org/wiki/Mobile_app_development' target='_blank'>Wikipedia</a>, pengembangan aplikasi mobile dapat dilakukan secara native (menggunakan bahasa spesifik platform seperti Java/Kotlin untuk Android), hybrid (menggunakan web teknologi dengan wrapper seperti Apache Cordova), atau cross-platform (menggunakan framework seperti Flutter atau React Native).<br><br>Proses pengembangan meliputi: analisis kebutuhan, desain UI/UX, implementasi kode, testing, dan deployment ke app store. Fokus utama adalah menciptakan pengalaman pengguna yang responsif, efisien dalam penggunaan resource, dan kompatibel dengan berbagai versi sistem operasi.">
+            <div class="card-head"><div class="card-icon"><i class="fas fa-rocket"></i></div><div class="card-title">Current Focus</div></div>
+            <div class="card-body">
+              I am currently exploring <strong>mobile application development</strong> through two primary paths:<br><br>
+              • <strong>Native Android:</strong> Java/Kotlin, Android SDK, Gradle build system<br>
+              • <strong>Hybrid with Cordova:</strong> HTML/CSS/JavaScript with custom plugin integration<br><br>
+              My goal is to build lightweight, maintainable applications while continuously improving my technical skills. Progress over perfection. 💪
+            </div>
+          </div>
+
+          <div class="card" data-modal-icon="fas fa-map-pin" data-modal-title="Vocational Education in Indonesia" data-modal-desc="<strong>Pendidikan kejuruan</strong> di Indonesia, khususnya program Teknik Komputer dan Jaringan (TKJ), dirancang untuk mempersiapkan siswa dengan kompetensi praktis di bidang teknologi informasi dan jaringan komputer. Berdasarkan kurikulum Kemendikbud, siswa mempelajari: instalasi jaringan, konfigurasi server, administrasi sistem Linux/Windows, keamanan jaringan, dan dasar pengembangan perangkat lunak.<br><br>Lulusan TKJ diharapkan mampu bekerja sebagai teknisi jaringan, administrator sistem, atau melanjutkan ke pendidikan tinggi di bidang informatika. Partisipasi dalam komunitas open source seperti <a href='https://id.wikipedia.org/wiki/Ubuntu' target='_blank'>Ubuntu Indonesia</a> dan proyek ROM kustom merupakan bentuk aplikasi nyata dari kompetensi yang dipelajari.">
+            <div class="card-head"><div class="card-icon"><i class="fas fa-map-pin"></i></div><div class="card-title">Location & Status</div></div>
+            <div class="card-body">
+              📍 Ujunggading, Lembah Melintang, West Sumatra, Indonesia<br>
+              🎓 Student of Computer and Network Engineering — SMK N 1 Lembah Melintang (2025–Present)<br>
+              🐧 Active contributor in LINUX UBUNTU Indonesia & Nusantara Project ROM communities            </div>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- SKILLS -->
     <section id="skills" class="fade-in">
-      <div class="section-header">
-        <span class="section-badge"><i class="fas fa-code"></i> SKILLS</span>
-        <h2 class="section-title">Technical Skills</h2>
-        <div class="section-divider"></div>
-      </div>
-      <div class="skills-grid">
-        <div class="skill-tile" data-modal-icon="fab fa-android" data-modal-title="Android (Operating System)" data-modal-desc="<strong>Android</strong> adalah sistem operasi berbasis Linux yang dirancang terutama untuk perangkat layar sentuh seperti smartphone dan tablet. Dikembangkan oleh <a href='https://en.wikipedia.org/wiki/Android_(operating_system)' target='_blank'>Google</a> dan Open Handset Alliance, Android menggunakan kernel Linux yang dimodifikasi dan komponen open source lainnya.<br><br>Pengembangan aplikasi native Android umumnya menggunakan Java atau Kotlin dengan Android SDK. Arsitektur modern menerapkan pola MVVM/MVI,_dependency injection_, dan coroutine untuk manajemen asynchronous. Android menawarkan fleksibilitas tinggi, akses penuh ke API perangkat, dan performa optimal untuk aplikasi kompleks.">
-          <div class="skill-icon"><i class="fab fa-android"></i></div><div class="skill-label">Android Native</div>
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge"><i class="fas fa-code"></i> SKILLS</span>
+          <h2 class="section-title">Technical Skills</h2>
+          <div class="section-divider"></div>
         </div>
-        <div class="skill-tile" data-modal-icon="fas fa-mobile-alt" data-modal-title="Apache Cordova" data-modal-desc="<strong>Apache Cordova</strong> adalah framework pengembangan mobile open source yang memungkinkan pengembang membuat aplikasi menggunakan HTML, CSS, dan JavaScript, lalu membungkusnya dalam container native untuk deploy ke berbagai platform seperti Android dan iOS. Menurut <a href='https://en.wikipedia.org/wiki/Apache_Cordova' target='_blank'>Wikipedia</a>, Cordova menyediakan akses ke fitur perangkat native melalui plugin, seperti kamera, GPS, dan filesystem.<br><br>Keunggulan Cordova: satu codebase untuk multi-platform, pengembangan cepat untuk tim web, dan ekosistem plugin yang luas. Cocok untuk aplikasi dengan kompleksitas menengah yang mengutamakan kecepatan pengembangan dan maintenance.">
-          <div class="skill-icon"><i class="fas fa-mobile-alt"></i></div><div class="skill-label">Apache Cordova</div>
-        </div>
-        <div class="skill-tile" data-modal-icon="fab fa-java" data-modal-title="Java & Kotlin Programming" data-modal-desc="<strong>Java</strong> adalah bahasa pemrograman berorientasi objek yang dikembangkan oleh Sun Microsystems (kini Oracle), dikenal karena portabilitas melalui JVM dan penggunaan luas di enterprise dan Android development. <strong>Kotlin</strong>, dikembangkan oleh JetBrains, adalah bahasa modern yang sepenuhnya interoperable dengan Java, dengan sintaks lebih ringkas, null-safety, dan dukungan coroutine untuk pemrograman asynchronous.<br><br>Kedua bahasa ini adalah standar resmi untuk pengembangan Android. Kotlin kini menjadi bahasa pilihan Google untuk Android development karena produktivitas dan keamanan kode yang lebih baik. Referensi: <a href='https://en.wikipedia.org/wiki/Java_(programming_language)' target='_blank'>Java</a>, <a href='https://en.wikipedia.org/wiki/Kotlin_(programming_language)' target='_blank'>Kotlin</a>.">
-          <div class="skill-icon"><i class="fab fa-java"></i></div><div class="skill-label">Java / Kotlin</div>
-        </div>
-        <div class="skill-tile" data-modal-icon="fab fa-js" data-modal-title="JavaScript (Programming Language)" data-modal-desc="<strong>JavaScript</strong> adalah bahasa pemrograman tingkat tinggi yang awalnya dirancang untuk membuat halaman web interaktif. Kini, JavaScript berjalan di server (Node.js), mobile (Cordova/React Native), dan desktop (Electron). Menurut <a href='https://en.wikipedia.org/wiki/JavaScript' target='_blank'>Wikipedia</a>, JavaScript mendukung paradigma pemrograman: imperative, OOP, dan functional.<br><br>Fitur modern ES6+ meliputi: arrow functions, destructuring, modules, async/await, dan classes. Dalam konteks Cordova, JavaScript berinteraksi dengan native code melalui bridge plugin, memungkinkan akses hardware perangkat dengan tetap menggunakan web technologies.">
-          <div class="skill-icon"><i class="fab fa-js"></i></div><div class="skill-label">JavaScript</div>
-        </div>
-        <div class="skill-tile" data-modal-icon="fab fa-html5" data-modal-title="HTML5 & CSS3" data-modal-desc="<strong>HTML5</strong> adalah versi kelima dari HyperText Markup Language, standar untuk struktur dan presentasi konten web. <strong>CSS3</strong> adalah versi terkini dari Cascading Style Sheets, digunakan untuk styling dan layout. Menurut <a href='https://en.wikipedia.org/wiki/HTML5' target='_blank'>Wikipedia</a>, HTML5 memperkenalkan elemen semantik, canvas, video/audio native, dan API seperti localStorage dan geolocation.<br><br>CSS3 menambahkan fitur seperti flexbox, grid, animasi, transform, dan media queries untuk responsive design. Dalam pengembangan hybrid apps, kombinasi HTML5+CSS3 memungkinkan pembuatan UI yang adaptif, performan, dan konsisten di berbagai ukuran layar perangkat mobile.">
-          <div class="skill-icon"><i class="fab fa-html5"></i></div><div class="skill-label">HTML5 / CSS3</div>
-        </div>
-        <div class="skill-tile" data-modal-icon="fas fa-plug" data-modal-title="Cordova Plugins Architecture" data-modal-desc="<strong>Plugin Cordova</strong> adalah modul yang memungkinkan aplikasi web-based mengakses fitur native perangkat seperti kamera, kontak, atau sensor. Menurut dokumentasi resmi dan <a href='https://en.wikipedia.org/wiki/Apache_Cordova#Plugins' target='_blank'>Wikipedia</a>, plugin terdiri dari dua bagian: interface JavaScript (untuk kode aplikasi) dan implementasi native (Java untuk Android, Objective-C/Swift untuk iOS).<br><br>Pengembang dapat menggunakan plugin publik dari registry Cordova atau membuat custom plugin untuk kebutuhan spesifik. Mekanisme exec() bridge memungkinkan komunikasi dua arah antara JavaScript dan native code, dengan manajemen lifecycle yang terintegrasi dengan aplikasi host.">
-          <div class="skill-icon"><i class="fas fa-plug"></i></div><div class="skill-label">Cordova Plugins</div>
-        </div>
-        <div class="skill-tile" data-modal-icon="fab fa-git-alt" data-modal-title="Git & GitHub" data-modal-desc="<strong>Git</strong> adalah sistem kontrol versi terdistribusi yang dikembangkan oleh Linus Torvalds untuk melacak perubahan dalam kode sumber selama pengembangan perangkat lunak. <strong>GitHub</strong> adalah platform hosting berbasis Git yang menambahkan fitur kolaborasi seperti pull request, issue tracking, dan CI/CD. Menurut <a href='https://en.wikipedia.org/wiki/Git' target='_blank'>Wikipedia</a>, Git memungkinkan kerja paralel melalui branching, merging, dan history yang lengkap.<br><br>Workflow umum: clone → branch → commit → push → pull request → review → merge. Praktik ini mendukung pengembangan kolaboratif, code review, dan integrasi berkelanjutan—esensial untuk proyek open source dan tim profesional.">          <div class="skill-icon"><i class="fab fa-git-alt"></i></div><div class="skill-label">Git & GitHub</div>
-        </div>
-        <div class="skill-tile" data-modal-icon="fas fa-graduation-cap" data-modal-title="Lifelong Learning in Technology" data-modal-desc="<strong>Pembelajaran sepanjang hayat</strong> (lifelong learning) adalah konsep pendidikan yang menekankan pentingnya terus memperbarui pengetahuan dan keterampilan seiring perkembangan zaman. Dalam bidang teknologi, menurut <a href='https://en.wikipedia.org/wiki/Lifelong_learning' target='_blank'>Wikipedia</a>, hal ini krusial karena siklus inovasi yang cepat: bahasa pemrograman baru, framework, dan best practice muncul terus-menerus.<br><br>Strategi efektif: mengikuti dokumentasi resmi, berkontribusi di open source, mengikuti kursus online, dan eksperimen proyek pribadi. Prinsip 'progress over perfection' mendorong iterasi cepat dan pembelajaran berbasis praktik, yang sesuai dengan filosofi pengembangan perangkat lunak modern.">
-          <div class="skill-icon"><i class="fas fa-graduation-cap"></i></div><div class="skill-label">Continuous Learning</div>
+        <div class="skills-grid">
+          <div class="skill-tile" data-modal-icon="fab fa-android" data-modal-title="Android (Operating System)" data-modal-desc="<strong>Android</strong> adalah sistem operasi berbasis Linux yang dirancang terutama untuk perangkat layar sentuh seperti smartphone dan tablet. Dikembangkan oleh <a href='https://en.wikipedia.org/wiki/Android_(operating_system)' target='_blank'>Google</a> dan Open Handset Alliance, Android menggunakan kernel Linux yang dimodifikasi dan komponen open source lainnya.<br><br>Pengembangan aplikasi native Android umumnya menggunakan Java atau Kotlin dengan Android SDK. Arsitektur modern menerapkan pola MVVM/MVI,_dependency injection_, dan coroutine untuk manajemen asynchronous. Android menawarkan fleksibilitas tinggi, akses penuh ke API perangkat, dan performa optimal untuk aplikasi kompleks.">
+            <div class="skill-icon"><i class="fab fa-android"></i></div><div class="skill-label">Android Native</div>
+          </div>
+          <div class="skill-tile" data-modal-icon="fas fa-mobile-alt" data-modal-title="Apache Cordova" data-modal-desc="<strong>Apache Cordova</strong> adalah framework pengembangan mobile open source yang memungkinkan pengembang membuat aplikasi menggunakan HTML, CSS, dan JavaScript, lalu membungkusnya dalam container native untuk deploy ke berbagai platform seperti Android dan iOS. Menurut <a href='https://en.wikipedia.org/wiki/Apache_Cordova' target='_blank'>Wikipedia</a>, Cordova menyediakan akses ke fitur perangkat native melalui plugin, seperti kamera, GPS, dan filesystem.<br><br>Keunggulan Cordova: satu codebase untuk multi-platform, pengembangan cepat untuk tim web, dan ekosistem plugin yang luas. Cocok untuk aplikasi dengan kompleksitas menengah yang mengutamakan kecepatan pengembangan dan maintenance.">
+            <div class="skill-icon"><i class="fas fa-mobile-alt"></i></div><div class="skill-label">Apache Cordova</div>
+          </div>
+          <div class="skill-tile" data-modal-icon="fab fa-java" data-modal-title="Java & Kotlin Programming" data-modal-desc="<strong>Java</strong> adalah bahasa pemrograman berorientasi objek yang dikembangkan oleh Sun Microsystems (kini Oracle), dikenal karena portabilitas melalui JVM dan penggunaan luas di enterprise dan Android development. <strong>Kotlin</strong>, dikembangkan oleh JetBrains, adalah bahasa modern yang sepenuhnya interoperable dengan Java, dengan sintaks lebih ringkas, null-safety, dan dukungan coroutine untuk pemrograman asynchronous.<br><br>Kedua bahasa ini adalah standar resmi untuk pengembangan Android. Kotlin kini menjadi bahasa pilihan Google untuk Android development karena produktivitas dan keamanan kode yang lebih baik. Referensi: <a href='https://en.wikipedia.org/wiki/Java_(programming_language)' target='_blank'>Java</a>, <a href='https://en.wikipedia.org/wiki/Kotlin_(programming_language)' target='_blank'>Kotlin</a>.">
+            <div class="skill-icon"><i class="fab fa-java"></i></div><div class="skill-label">Java / Kotlin</div>
+          </div>
+          <div class="skill-tile" data-modal-icon="fab fa-js" data-modal-title="JavaScript (Programming Language)" data-modal-desc="<strong>JavaScript</strong> adalah bahasa pemrograman tingkat tinggi yang awalnya dirancang untuk membuat halaman web interaktif. Kini, JavaScript berjalan di server (Node.js), mobile (Cordova/React Native), dan desktop (Electron). Menurut <a href='https://en.wikipedia.org/wiki/JavaScript' target='_blank'>Wikipedia</a>, JavaScript mendukung paradigma pemrograman: imperative, OOP, dan functional.<br><br>Fitur modern ES6+ meliputi: arrow functions, destructuring, modules, async/await, dan classes. Dalam konteks Cordova, JavaScript berinteraksi dengan native code melalui bridge plugin, memungkinkan akses hardware perangkat dengan tetap menggunakan web technologies.">
+            <div class="skill-icon"><i class="fab fa-js"></i></div><div class="skill-label">JavaScript</div>
+          </div>
+          <div class="skill-tile" data-modal-icon="fab fa-html5" data-modal-title="HTML5 & CSS3" data-modal-desc="<strong>HTML5</strong> adalah versi kelima dari HyperText Markup Language, standar untuk struktur dan presentasi konten web. <strong>CSS3</strong> adalah versi terkini dari Cascading Style Sheets, digunakan untuk styling dan layout. Menurut <a href='https://en.wikipedia.org/wiki/HTML5' target='_blank'>Wikipedia</a>, HTML5 memperkenalkan elemen semantik, canvas, video/audio native, dan API seperti localStorage dan geolocation.<br><br>CSS3 menambahkan fitur seperti flexbox, grid, animasi, transform, dan media queries untuk responsive design. Dalam pengembangan hybrid apps, kombinasi HTML5+CSS3 memungkinkan pembuatan UI yang adaptif, performan, dan konsisten di berbagai ukuran layar perangkat mobile.">
+            <div class="skill-icon"><i class="fab fa-html5"></i></div><div class="skill-label">HTML5 / CSS3</div>
+          </div>
+          <div class="skill-tile" data-modal-icon="fas fa-plug" data-modal-title="Cordova Plugins Architecture" data-modal-desc="<strong>Plugin Cordova</strong> adalah modul yang memungkinkan aplikasi web-based mengakses fitur native perangkat seperti kamera, kontak, atau sensor. Menurut dokumentasi resmi dan <a href='https://en.wikipedia.org/wiki/Apache_Cordova#Plugins' target='_blank'>Wikipedia</a>, plugin terdiri dari dua bagian: interface JavaScript (untuk kode aplikasi) dan implementasi native (Java untuk Android, Objective-C/Swift untuk iOS).<br><br>Pengembang dapat menggunakan plugin publik dari registry Cordova atau membuat custom plugin untuk kebutuhan spesifik. Mekanisme exec() bridge memungkinkan komunikasi dua arah antara JavaScript dan native code, dengan manajemen lifecycle yang terintegrasi dengan aplikasi host.">
+            <div class="skill-icon"><i class="fas fa-plug"></i></div><div class="skill-label">Cordova Plugins</div>
+          </div>
+          <div class="skill-tile" data-modal-icon="fab fa-git-alt" data-modal-title="Git & GitHub" data-modal-desc="<strong>Git</strong> adalah sistem kontrol versi terdistribusi yang dikembangkan oleh Linus Torvalds untuk melacak perubahan dalam kode sumber selama pengembangan perangkat lunak. <strong>GitHub</strong> adalah platform hosting berbasis Git yang menambahkan fitur kolaborasi seperti pull request, issue tracking, dan CI/CD. Menurut <a href='https://en.wikipedia.org/wiki/Git' target='_blank'>Wikipedia</a>, Git memungkinkan kerja paralel melalui branching, merging, dan history yang lengkap.<br><br>Workflow umum: clone → branch → commit → push → pull request → review → merge. Praktik ini mendukung pengembangan kolaboratif, code review, dan integrasi berkelanjutan—esensial untuk proyek open source dan tim profesional.">
+            <div class="skill-icon"><i class="fab fa-git-alt"></i></div><div class="skill-label">Git & GitHub</div>
+          </div>
+          <div class="skill-tile" data-modal-icon="fas fa-graduation-cap" data-modal-title="Lifelong Learning in Technology" data-modal-desc="<strong>Pembelajaran sepanjang hayat</strong> (lifelong learning) adalah konsep pendidikan yang menekankan pentingnya terus memperbarui pengetahuan dan keterampilan seiring perkembangan zaman. Dalam bidang teknologi, menurut <a href='https://en.wikipedia.org/wiki/Lifelong_learning' target='_blank'>Wikipedia</a>, hal ini krusial karena siklus inovasi yang cepat: bahasa pemrograman baru, framework, dan best practice muncul terus-menerus.<br><br>Strategi efektif: mengikuti dokumentasi resmi, berkontribusi di open source, mengikuti kursus online, dan eksperimen proyek pribadi. Prinsip 'progress over perfection' mendorong iterasi cepat dan pembelajaran berbasis praktik, yang sesuai dengan filosofi pengembangan perangkat lunak modern.">
+            <div class="skill-icon"><i class="fas fa-graduation-cap"></i></div><div class="skill-label">Continuous Learning</div>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- JOURNEY -->
     <section id="journey" class="fade-in">
-      <div class="section-header">
-        <span class="section-badge"><i class="fas fa-route"></i> JOURNEY</span>
-        <h2 class="section-title">Learning Journey</h2>
-        <div class="section-divider"></div>
-      </div>
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge"><i class="fas fa-route"></i> JOURNEY</span>
+          <h2 class="section-title">Learning Journey</h2>
+          <div class="section-divider"></div>        </div>
 
-      <div class="card" data-modal-icon="fas fa-school" data-modal-title="Vocational Secondary Education (SMK)" data-modal-desc="<strong>Sekolah Menengah Kejuruan (SMK)</strong> adalah jenjang pendidikan menengah di Indonesia yang fokus pada pengembangan kompetensi kejuruan untuk mempersiapkan siswa langsung bekerja atau melanjutkan pendidikan. Program <strong>Teknik Komputer dan Jaringan (TKJ)</strong> mencakup: instalasi jaringan kabel/nirkabel, konfigurasi router/switch, administrasi server Linux/Windows, keamanan jaringan, dan dasar pemrograman.<br><br>Kurikulum SMK mengintegrasikan teori dan praktik industri, dengan magang sebagai komponen wajib. Lulusan TKJ memiliki sertifikat kompetensi yang diakui industri, memungkinkan penyerapan kerja di bidang IT support, network technician, atau sistem administrator. Sumber: <a href='https://id.wikipedia.org/wiki/Sekolah_Menengah_Kejuruan' target='_blank'>Wikipedia Indonesia</a>.">
-        <div class="card-head"><div class="card-icon"><i class="fas fa-school"></i></div><div class="card-title">Education</div></div>
-        <div class="timeline">
-          <div class="timeline-item" data-modal-icon="fas fa-graduation-cap" data-modal-title="SMK N 1 Lembah Melintang" data-modal-desc="<strong>SMK N 1 Lembah Melintang</strong> adalah sekolah kejuruan negeri di Kabupaten Pasaman Barat, Sumatera Barat, yang menyelenggarakan program keahlian Teknik Komputer dan Jaringan. Sekolah ini berfokus pada pembentukan kompetensi teknis di bidang: instalasi jaringan, konfigurasi perangkat Cisco/MikroTik, administrasi server, dan pengembangan aplikasi dasar.<br><br>Siswa dilatih melalui pendekatan project-based learning, dengan fasilitas lab komputer dan koneksi industri untuk magang. Partisipasi dalam kompetisi LKS dan kontribusi ke komunitas open source merupakan bagian dari pengembangan portofolio siswa.">
-            <div class="timeline-head">SMK N 1 Lembah Melintang</div>
-            <div class="timeline-sub mono">Computer & Network Engineering • 2025 – Present</div>
-            <div class="timeline-desc">Studying computer networking, Linux systems, Android development fundamentals, and building small-scale projects.</div>
+        <div class="cards-grid">
+          <div class="card" data-modal-icon="fas fa-school" data-modal-title="Vocational Secondary Education (SMK)" data-modal-desc="<strong>Sekolah Menengah Kejuruan (SMK)</strong> adalah jenjang pendidikan menengah di Indonesia yang fokus pada pengembangan kompetensi kejuruan untuk mempersiapkan siswa langsung bekerja atau melanjutkan pendidikan. Program <strong>Teknik Komputer dan Jaringan (TKJ)</strong> mencakup: instalasi jaringan kabel/nirkabel, konfigurasi router/switch, administrasi server Linux/Windows, keamanan jaringan, dan dasar pemrograman.<br><br>Kurikulum SMK mengintegrasikan teori dan praktik industri, dengan magang sebagai komponen wajib. Lulusan TKJ memiliki sertifikat kompetensi yang diakui industri, memungkinkan penyerapan kerja di bidang IT support, network technician, atau sistem administrator. Sumber: <a href='https://id.wikipedia.org/wiki/Sekolah_Menengah_Kejuruan' target='_blank'>Wikipedia Indonesia</a>.">
+            <div class="card-head"><div class="card-icon"><i class="fas fa-school"></i></div><div class="card-title">Education</div></div>
+            <div class="timeline-grid">
+              <div class="timeline-item" data-modal-icon="fas fa-graduation-cap" data-modal-title="SMK N 1 Lembah Melintang" data-modal-desc="<strong>SMK N 1 Lembah Melintang</strong> adalah sekolah kejuruan negeri di Kabupaten Pasaman Barat, Sumatera Barat, yang menyelenggarakan program keahlian Teknik Komputer dan Jaringan. Sekolah ini berfokus pada pembentukan kompetensi teknis di bidang: instalasi jaringan, konfigurasi perangkat Cisco/MikroTik, administrasi server, dan pengembangan aplikasi dasar.<br><br>Siswa dilatih melalui pendekatan project-based learning, dengan fasilitas lab komputer dan koneksi industri untuk magang. Partisipasi dalam kompetisi LKS dan kontribusi ke komunitas open source merupakan bagian dari pengembangan portofolio siswa.">
+                <div class="timeline-head">SMK N 1 Lembah Melintang</div>
+                <div class="timeline-sub mono">Computer & Network Engineering • 2025 – Present</div>
+                <div class="timeline-desc">Studying computer networking, Linux systems, Android development fundamentals, and building small-scale projects.</div>
+              </div>
+              <div class="timeline-item" data-modal-icon="fas fa-book" data-modal-title="SMP Tahfidz Al-Qur'an An-Naajiya" data-modal-desc="<strong>SMP Tahfidz</strong> adalah jenjang pendidikan menengah pertama yang mengintegrasikan kurikulum nasional dengan program hafalan Al-Qur'an. Di <strong>SMP Tahfidz Al-Qur'an An-Naajiya</strong>, siswa tidak hanya mempelajari mata pelajaran akademik, tetapi juga mengembangkan karakter melalui nilai-nilai keislaman dan disiplin.<br><br>Paparan awal terhadap teknologi di sekolah ini—seperti penggunaan komputer untuk penelitian, presentasi, dan eksplorasi pemrograman dasar—menjadi fondasi minat di bidang informatika. Pengalaman membantu maintenance lab komputer melatih problem-solving dan tanggung jawab teknis sejak dini.">
+                <div class="timeline-head">SMP Tahfidz Al-Qur'an An-Naajiya</div>
+                <div class="timeline-sub mono">Simpang Empat • 2021 – 2025</div>
+                <div class="timeline-desc">Developed interest in technology, assisted with computer lab maintenance, and began exploring basic programming concepts.</div>
+              </div>
+            </div>
           </div>
-          <div class="timeline-item" data-modal-icon="fas fa-book" data-modal-title="SMP Tahfidz Al-Qur'an An-Naajiya" data-modal-desc="<strong>SMP Tahfidz</strong> adalah jenjang pendidikan menengah pertama yang mengintegrasikan kurikulum nasional dengan program hafalan Al-Qur'an. Di <strong>SMP Tahfidz Al-Qur'an An-Naajiya</strong>, siswa tidak hanya mempelajari mata pelajaran akademik, tetapi juga mengembangkan karakter melalui nilai-nilai keislaman dan disiplin.<br><br>Paparan awal terhadap teknologi di sekolah ini—seperti penggunaan komputer untuk penelitian, presentasi, dan eksplorasi pemrograman dasar—menjadi fondasi minat di bidang informatika. Pengalaman membantu maintenance lab komputer melatih problem-solving dan tanggung jawab teknis sejak dini.">
-            <div class="timeline-head">SMP Tahfidz Al-Qur'an An-Naajiya</div>
-            <div class="timeline-sub mono">Simpang Empat • 2021 – 2025</div>
-            <div class="timeline-desc">Developed interest in technology, assisted with computer lab maintenance, and began exploring basic programming concepts.</div>
+
+          <div class="card" data-modal-icon="fas fa-users" data-modal-title="Open Source Communities" data-modal-desc="<strong>Komunitas open source</strong> adalah kelompok pengembang dan pengguna yang berkolaborasi membuat, menguji, dan mendistribusikan perangkat lunak dengan kode sumber terbuka. Menurut <a href='https://en.wikipedia.org/wiki/Open-source_software' target='_blank'>Wikipedia</a>, model ini memungkinkan transparansi, inovasi kolektif, dan pembelajaran lintas batas geografis.<br><br>Komunitas seperti <strong>Ubuntu Indonesia</strong> dan <strong>Nusantara Project</strong> menyediakan forum diskusi, dokumentasi lokal, dan dukungan teknis bagi pengguna Linux di Indonesia. Kontribusi dapat berupa: pelaporan bug, penerjemahan, pengujian ROM, atau pengembangan fitur. Partisipasi aktif membangun reputasi, jaringan profesional, dan kompetensi teknis yang diakui industri.">
+            <div class="card-head"><div class="card-icon"><i class="fas fa-users"></i></div><div class="card-title">Communities & Projects</div></div>
+            <div class="timeline-grid">
+              <div class="timeline-item" data-modal-icon="fas fa-robot" data-modal-title="Nusantara Project ROM" data-modal-desc="<strong>Nusantara Project</strong> adalah proyek custom ROM berbasis Android Open Source Project (AOSP) yang dikembangkan oleh komunitas pengembang Indonesia. ROM kustom seperti ini memungkinkan pengguna memodifikasi sistem operasi perangkat untuk meningkatkan performa, privasi, atau fitur yang tidak tersedia di firmware resmi.<br><br>Sebagai kontributor, aktivitas meliputi: pengujian build harian, pelaporan bug, dokumentasi fitur, dan dukungan pengguna di forum. Pengalaman ini memberikan pemahaman mendalam tentang arsitektur Android, proses build AOSP, dan manajemen dependensi sistem. Sumber: <a href='https://en.wikipedia.org/wiki/Custom_ROM' target='_blank'>Custom ROM - Wikipedia</a>.">
+                <div class="timeline-head">Nusantara Project ROM</div>
+                <div class="timeline-sub mono">Contributor • 2020 – Present</div>
+                <div class="timeline-desc">Participating in Android custom ROM testing, feature documentation, and user support activities.</div>
+              </div>
+              <div class="timeline-item" data-modal-icon="fab fa-linux" data-modal-title="LINUX UBUNTU Indonesia" data-modal-desc="<strong>Ubuntu</strong> adalah distribusi Linux berbasis Debian yang dikembangkan oleh Canonical Ltd., dikenal karena kemudahan penggunaan dan dukungan komunitas yang kuat. <a href='https://en.wikipedia.org/wiki/Ubuntu' target='_blank'>Wikipedia</a> mencatat Ubuntu sebagai salah satu distro paling populer untuk desktop dan server.<br><br><strong>LINUX UBUNTU Indonesia</strong> adalah komunitas lokal yang memfasilitasi adopsi Ubuntu di Indonesia melalui: forum diskusi, instalasi bersama, workshop, dan terjemahan dokumentasi. Keanggotaan aktif memungkinkan pertukaran pengetahuan tentang administrasi sistem, scripting Bash, keamanan, dan integrasi dengan ekosistem open source lainnya.">
+                <div class="timeline-head">LINUX UBUNTU Indonesia</div>
+                <div class="timeline-sub mono">Active Member • 2021 – Present</div>
+                <div class="timeline-desc">Engaging in technical discussions, troubleshooting sessions, and knowledge sharing about Linux system administration.</div>
+              </div>
+              <div class="timeline-item" data-modal-icon="fas fa-code-branch" data-modal-title="Personal Hybrid App Projects" data-modal-desc="Proyek pribadi pengembangan aplikasi hybrid menggunakan <strong>Apache Cordova</strong> memungkinkan eksplorasi integrasi web dan native. Aktivitas meliputi: scaffold project dengan CLI Cordova, desain UI responsif dengan CSS Grid/Flexbox, implementasi logika bisnis dengan JavaScript modular, dan integrasi plugin untuk akses kamera, storage, atau notifikasi.<br><br>Proses deployment mencakup: build APK, signing, testing di device fisik, dan persiapan untuk Google Play Console. Pembelajaran ini memperkuat pemahaman tentang lifecycle aplikasi mobile, manajemen memori, dan optimasi performa untuk perangkat dengan resource terbatas.">
+                <div class="timeline-head">Personal Cordova Projects</div>
+                <div class="timeline-sub mono">Experiment • 2024 – Present</div>
+                <div class="timeline-desc">Building hybrid mobile applications, experimenting with custom plugin integration, and learning Play Store deployment workflows.</div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div class="card" data-modal-icon="fas fa-users" data-modal-title="Open Source Communities" data-modal-desc="<strong>Komunitas open source</strong> adalah kelompok pengembang dan pengguna yang berkolaborasi membuat, menguji, dan mendistribusikan perangkat lunak dengan kode sumber terbuka. Menurut <a href='https://en.wikipedia.org/wiki/Open-source_software' target='_blank'>Wikipedia</a>, model ini memungkinkan transparansi, inovasi kolektif, dan pembelajaran lintas batas geografis.<br><br>Komunitas seperti <strong>Ubuntu Indonesia</strong> dan <strong>Nusantara Project</strong> menyediakan forum diskusi, dokumentasi lokal, dan dukungan teknis bagi pengguna Linux di Indonesia. Kontribusi dapat berupa: pelaporan bug, penerjemahan, pengujian ROM, atau pengembangan fitur. Partisipasi aktif membangun reputasi, jaringan profesional, dan kompetensi teknis yang diakui industri.">
-        <div class="card-head"><div class="card-icon"><i class="fas fa-users"></i></div><div class="card-title">Communities & Projects</div></div>
-        <div class="timeline">
-          <div class="timeline-item" data-modal-icon="fas fa-robot" data-modal-title="Nusantara Project ROM" data-modal-desc="<strong>Nusantara Project</strong> adalah proyek custom ROM berbasis Android Open Source Project (AOSP) yang dikembangkan oleh komunitas pengembang Indonesia. ROM kustom seperti ini memungkinkan pengguna memodifikasi sistem operasi perangkat untuk meningkatkan performa, privasi, atau fitur yang tidak tersedia di firmware resmi.<br><br>Sebagai kontributor, aktivitas meliputi: pengujian build harian, pelaporan bug, dokumentasi fitur, dan dukungan pengguna di forum. Pengalaman ini memberikan pemahaman mendalam tentang arsitektur Android, proses build AOSP, dan manajemen dependensi sistem. Sumber: <a href='https://en.wikipedia.org/wiki/Custom_ROM' target='_blank'>Custom ROM - Wikipedia</a>.">
-            <div class="timeline-head">Nusantara Project ROM</div>
-            <div class="timeline-sub mono">Contributor • 2020 – Present</div>
-            <div class="timeline-desc">Participating in Android custom ROM testing, feature documentation, and user support activities.</div>
-          </div>
-          <div class="timeline-item" data-modal-icon="fab fa-linux" data-modal-title="LINUX UBUNTU Indonesia" data-modal-desc="<strong>Ubuntu</strong> adalah distribusi Linux berbasis Debian yang dikembangkan oleh Canonical Ltd., dikenal karena kemudahan penggunaan dan dukungan komunitas yang kuat. <a href='https://en.wikipedia.org/wiki/Ubuntu' target='_blank'>Wikipedia</a> mencatat Ubuntu sebagai salah satu distro paling populer untuk desktop dan server.<br><br><strong>LINUX UBUNTU Indonesia</strong> adalah komunitas lokal yang memfasilitasi adopsi Ubuntu di Indonesia melalui: forum diskusi, instalasi bersama, workshop, dan terjemahan dokumentasi. Keanggotaan aktif memungkinkan pertukaran pengetahuan tentang administrasi sistem, scripting Bash, keamanan, dan integrasi dengan ekosistem open source lainnya.">
-            <div class="timeline-head">LINUX UBUNTU Indonesia</div>
-            <div class="timeline-sub mono">Active Member • 2021 – Present</div>
-            <div class="timeline-desc">Engaging in technical discussions, troubleshooting sessions, and knowledge sharing about Linux system administration.</div>
-          </div>
-          <div class="timeline-item" data-modal-icon="fas fa-code-branch" data-modal-title="Personal Hybrid App Projects" data-modal-desc="Proyek pribadi pengembangan aplikasi hybrid menggunakan <strong>Apache Cordova</strong> memungkinkan eksplorasi integrasi web dan native. Aktivitas meliputi: scaffold project dengan CLI Cordova, desain UI responsif dengan CSS Grid/Flexbox, implementasi logika bisnis dengan JavaScript modular, dan integrasi plugin untuk akses kamera, storage, atau notifikasi.<br><br>Proses deployment mencakup: build APK, signing, testing di device fisik, dan persiapan untuk Google Play Console. Pembelajaran ini memperkuat pemahaman tentang lifecycle aplikasi mobile, manajemen memori, dan optimasi performa untuk perangkat dengan resource terbatas.">
-            <div class="timeline-head">Personal Cordova Projects</div>
-            <div class="timeline-sub mono">Experiment • 2024 – Present</div>
-            <div class="timeline-desc">Building hybrid mobile applications, experimenting with custom plugin integration, and learning Play Store deployment workflows.</div>
-          </div>        </div>
       </div>
     </section>
 
     <!-- CONTACT -->
     <section id="contact" class="fade-in">
-      <div class="section-header">
-        <span class="section-badge"><i class="fas fa-paper-plane"></i> CONTACT</span>
-        <h2 class="section-title">Let's Connect</h2>
-        <div class="section-divider"></div>
-      </div>
-      <div class="contact-list">
-        <div class="contact-item" data-modal-icon="fas fa-envelope" data-modal-title="Email Communication" data-modal-desc="<strong>Email</strong> (electronic mail) adalah metode pertukaran pesan digital melalui jaringan komputer, menjadi standar komunikasi profesional sejak 1970-an. Menurut <a href='https://en.wikipedia.org/wiki/Email' target='_blank'>Wikipedia</a>, email menggunakan protokol SMTP untuk pengiriman, dan IMAP/POP3 untuk pengambilan pesan.<br><br>Dalam konteks profesional, email memungkinkan: komunikasi asinkron, lampiran file, jejak audit, dan integrasi dengan kalender/task manager. Alamat email yang terdaftar di domain pribadi atau institusi meningkatkan kredibilitas dibandingkan layanan gratis. Keamanan email dapat ditingkatkan dengan enkripsi PGP/GPG dan autentikasi dua faktor.">
-          <div class="contact-ico"><i class="fas fa-envelope"></i></div>
-          <div class="contact-txt"><strong>Email</strong><a href="mailto:zhyllanf@gmail.com">zhyllanf@gmail.com</a></div>
-        </div>
-        <div class="contact-item" data-modal-icon="fab fa-whatsapp" data-modal-title="WhatsApp Messenger" data-modal-desc="<strong>WhatsApp</strong> adalah aplikasi pesan instan lintas platform yang menggunakan koneksi internet untuk mengirim teks, suara, gambar, dan video. Dikembangkan oleh Meta Platforms, WhatsApp mengimplementasikan enkripsi end-to-end secara default untuk semua komunikasi, sesuai standar keamanan modern.<br><br>Fitur bisnis WhatsApp (WhatsApp Business API) memungkinkan otomatisasi pesan, katalog produk, dan integrasi CRM. Untuk komunikasi profesional, WhatsApp menawarkan kecepatan respons tinggi, terutama di wilayah dengan penetrasi mobile tinggi seperti Indonesia. Sumber: <a href='https://en.wikipedia.org/wiki/WhatsApp' target='_blank'>Wikipedia</a>.">
-          <div class="contact-ico"><i class="fab fa-whatsapp"></i></div>
-          <div class="contact-txt"><strong>WhatsApp</strong><a href="https://wa.me/6285165721384" target="_blank">+62 851 6572 1384</a></div>
-        </div>
-        <div class="contact-item" data-modal-icon="fab fa-github" data-modal-title="GitHub Platform" data-modal-desc="<strong>GitHub</strong> adalah platform hosting berbasis Git yang menyediakan kontrol versi, kolaborasi kode, dan alat pengembangan perangkat lunak. Menurut <a href='https://en.wikipedia.org/wiki/GitHub' target='_blank'>Wikipedia</a>, GitHub memiliki lebih dari 100 juta pengembang dan menjadi repositori open source terbesar di dunia.<br><br>Fitur utama: repository publik/privat, pull request untuk code review, GitHub Actions untuk CI/CD, dan GitHub Pages untuk hosting statis. Profil GitHub berfungsi sebagai portofolio teknis yang dapat diverifikasi, menampilkan riwayat kontribusi, bahasa dominan, dan proyek unggulan—sangat berharga untuk rekrutmen teknis.">
-          <div class="contact-ico"><i class="fab fa-github"></i></div>
-          <div class="contact-txt"><strong>GitHub</strong><a href="https://github.com/jirankun" target="_blank">github.com/jirankun</a></div>
-        </div>
-        <div class="contact-item" data-modal-icon="fab fa-linkedin-in" data-modal-title="LinkedIn Professional Network" data-modal-desc="<strong>LinkedIn</strong> adalah jejaring sosial yang berfokus pada pengembangan karier dan koneksi profesional. Diluncurkan pada 2003, platform ini memungkinkan pengguna membuat profil digital, menampilkan pengalaman kerja, keterampilan, dan rekomendasi. Menurut <a href='https://en.wikipedia.org/wiki/LinkedIn' target='_blank'>Wikipedia</a>, LinkedIn memiliki lebih dari 900 juta anggota di 200+ negara.<br><br>Fungsi strategis: personal branding, pencarian peluang kerja, networking industri, dan berbagi konten profesional. Untuk developer, LinkedIn memungkinkan koneksi dengan recruiter teknis, partisipasi di grup spesialis, dan eksposur proyek open source melalui integrasi GitHub.">
-          <div class="contact-ico"><i class="fab fa-linkedin-in"></i></div>
-          <div class="contact-txt"><strong>LinkedIn</strong><a href="https://www.linkedin.com/in/zhyllan-fyllah-56b45a38a/" target="_blank">Zhyllan Fyllah</a></div>
-        </div>
-        <div class="contact-item" data-modal-icon="fas fa-map-marker-alt" data-modal-title="West Sumatra, Indonesia" data-modal-desc="<strong>Sumatera Barat</strong> adalah provinsi di pulau Sumatera, Indonesia, dengan ibu kota Padang. Wilayah ini dikenal dengan budaya Minangkabau yang matrilineal, serta keindahan alam seperti Danau Maninjau dan Ngarai Sianok. Dalam konteks teknologi, Sumatera Barat memiliki ekosistem startup yang berkembang, didukung oleh komunitas IT lokal dan program pemerintah untuk digitalisasi UMKM.<br><br>Lembah Melintang, sebagai lokasi, merupakan bagian dari Kabupaten Pasaman Barat—wilayah yang terus meningkatkan infrastruktur digital untuk mendukung pendidikan dan ekonomi kreatif. Partisipasi dalam komunitas global dari lokasi ini menunjukkan bahwa kontribusi open source tidak terbatas geografi. Sumber: <a href='https://en.wikipedia.org/wiki/West_Sumatra' target='_blank'>Wikipedia</a>.">
-          <div class="contact-ico"><i class="fas fa-map-marker-alt"></i></div>
-          <div class="contact-txt"><strong>Location</strong>Ujunggading, Lembah Melintang, West Sumatra, Indonesia 🇮🇩</div>
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge"><i class="fas fa-paper-plane"></i> CONTACT</span>
+          <h2 class="section-title">Let's Connect</h2>
+          <div class="section-divider"></div>        </div>
+        <div class="contact-grid">
+          <div class="contact-item" data-modal-icon="fas fa-envelope" data-modal-title="Email Communication" data-modal-desc="<strong>Email</strong> (electronic mail) adalah metode pertukaran pesan digital melalui jaringan komputer, menjadi standar komunikasi profesional sejak 1970-an. Menurut <a href='https://en.wikipedia.org/wiki/Email' target='_blank'>Wikipedia</a>, email menggunakan protokol SMTP untuk pengiriman, dan IMAP/POP3 untuk pengambilan pesan.<br><br>Dalam konteks profesional, email memungkinkan: komunikasi asinkron, lampiran file, jejak audit, dan integrasi dengan kalender/task manager. Alamat email yang terdaftar di domain pribadi atau institusi meningkatkan kredibilitas dibandingkan layanan gratis. Keamanan email dapat ditingkatkan dengan enkripsi PGP/GPG dan autentikasi dua faktor.">
+            <div class="contact-ico"><i class="fas fa-envelope"></i></div>
+            <div class="contact-txt"><strong>Email</strong><a href="mailto:zhyllanf@gmail.com">zhyllanf@gmail.com</a></div>
+          </div>
+          <div class="contact-item" data-modal-icon="fab fa-whatsapp" data-modal-title="WhatsApp Messenger" data-modal-desc="<strong>WhatsApp</strong> adalah aplikasi pesan instan lintas platform yang menggunakan koneksi internet untuk mengirim teks, suara, gambar, dan video. Dikembangkan oleh Meta Platforms, WhatsApp mengimplementasikan enkripsi end-to-end secara default untuk semua komunikasi, sesuai standar keamanan modern.<br><br>Fitur bisnis WhatsApp (WhatsApp Business API) memungkinkan otomatisasi pesan, katalog produk, dan integrasi CRM. Untuk komunikasi profesional, WhatsApp menawarkan kecepatan respons tinggi, terutama di wilayah dengan penetrasi mobile tinggi seperti Indonesia. Sumber: <a href='https://en.wikipedia.org/wiki/WhatsApp' target='_blank'>Wikipedia</a>.">
+            <div class="contact-ico"><i class="fab fa-whatsapp"></i></div>
+            <div class="contact-txt"><strong>WhatsApp</strong><a href="https://wa.me/6285165721384" target="_blank">+62 851 6572 1384</a></div>
+          </div>
+          <div class="contact-item" data-modal-icon="fab fa-github" data-modal-title="GitHub Platform" data-modal-desc="<strong>GitHub</strong> adalah platform hosting berbasis Git yang menyediakan kontrol versi, kolaborasi kode, dan alat pengembangan perangkat lunak. Menurut <a href='https://en.wikipedia.org/wiki/GitHub' target='_blank'>Wikipedia</a>, GitHub memiliki lebih dari 100 juta pengembang dan menjadi repositori open source terbesar di dunia.<br><br>Fitur utama: repository publik/privat, pull request untuk code review, GitHub Actions untuk CI/CD, dan GitHub Pages untuk hosting statis. Profil GitHub berfungsi sebagai portofolio teknis yang dapat diverifikasi, menampilkan riwayat kontribusi, bahasa dominan, dan proyek unggulan—sangat berharga untuk rekrutmen teknis.">
+            <div class="contact-ico"><i class="fab fa-github"></i></div>
+            <div class="contact-txt"><strong>GitHub</strong><a href="https://github.com/jirankun" target="_blank">github.com/jirankun</a></div>
+          </div>
+          <div class="contact-item" data-modal-icon="fab fa-linkedin-in" data-modal-title="LinkedIn Professional Network" data-modal-desc="<strong>LinkedIn</strong> adalah jejaring sosial yang berfokus pada pengembangan karier dan koneksi profesional. Diluncurkan pada 2003, platform ini memungkinkan pengguna membuat profil digital, menampilkan pengalaman kerja, keterampilan, dan rekomendasi. Menurut <a href='https://en.wikipedia.org/wiki/LinkedIn' target='_blank'>Wikipedia</a>, LinkedIn memiliki lebih dari 900 juta anggota di 200+ negara.<br><br>Fungsi strategis: personal branding, pencarian peluang kerja, networking industri, dan berbagi konten profesional. Untuk developer, LinkedIn memungkinkan koneksi dengan recruiter teknis, partisipasi di grup spesialis, dan eksposur proyek open source melalui integrasi GitHub.">
+            <div class="contact-ico"><i class="fab fa-linkedin-in"></i></div>
+            <div class="contact-txt"><strong>LinkedIn</strong><a href="https://www.linkedin.com/in/zhyllan-fyllah-56b45a38a/" target="_blank">Zhyllan Fyllah</a></div>
+          </div>
+          <div class="contact-item" data-modal-icon="fas fa-map-marker-alt" data-modal-title="West Sumatra, Indonesia" data-modal-desc="<strong>Sumatera Barat</strong> adalah provinsi di pulau Sumatera, Indonesia, dengan ibu kota Padang. Wilayah ini dikenal dengan budaya Minangkabau yang matrilineal, serta keindahan alam seperti Danau Maninjau dan Ngarai Sianok. Dalam konteks teknologi, Sumatera Barat memiliki ekosistem startup yang berkembang, didukung oleh komunitas IT lokal dan program pemerintah untuk digitalisasi UMKM.<br><br>Lembah Melintang, sebagai lokasi, merupakan bagian dari Kabupaten Pasaman Barat—wilayah yang terus meningkatkan infrastruktur digital untuk mendukung pendidikan dan ekonomi kreatif. Partisipasi dalam komunitas global dari lokasi ini menunjukkan bahwa kontribusi open source tidak terbatas geografi. Sumber: <a href='https://en.wikipedia.org/wiki/West_Sumatra' target='_blank'>Wikipedia</a>.">
+            <div class="contact-ico"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="contact-txt"><strong>Location</strong>Ujunggading, Lembah Melintang, West Sumatra, Indonesia 🇮🇩</div>
+          </div>
         </div>
       </div>
     </section>
@@ -586,7 +724,8 @@
   </div>
 
   <!-- GENERIC MODAL -->
-  <div class="modal-overlay" id="genericModal">    <div class="modal-content" id="modalContent">
+  <div class="modal-overlay" id="genericModal">
+    <div class="modal-content" id="modalContent">
       <button class="modal-close" id="modalCloseBtn" aria-label="Close modal">
         <i class="fas fa-times"></i>
       </button>
@@ -594,8 +733,7 @@
       <h3 class="modal-title" id="modalTitle"></h3>
       <div class="modal-desc" id="modalDesc"></div>
       <div class="modal-source">
-        Penjelasan disadur dari sumber terpercaya • <a href="https://wikipedia.org" target="_blank">Pelajari lebih lanjut di Wikipedia</a>
-      </div>
+        Penjelasan disadur dari sumber terpercaya • <a href="https://wikipedia.org" target="_blank">Pelajari lebih lanjut di Wikipedia</a>      </div>
     </div>
   </div>
 
@@ -635,7 +773,8 @@
     function initGenericModal() {
       const modalOverlay = document.getElementById('genericModal');
       const modalContent = document.getElementById('modalContent');
-      const modalClose = document.getElementById('modalCloseBtn');      const modalIcon = document.getElementById('modalIcon');
+      const modalClose = document.getElementById('modalCloseBtn');
+      const modalIcon = document.getElementById('modalIcon');
       const modalTitle = document.getElementById('modalTitle');
       const modalDesc = document.getElementById('modalDesc');
       
@@ -643,8 +782,7 @@
       const clickables = document.querySelectorAll(`
         .card[data-modal-title],
         .skill-tile[data-modal-title],
-        .timeline-item[data-modal-title],
-        .contact-item[data-modal-title]
+        .timeline-item[data-modal-title],        .contact-item[data-modal-title]
       `);
 
       function openModal(element) {
@@ -684,7 +822,8 @@
         // Touch feedback
         el.addEventListener('touchstart', function() {
           this.style.transform = this.classList.contains('skill-tile') ? 'scale(0.98)' : 'translateY(-2px)';
-        });        el.addEventListener('touchend', function() {
+        });
+        el.addEventListener('touchend', function() {
           this.style.transform = '';
         });
       });
@@ -692,8 +831,7 @@
       // Close handlers
       modalClose.addEventListener('click', closeModal);
       modalOverlay.addEventListener('click', (e) => {
-        if (e.target === modalOverlay) closeModal();
-      });
+        if (e.target === modalOverlay) closeModal();      });
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modalOverlay.classList.contains('active')) closeModal();
       });
@@ -734,6 +872,7 @@
         });
       }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
       sections.forEach(sec => navObserver.observe(sec));
+      
       // Smooth scroll
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -741,8 +880,7 @@
           const target = document.querySelector(this.getAttribute('href'));
           if (target) {
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            document.getElementById('desktop-warning').classList.remove('show');
-          }
+            document.getElementById('desktop-warning').classList.remove('show');          }
         });
       });
 
