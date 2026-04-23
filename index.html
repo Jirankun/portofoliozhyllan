@@ -2,875 +2,788 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Zhyllan Fyllah • Mobile Development Journey</title>
+  <meta charset="UTF-" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tsuki Dev • Mobile Developer</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg-primary: #0f0c29;
-      --bg-secondary: #1a1a3a;
-      --bg-card: rgba(30, 25, 65, 0.7);
-      --text-primary: #ffffff;
-      --text-secondary: #b8c1ec;
-      --accent-start: #00d4ff;
-      --accent-end: #7c3aed;
-      --accent-glow: rgba(124, 58, 237, 0.4);
-      --border-color: rgba(255, 255, 255, 0.1);
-      --success: #00f5a0;
-      --radius: 16px;
-      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #13131f;
+      --bg-card: #1a1a2e;
+      --text-primary: #f0f0f5;
+      --text-secondary: #a0a0b5;
+      --accent: #6366f1;
+      --accent-hover: #818cf8;
+      --border: rgba(255, 255, 255, 0.08);
+      --radius: 12px;
+      --transition: all 0.2s ease;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+    
     body {
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #1a1a3a);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
+      font-family: "Inter", sans-serif;
+      background: var(--bg-primary);
       color: var(--text-primary);
       line-height: 1.6;
       overflow-x: hidden;
-      min-height: 100vh;
-      position: relative;
     }
 
-    /* === SHIMMER BACKGROUND === */
-    body::before {
-      content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
-                  radial-gradient(circle at 80% 80%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
-                  radial-gradient(circle at 40% 20%, rgba(0, 245, 160, 0.1) 0%, transparent 40%);
-      animation: shimmer 8s ease-in-out infinite; pointer-events: none; z-index: 0;
-    }
-    body::after {
-      content: ""; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
-      background: transparent;      background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 212, 255, 0.03) 2px, rgba(0, 212, 255, 0.03) 4px);
-      animation: shimmerScan 10s linear infinite; pointer-events: none; z-index: 0;
-    }
-    @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-    @keyframes shimmer { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.05); } }
-    @keyframes shimmerScan { 0% { transform: translateY(0) rotate(0deg); } 100% { transform: translateY(-50px) rotate(2deg); } }
-
-    /* === FOG EFFECT - DISABLED ON DESKTOP === */
-    .fog-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: 1; }
-    .fog {
-      position: absolute; width: 300%; height: 100%;
-      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-      opacity: 0.08; animation: fogMove 30s linear infinite;
-    }
-    .fog:nth-child(1) { top: 10%; animation-duration: 35s; opacity: 0.06; }
-    .fog:nth-child(2) { top: 40%; animation-duration: 25s; opacity: 0.08; animation-direction: reverse; }
-    .fog:nth-child(3) { top: 70%; animation-duration: 40s; opacity: 0.05; }
-    @keyframes fogMove { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-    /* === BUBBLES === */
-    .bubbles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; overflow: hidden; }
-    .bubble {
-      position: absolute; bottom: -20px; border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.2));
-      box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
-      animation: bubbleFloat linear infinite; opacity: 0;
-    }
-    @keyframes bubbleFloat {
-      0% { transform: translateY(0) scale(0.8); opacity: 0; }
-      10% { opacity: 0.6; } 90% { opacity: 0.6; }
-      100% { transform: translateY(-120vh) scale(1.2); opacity: 0; }
-    }
-
-    .content-wrapper { position: relative; z-index: 10; }
-
-    /* === DESKTOP WARNING === */
-    #desktop-warning {
-      display: none; position: fixed; inset: 0; background: rgba(15, 12, 41, 0.95);
-      backdrop-filter: blur(10px); z-index: 9999; align-items: center; justify-content: center; padding: 20px; text-align: center;
-    }
-    #desktop-warning.show { display: flex; animation: fadeIn 0.5s ease; }
-    .warning-card {
-      background: var(--bg-card); border: 1px solid var(--border-color);
-      border-radius: var(--radius); padding: 30px; max-width: 400px; animation: slideUp 0.6s ease;
-    }
-    .warning-icon { font-size: 3rem; color: var(--accent-start); margin-bottom: 16px; animation: bounce 2s infinite; }
-    .warning-title { font-size: 1.4rem; font-weight: 600; margin-bottom: 12px; }
-    .warning-text { color: var(--text-secondary); margin-bottom: 20px; font-size: 0.95rem; }
-    .warning-btn {
-      background: linear-gradient(135deg, var(--accent-start), var(--accent-end)); color: #fff;      border: none; padding: 12px 28px; border-radius: 25px; font-weight: 600; cursor: pointer; animation: pulse 2s infinite;
-    }
-
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); } 50% { box-shadow: 0 0 0 12px transparent; } }
-    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-    @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
-    /* === HEADER - REDUCED BLUR ON DESKTOP === */
-    header {
-      position: fixed; top: 0; width: 100%; background: rgba(15, 12, 41, 0.85);
-      backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-color); z-index: 100; padding: 12px 16px;
-    }
-    .nav-scroll { display: flex; gap: 8px; overflow-x: auto; padding: 4px 0; scrollbar-width: none; -ms-overflow-style: none; }
-    .nav-scroll::-webkit-scrollbar { display: none; }
-    .nav-chip {
-      flex-shrink: 0; padding: 8px 16px; background: var(--bg-card); border: 1px solid var(--border-color);
-      border-radius: 20px; font-size: 0.85rem; font-weight: 500; color: var(--text-secondary);
-      display: flex; align-items: center; gap: 6px; transition: var(--transition); white-space: nowrap;
-    }
-    .nav-chip.active, .nav-chip:hover {
-      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
-      color: #fff; border-color: transparent; transform: scale(1.05);
-    }
-    .nav-chip i { font-size: 0.9rem; }
-
-    /* === SECTIONS - DESKTOP CONTAINER === */
-    section { padding: 90px 16px 40px; max-width: 100%; opacity: 1; transform: translateY(0); transition: var(--transition); }
-    section.fade-in { opacity: 0; transform: translateY(20px); }
-    section.fade-in.visible { opacity: 1; transform: translateY(0); }
-    
-    .section-header { text-align: center; margin-bottom: 28px; }
-    .section-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
-      padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600;
-      margin-bottom: 12px; animation: gradientShift 3s ease infinite; background-size: 200% 200%;
-    }
-    .section-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 8px; }
-    .section-divider {
-      width: 60px; height: 4px; background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
-      margin: 12px auto; border-radius: 2px; animation: gradientShift 2s ease infinite; background-size: 200% 100%;
-    }
-
-    /* === DESKTOP CONTAINER WRAPPER === */
+    /* === LAYOUT === */
     .container {
-      width: 100%;
-      max-width: 1200px;      margin: 0 auto;
-      padding: 0 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section { padding: 80px 0; }
+    
+    /* === HEADER === */
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(10, 10, 15, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      padding: 16px 0;
+    }
+    
+    .nav {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 4px 0;
+      scrollbar-width: none;
+    }
+    .nav::-webkit-scrollbar { display: none; }
+    
+    .nav-link {
+      flex-shrink: 0;
+      padding: 8px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+    .nav-link:hover, .nav-link.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: transparent;
     }
 
     /* === HERO === */
-    .hero { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 24px; }
-    .hero-avatar { position: relative; width: 140px; height: 140px; animation: float 3s ease-in-out infinite; }
-    .avatar-ring {
-      position: absolute; inset: -8px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent-start), var(--accent-end), var(--accent-start));
-      animation: gradientShift 2s linear infinite; background-size: 300% 300%; z-index: -1;
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 24px;
+      padding: 60px 0 40px;
     }
-    .profile-img {
-      width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
-      border: 3px solid var(--bg-primary); background: var(--bg-secondary); display: block;
+    
+    .hero-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #a855f7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #fff;
+      border: 3px solid var(--bg-primary);
     }
-    .hero-name { font-size: 1.9rem; font-weight: 700; line-height: 1.2; margin: 0; }
+    
+    .hero-name {
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
     .hero-name span {
-      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      background: linear-gradient(135deg, var(--accent), #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
+    
     .hero-tagline {
-      font-family: "Fira Code", monospace; font-size: 0.9rem; color: var(--accent-start);
-      background: rgba(0, 212, 255, 0.1); padding: 8px 16px; border-radius: 12px;
-      border: 1px solid rgba(0, 212, 255, 0.3); display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.9rem;
+      color: var(--accent);
+      background: rgba(99, 102, 241, 0.1);
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      display: inline-block;
     }
-    .hero-desc { color: var(--text-secondary); font-size: 0.95rem; max-width: 320px; margin: 0 auto; }
+    
+    .hero-desc {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
     .hero-desc strong { color: var(--text-primary); }
-
-    /* === BADGES === */
-    .focus-badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 16px 0; }
-    .focus-badge {
-      background: var(--bg-card); border: 1px solid var(--border-color); padding: 8px 14px;
-      border-radius: 12px; font-size: 0.8rem; color: var(--text-secondary);
-      display: flex; align-items: center; gap: 6px; animation: slideUp 0.5s ease backwards;
+    
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 12px 0;
     }
-    .focus-badge:nth-child(1) { animation-delay: 0.1s; }
-    .focus-badge:nth-child(2) { animation-delay: 0.2s; }
-    .focus-badge:nth-child(3) { animation-delay: 0.3s; }
-    .focus-badge:nth-child(4) { animation-delay: 0.4s; }
-    .focus-badge i { color: var(--success); }
-
-    /* === BUTTONS === */
-    .btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin: 20px 0; }
+    .badge {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .badge i { color: var(--accent); }
+    
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
     .btn {
-      padding: 12px 24px; border-radius: 14px; font-weight: 600; font-size: 0.9rem;
-      display: inline-flex; align-items: center; gap: 8px; transition: var(--transition);
-      border: none; cursor: pointer; text-align: center;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
     }
-    .btn-primary {      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
-      color: #fff; box-shadow: 0 4px 20px var(--accent-glow);
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
     }
-    .btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 30px var(--accent-glow); }
-    .btn-outline { background: transparent; border: 2px solid var(--border-color); color: var(--text-primary); }
-    .btn-outline:hover { border-color: var(--accent-start); background: rgba(0, 212, 255, 0.1); transform: translateY(-3px); }
-    .btn-works {
-      background: linear-gradient(135deg, var(--success), #00c896); color: #0f0c29;
-      box-shadow: 0 4px 20px rgba(0, 245, 160, 0.3);
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-primary);
     }
-    .btn-works:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 30px rgba(0, 245, 160, 0.4); }
+    .btn-outline:hover { border-color: var(--accent); }
+    
+    .social-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 8px;
+    }
+    .social-link {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 1rem;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .social-link:hover {
+      color: #fff;
+      border-color: var(--accent);
+      background: var(--accent);
+    }
 
-    /* === SOCIAL === */
-    .social-row { display: flex; gap: 14px; justify-content: center; margin-top: 12px; }
-    .social-btn {
-      width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
-      background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-secondary);
-      font-size: 1.1rem; transition: var(--transition);
+    /* === SECTION STYLES === */
+    .section-header {
+      text-align: center;
+      margin-bottom: 40px;
     }
-    .social-btn:hover {
-      color: #fff; border-color: var(--accent-start);
-      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
-      transform: translateY(-4px) scale(1.1);
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .section-divider {
+      width: 48px;
+      height: 3px;
+      background: var(--accent);
+      margin: 0 auto;
+      border-radius: 2px;
     }
 
-    /* === CLICKABLE CARDS - DESKTOP GRID === */
-    .card {
-      background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius);
-      padding: 20px; margin-bottom: 16px; transition: var(--transition);
-      animation: slideUp 0.5s ease backwards; cursor: pointer;
-    }
-    .card:hover { border-color: var(--accent-start); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3); }
-    .card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-    .card-icon {
-      width: 42px; height: 42px; border-radius: 12px;
-      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
-      display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem; flex-shrink: 0;
-    }
-    .card-title { font-weight: 600; font-size: 1.1rem; }
-    .card-body { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7; }
-    .card-body strong { color: var(--text-primary); }
-
-    /* === CARDS GRID CONTAINER === */
-    .cards-grid {
+    /* === CARDS GRID === */
+    .grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 16px;
+      gap: 20px;
+    }
+    
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: var(--transition);
+    }
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    
+    .card-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .card-title {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    .card-body {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+    .card-body strong { color: var(--text-primary); }
+    .card-body ul {
+      padding-left: 20px;
+      margin: 8px 0;
+    }
+    .card-body li { margin: 4px 0; }
+
+    /* === SKILLS GRID === */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .skill-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 14px;
+      text-align: center;
+      transition: var(--transition);
+    }
+    .skill-item:hover { border-color: var(--accent); }
+    .skill-icon {
+      font-size: 1.5rem;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .skill-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-secondary);
     }
 
-    /* === SKILLS GRID === */    .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 16px; }
-    .skill-tile {
-      background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 14px;
-      padding: 16px 12px; text-align: center; transition: var(--transition);
-      animation: slideUp 0.5s ease backwards; cursor: pointer; position: relative;
+    /* === TIMELINE === */
+    .timeline {
+      position: relative;
+      padding-left: 24px;
     }
-    .skill-tile:hover { border-color: var(--accent-start); transform: scale(1.03); }
-    .skill-tile:nth-child(1) { animation-delay: 0.1s; } .skill-tile:nth-child(2) { animation-delay: 0.15s; }
-    .skill-tile:nth-child(3) { animation-delay: 0.2s; } .skill-tile:nth-child(4) { animation-delay: 0.25s; }
-    .skill-tile:nth-child(5) { animation-delay: 0.3s; } .skill-tile:nth-child(6) { animation-delay: 0.35s; }
-    .skill-tile:nth-child(7) { animation-delay: 0.4s; } .skill-tile:nth-child(8) { animation-delay: 0.45s; }
-    .skill-icon { font-size: 1.6rem; color: var(--accent-start); margin-bottom: 8px; }
-    .skill-label { font-size: 0.8rem; font-weight: 500; color: var(--text-secondary); }
-
-    /* === TIMELINE ITEMS (CLICKABLE) === */
-    .timeline { position: relative; padding-left: 28px; margin-top: 8px; }
     .timeline::before {
-      content: ""; position: absolute; left: 8px; top: 4px; bottom: 4px; width: 2px;
-      background: linear-gradient(180deg, var(--accent-start), var(--accent-end)); border-radius: 2px;
+      content: "";
+      position: absolute;
+      left: 8px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: var(--border);
+      border-radius: 2px;
     }
     .timeline-item {
-      position: relative; padding-bottom: 24px; animation: slideUp 0.5s ease backwards; cursor: pointer;
+      position: relative;
+      padding-bottom: 24px;
     }
-    .timeline-item:hover { opacity: 0.9; }
-    .timeline-item:nth-child(1) { animation-delay: 0.1s; }
-    .timeline-item:nth-child(2) { animation-delay: 0.2s; }
-    .timeline-item:nth-child(3) { animation-delay: 0.3s; }
     .timeline-item::before {
-      content: ""; position: absolute; left: -24px; top: 6px; width: 14px; height: 14px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
-      border: 3px solid var(--bg-primary); animation: pulse 2s infinite;
+      content: "";
+      position: absolute;
+      left: -20px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg-card);
     }
-    .timeline-head { font-weight: 600; margin-bottom: 4px; font-size: 1rem; }
-    .timeline-sub { font-family: "Fira Code", monospace; font-size: 0.8rem; color: var(--accent-start); margin-bottom: 6px; }
-    .timeline-desc { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
-
-    /* === TIMELINE GRID CONTAINER === */
-    .timeline-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
+    .timeline-title {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+    .timeline-meta {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.8rem;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .timeline-desc {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.6;
     }
 
-    /* === CONTACT ITEMS (CLICKABLE) === */
-    .contact-list { display: flex; flex-direction: column; gap: 14px; }
-    .contact-item {
-      display: flex; align-items: flex-start; gap: 14px; padding: 16px;
-      background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius);
-      transition: var(--transition); animation: slideUp 0.5s ease backwards; cursor: pointer;
-    }    .contact-item:hover { border-color: var(--accent-start); transform: translateX(4px); }
-    .contact-item:nth-child(1) { animation-delay: 0.1s; } .contact-item:nth-child(2) { animation-delay: 0.2s; }
-    .contact-item:nth-child(3) { animation-delay: 0.3s; } .contact-item:nth-child(4) { animation-delay: 0.4s; }
-    .contact-item:nth-child(5) { animation-delay: 0.5s; }
-    .contact-ico {
-      width: 40px; height: 40px; border-radius: 12px;
-      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
-      display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.1rem; flex-shrink: 0;
-    }
-    .contact-txt strong { display: block; margin-bottom: 4px; color: var(--text-primary); font-size: 0.95rem; }
-    .contact-txt a { color: var(--accent-start); font-weight: 500; font-size: 0.9rem; }
-    .contact-txt a:hover { text-decoration: underline; }
-
-    /* === CONTACT GRID CONTAINER === */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr;
+    /* === CONTACT LIST === */
+    .contact-list {
+      display: flex;
+      flex-direction: column;
       gap: 14px;
     }
-
-    /* === GENERIC MODAL === */
-    .modal-overlay {
-      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(10px);
-      display: flex; align-items: center; justify-content: center; z-index: 2000;
-      opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; padding: 20px;
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: var(--transition);
+      text-decoration: none;
+      color: inherit;
     }
-    .modal-overlay.active { opacity: 1; visibility: visible; }
-    .modal-content {
-      background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius);
-      width: 100%; max-width: 520px; max-height: 85vh; overflow-y: auto; padding: 28px;
-      position: relative; transform: scale(0.85) translateY(30px); opacity: 0;
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
-      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
+    .contact-item:hover {
+      border-color: var(--accent);
+      transform: translateX(4px);
     }
-    .modal-overlay.active .modal-content { transform: scale(1) translateY(0); opacity: 1; }
-    .modal-content.closing { transform: scale(0.85) translateY(30px); opacity: 0; }
-    .modal-close {
-      position: absolute; top: 18px; right: 18px; width: 38px; height: 38px; border-radius: 50%;
-      background: rgba(255, 255, 255, 0.12); border: 1px solid var(--border-color);
-      color: var(--text-primary); display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem; cursor: pointer; transition: var(--transition); z-index: 2;
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.1rem;
+      flex-shrink: 0;
     }
-    .modal-close:hover { background: var(--accent-end); border-color: transparent; transform: rotate(90deg) scale(1.1); }
-    .modal-icon {
-      font-size: 3.2rem; color: var(--accent-start); text-align: center; margin-bottom: 18px;
-      animation: float 3s ease-in-out infinite;
+    .contact-label {
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-bottom: 2px;
     }
-    .modal-title {
-      font-size: 1.5rem; font-weight: 700; text-align: center; margin-bottom: 14px;
-      color: var(--text-primary);    }
-    .modal-desc {
-      color: var(--text-secondary); font-size: 0.95rem; line-height: 1.9; text-align: justify;
+    .contact-value {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
     }
-    .modal-desc strong { color: var(--accent-start); }
-    .modal-desc a { color: var(--accent-start); text-decoration: none; border-bottom: 1px dashed var(--accent-start); }
-    .modal-desc a:hover { border-bottom-style: solid; }
-    .modal-source {
-      margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border-color);
-      font-size: 0.85rem; color: var(--text-secondary); text-align: center;
+    .contact-value a {
+      color: var(--accent);
+      text-decoration: none;
     }
-    .modal-source a { color: var(--accent-start); font-weight: 500; }
-
-    /* Custom scrollbar */
-    .modal-content::-webkit-scrollbar { width: 6px; }
-    .modal-content::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 3px; }
-    .modal-content::-webkit-scrollbar-thumb {
-      background: linear-gradient(135deg, var(--accent-start), var(--accent-end)); border-radius: 3px;
-    }
+    .contact-value a:hover { text-decoration: underline; }
 
     /* === FOOTER === */
     footer {
-      background: rgba(15, 12, 41, 0.9); border-top: 1px solid var(--border-color);
-      padding: 28px 16px 40px; text-align: center; margin-top: 20px; position: relative; z-index: 10;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      text-align: center;
+      margin-top: 40px;
     }
-    .footer-social { display: flex; justify-content: center; gap: 14px; margin: 16px 0; }
-    .footer-social a {
-      width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
-      background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-secondary);
-      font-size: 1rem; transition: var(--transition);
+    .footer-copy {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
     }
-    .footer-social a:hover {
-      color: #fff; border-color: var(--accent-start);
-      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
-      transform: translateY(-4px);
-    }
-    .footer-copy { color: var(--text-secondary); font-size: 0.85rem; margin-top: 12px; }
-    .footer-copy span { color: var(--accent-start); }
+    .footer-copy span { color: var(--accent); }
 
-    /* === RESPONSIVE - DESKTOP FIXES === */
-    @media (min-width: 769px) {
-      /* Remove fog/blur effects on desktop for clarity */
-      .fog-container { display: none; }
-      body::after { display: none; }
-      
-      /* Reduce header blur on desktop */
-      header {
-        backdrop-filter: blur(6px);
-        background: rgba(15, 12, 41, 0.95);
-      }      
-      /* Center content with max-width */
-      .content-wrapper {
-        max-width: 1200px;
-        margin: 0 auto;
-        width: 100%;
-      }
-      
-      /* Section padding adjustment */
-      section {
-        padding: 100px 24px 50px;
-      }
-      
-      /* Cards grid - 2 columns */
-      .cards-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      
-      /* Skills grid - 4 columns on desktop */
-      .skills-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 16px;
-      }
-      
-      /* Timeline grid - 2 columns */
-      .timeline-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      
-      /* Contact grid - 2 columns */
-      .contact-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      
-      /* Hero layout - side by side */
-      .hero {
-        flex-direction: row;
-        text-align: left;
-        gap: 40px;
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-      .hero-avatar {
-        width: 160px;
-        height: 160px;
-      }
-      .hero-content {
-        max-width: 500px;
-        text-align: left;
-      }      .hero-desc {
-        max-width: 100%;
-        margin: 0;
-      }
-      .focus-badges {
-        justify-content: flex-start;
-      }
-      .btn-row {
-        justify-content: flex-start;
-      }
-      .social-row {
-        justify-content: flex-start;
-      }
-      
-      /* Modal - slightly larger on desktop */
-      .modal-content {
-        max-width: 600px;
-      }
-      
-      /* Disable mobile-optimized overlay */
-      body.mobile-optimized::after {
-        display: none;
-      }
+    /* === MODAL (Minimal) === */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+      padding: 20px;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      width: 100%;
+      max-width: 520px;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 24px;
+      position: relative;
+      transform: translateY(10px);
+      opacity: 0;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .modal-overlay.active .modal {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .modal-close:hover { background: var(--accent); }
+    .modal-icon {
+      font-size: 2.5rem;
+      color: var(--accent);
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .modal-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .modal-desc {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      text-align: justify;
+    }
+    .modal-desc a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px dashed var(--accent);
+    }
+    .modal-desc a:hover { border-bottom-style: solid; }
+
+    /* === RESPONSIVE === */
+    @media (min-width: 768px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+      .skills-grid { grid-template-columns: repeat(4, 1fr); }
+      .hero { flex-direction: row; text-align: left; justify-content: center; gap: 40px; }
+      .hero-content { max-width: 500px; text-align: left; }
+      .hero-badges, .btn-row, .social-row { justify-content: flex-start; }
     }
     
     @media (min-width: 1024px) {
-      /* Larger screens - 3 column cards */
-      .cards-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-      
-      /* Timeline - can stay 2 col or go 3 */
-      .timeline-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      
-      /* Contact - 3 columns */
-      .contact-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
+      .grid { grid-template-columns: repeat(3, 1fr); }
     }
     
     @media (max-width: 480px) {
-      .hero-name { font-size: 1.7rem; } 
-      .section-title { font-size: 1.6rem; }
+      .hero-name { font-size: 1.7rem; }
+      .section-title { font-size: 1.4rem; }
       .skills-grid { grid-template-columns: repeat(2, 1fr); }
       .btn-row { flex-direction: column; align-items: center; }
       .btn { width: 100%; max-width: 280px; justify-content: center; }
     }
+
     /* === UTILS === */
-    .text-accent {
-      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    }
-    .mono { font-family: "Fira Code", monospace; }
+    .mono { font-family: "JetBrains Mono", monospace; }
+    .text-accent { color: var(--accent); }
     body.modal-open { overflow: hidden; }
+    
+    /* === SUBTLE FADE-IN === */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
 
-<body class="mobile-optimized">
+<body>
 
-  <!-- BACKGROUND EFFECTS -->
-  <div class="fog-container"><div class="fog"></div><div class="fog"></div><div class="fog"></div></div>
-  <div class="bubbles" id="bubbles"></div>
-
-  <!-- DESKTOP WARNING -->
-  <div id="desktop-warning">
-    <div class="warning-card">
-      <div class="warning-icon">📱</div>
-      <div class="warning-title">Optimized for Mobile</div>
-      <div class="warning-text">This portfolio is designed for the best experience on mobile devices. Please view on your smartphone to enjoy full animations and layout.</div>
-      <button class="warning-btn" onclick="document.getElementById('desktop-warning').classList.remove('show')">
-        <i class="fas fa-check"></i> Understood
-      </button>
-    </div>
-  </div>
-  
-  <!-- CONTENT WRAPPER -->
-  <div class="content-wrapper">
-
-    <!-- HEADER -->
-    <header>
-      <nav class="nav-scroll">
-        <a href="#home" class="nav-chip active"><i class="fas fa-home"></i> Home</a>
-        <a href="#about" class="nav-chip"><i class="fas fa-user"></i> About</a>
-        <a href="#skills" class="nav-chip"><i class="fas fa-code"></i> Skills</a>
-        <a href="#journey" class="nav-chip"><i class="fas fa-route"></i> Journey</a>
-        <a href="#contact" class="nav-chip"><i class="fas fa-paper-plane"></i> Contact</a>
+  <!-- HEADER -->
+  <header>
+    <div class="container">
+      <nav class="nav">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#skills" class="nav-link">Skills</a>
+        <a href="#experience" class="nav-link">Experience</a>
+        <a href="#contact" class="nav-link">Contact</a>
       </nav>
-    </header>
+    </div>
+  </header>
 
-    <!-- HERO -->
-    <section id="home" class="hero fade-in">
-      <div class="hero-avatar">
-        <div class="avatar-ring"></div>
-        <img src="./images/profile.jpg" alt="Zhyllan Fyllah" class="profile-img" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#00d4ff,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:2.5rem;font-weight:700;color:#fff;\'>ZF</div>'">
+  <!-- HERO -->
+  <section id="home" class="hero fade-in">
+    <div class="hero-avatar">TD</div>
+    <div class="hero-content">
+      <h1 class="hero-name">Hi, I'm <span>Tsuki Dev.</span></h1>
+      <div class="hero-tagline mono">Mobile Developer</div>
+      <p class="hero-desc">
+        Focused on building lightweight, performant mobile applications using <strong>Android Native</strong> and <strong>Apache Cordova</strong>. Clean code, practical solutions, continuous learning.
+      </p>
+      <div class="hero-badges">
+        <span class="badge"><i class="fab fa-android"></i> Android Native</span>
+        <span class="badge"><i class="fas fa-mobile-alt"></i> Apache Cordova</span>
+        <span class="badge"><i class="fas fa-code"></i> Clean Code</span>
+        <span class="badge"><i class="fas fa-sync-alt"></i> Performance First</span>
       </div>
-      <div class="hero-content">
-        <h1 class="hero-name">Hello, I'm <span>Zhyllan Fyllah</span> 👋</h1>        <div class="hero-tagline mono"><MobileDev_Journey /></div>
-        <p class="hero-desc">
-          A Computer and Network Engineering student passionate about <strong>learning Android Native</strong> and <strong>Apache Cordova</strong> development. Focused on writing clean code, optimizing performance, and growing every day. 🚀
-        </p>
-        <div class="focus-badges">
-          <span class="focus-badge"><i class="fas fa-graduation-cap"></i> Aspiring Developer</span>
-          <span class="focus-badge"><i class="fab fa-android"></i> Android Native</span>
-          <span class="focus-badge"><i class="fas fa-mobile"></i> Apache Cordova</span>
-          <span class="focus-badge"><i class="fas fa-heart"></i> Open Source</span>
+      <div class="btn-row">
+        <a href="#experience" class="btn btn-primary"><i class="fas fa-briefcase"></i> View Experience</a>
+        <a href="https://wa.me/6285165721384" target="_blank" class="btn btn-outline"><i class="fab fa-whatsapp"></i> Let's Talk</a>
+      </div>
+      <div class="social-row">
+        <a href="https://github.com/jirankun" target="_blank" class="social-link" title="GitHub"><i class="fab fa-github"></i></a>
+        <a href="mailto:zhyllanf@gmail.com" class="social-link" title="Email"><i class="fas fa-envelope"></i></a>
+        <a href="https://wa.me/6285165721384" target="_blank" class="social-link" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">About</h2>
+        <div class="section-divider"></div>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <div class="card-head">
+            <div class="card-icon"><i class="fas fa-rocket"></i></div>
+            <div class="card-title">What I Do</div>
+          </div>
+          <div class="card-body">
+            <p>I specialize in mobile application development with two main approaches:</p>
+            <ul>
+              <li><strong>Native Android:</strong> Java/Kotlin, Android SDK, Gradle</li>
+              <li><strong>Hybrid with Cordova:</strong> HTML/CSS/JS + custom plugin integration</li>
+            </ul>
+            <p>My focus: lightweight apps, maintainable code, and practical performance optimization.</p>
+          </div>
         </div>
-        <div class="btn-row">
-          <a href="https://jirankun.github.io/portofoliozhyllan/karya/index.html" target="_blank" class="btn btn-works"><i class="fas fa-folder-open"></i> View My Works</a>
-          <a href="https://wa.me/6285165721384" target="_blank" class="btn btn-primary"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
-          <a href="mailto:zhyllanf@gmail.com" class="btn btn-outline"><i class="fas fa-envelope"></i> Send Email</a>
-        </div>
-        <div class="social-row">
-          <a href="https://github.com/jirankun" target="_blank" class="social-btn" title="GitHub"><i class="fab fa-github"></i></a>
-          <a href="https://www.linkedin.com/in/zhyllan-fyllah-56b45a38a/" target="_blank" class="social-btn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-          <a href="mailto:zhyllanf@gmail.com" class="social-btn" title="Email"><i class="fas fa-envelope"></i></a>
-          <a href="https://wa.me/6285165721384" target="_blank" class="social-btn" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <div class="card">
+          <div class="card-head">
+            <div class="card-icon"><i class="fas fa-lightbulb"></i></div>
+            <div class="card-title">Approach</div>
+          </div>
+          <div class="card-body">
+            <p>I believe in <strong>progress over perfection</strong>. Ship fast, learn faster.</p>
+            <p>Every project is an opportunity to refine architecture, improve UX, and deepen technical understanding. I document decisions, write readable code, and prioritize long-term maintainability.</p>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ABOUT -->
-    <section id="about" class="fade-in">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-badge"><i class="fas fa-sparkles"></i> ABOUT</span>
-          <h2 class="section-title">About Me</h2>
-          <div class="section-divider"></div>
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Technical Skills</h2>
+        <div class="section-divider"></div>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-item">
+          <div class="skill-icon"><i class="fab fa-android"></i></div>
+          <div class="skill-name">Android Native</div>
         </div>
+        <div class="skill-item">
+          <div class="skill-icon"><i class="fas fa-mobile-alt"></i></div>
+          <div class="skill-name">Apache Cordova</div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon"><i class="fab fa-java"></i></div>
+          <div class="skill-name">Java / Kotlin</div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon"><i class="fab fa-js"></i></div>
+          <div class="skill-name">JavaScript</div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon"><i class="fab fa-html5"></i></div>
+          <div class="skill-name">HTML5 / CSS3</div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon"><i class="fas fa-plug"></i></div>
+          <div class="skill-name">Cordova Plugins</div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon"><i class="fab fa-git-alt"></i></div>
+          <div class="skill-name">Git & GitHub</div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon"><i class="fas fa-search"></i></div>
+          <div class="skill-name">Performance Debugging</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <div class="cards-grid">
-          <div class="card" data-modal-icon="fas fa-rocket" data-modal-title="Mobile Application Development" data-modal-desc="<strong>Mobile application development</strong> adalah proses pembuatan perangkat lunak yang berjalan pada perangkat mobile seperti smartphone dan tablet. Menurut <a href='https://en.wikipedia.org/wiki/Mobile_app_development' target='_blank'>Wikipedia</a>, pengembangan aplikasi mobile dapat dilakukan secara native (menggunakan bahasa spesifik platform seperti Java/Kotlin untuk Android), hybrid (menggunakan web teknologi dengan wrapper seperti Apache Cordova), atau cross-platform (menggunakan framework seperti Flutter atau React Native).<br><br>Proses pengembangan meliputi: analisis kebutuhan, desain UI/UX, implementasi kode, testing, dan deployment ke app store. Fokus utama adalah menciptakan pengalaman pengguna yang responsif, efisien dalam penggunaan resource, dan kompatibel dengan berbagai versi sistem operasi.">
-            <div class="card-head"><div class="card-icon"><i class="fas fa-rocket"></i></div><div class="card-title">Current Focus</div></div>
-            <div class="card-body">
-              I am currently exploring <strong>mobile application development</strong> through two primary paths:<br><br>
-              • <strong>Native Android:</strong> Java/Kotlin, Android SDK, Gradle build system<br>
-              • <strong>Hybrid with Cordova:</strong> HTML/CSS/JavaScript with custom plugin integration<br><br>
-              My goal is to build lightweight, maintainable applications while continuously improving my technical skills. Progress over perfection. 💪
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Experience</h2>
+        <div class="section-divider"></div>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <div class="card-head">
+            <div class="card-icon"><i class="fas fa-code-branch"></i></div>
+            <div class="card-title">Open Source Contributions</div>
+          </div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-title">Nusantara Project ROM</div>
+              <div class="timeline-meta mono">Contributor • 2020 – Present</div>
+              <div class="timeline-desc">Testing Android custom ROM builds, documenting features, and supporting community users. Deepened understanding of AOSP architecture and system-level debugging.</div>
             </div>
-          </div>
-
-          <div class="card" data-modal-icon="fas fa-map-pin" data-modal-title="Vocational Education in Indonesia" data-modal-desc="<strong>Pendidikan kejuruan</strong> di Indonesia, khususnya program Teknik Komputer dan Jaringan (TKJ), dirancang untuk mempersiapkan siswa dengan kompetensi praktis di bidang teknologi informasi dan jaringan komputer. Berdasarkan kurikulum Kemendikbud, siswa mempelajari: instalasi jaringan, konfigurasi server, administrasi sistem Linux/Windows, keamanan jaringan, dan dasar pengembangan perangkat lunak.<br><br>Lulusan TKJ diharapkan mampu bekerja sebagai teknisi jaringan, administrator sistem, atau melanjutkan ke pendidikan tinggi di bidang informatika. Partisipasi dalam komunitas open source seperti <a href='https://id.wikipedia.org/wiki/Ubuntu' target='_blank'>Ubuntu Indonesia</a> dan proyek ROM kustom merupakan bentuk aplikasi nyata dari kompetensi yang dipelajari.">
-            <div class="card-head"><div class="card-icon"><i class="fas fa-map-pin"></i></div><div class="card-title">Location & Status</div></div>
-            <div class="card-body">
-              📍 Ujunggading, Lembah Melintang, West Sumatra, Indonesia<br>
-              🎓 Student of Computer and Network Engineering — SMK N 1 Lembah Melintang (2025–Present)<br>
-              🐧 Active contributor in LINUX UBUNTU Indonesia & Nusantara Project ROM communities            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SKILLS -->
-    <section id="skills" class="fade-in">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-badge"><i class="fas fa-code"></i> SKILLS</span>
-          <h2 class="section-title">Technical Skills</h2>
-          <div class="section-divider"></div>
-        </div>
-        <div class="skills-grid">
-          <div class="skill-tile" data-modal-icon="fab fa-android" data-modal-title="Android (Operating System)" data-modal-desc="<strong>Android</strong> adalah sistem operasi berbasis Linux yang dirancang terutama untuk perangkat layar sentuh seperti smartphone dan tablet. Dikembangkan oleh <a href='https://en.wikipedia.org/wiki/Android_(operating_system)' target='_blank'>Google</a> dan Open Handset Alliance, Android menggunakan kernel Linux yang dimodifikasi dan komponen open source lainnya.<br><br>Pengembangan aplikasi native Android umumnya menggunakan Java atau Kotlin dengan Android SDK. Arsitektur modern menerapkan pola MVVM/MVI,_dependency injection_, dan coroutine untuk manajemen asynchronous. Android menawarkan fleksibilitas tinggi, akses penuh ke API perangkat, dan performa optimal untuk aplikasi kompleks.">
-            <div class="skill-icon"><i class="fab fa-android"></i></div><div class="skill-label">Android Native</div>
-          </div>
-          <div class="skill-tile" data-modal-icon="fas fa-mobile-alt" data-modal-title="Apache Cordova" data-modal-desc="<strong>Apache Cordova</strong> adalah framework pengembangan mobile open source yang memungkinkan pengembang membuat aplikasi menggunakan HTML, CSS, dan JavaScript, lalu membungkusnya dalam container native untuk deploy ke berbagai platform seperti Android dan iOS. Menurut <a href='https://en.wikipedia.org/wiki/Apache_Cordova' target='_blank'>Wikipedia</a>, Cordova menyediakan akses ke fitur perangkat native melalui plugin, seperti kamera, GPS, dan filesystem.<br><br>Keunggulan Cordova: satu codebase untuk multi-platform, pengembangan cepat untuk tim web, dan ekosistem plugin yang luas. Cocok untuk aplikasi dengan kompleksitas menengah yang mengutamakan kecepatan pengembangan dan maintenance.">
-            <div class="skill-icon"><i class="fas fa-mobile-alt"></i></div><div class="skill-label">Apache Cordova</div>
-          </div>
-          <div class="skill-tile" data-modal-icon="fab fa-java" data-modal-title="Java & Kotlin Programming" data-modal-desc="<strong>Java</strong> adalah bahasa pemrograman berorientasi objek yang dikembangkan oleh Sun Microsystems (kini Oracle), dikenal karena portabilitas melalui JVM dan penggunaan luas di enterprise dan Android development. <strong>Kotlin</strong>, dikembangkan oleh JetBrains, adalah bahasa modern yang sepenuhnya interoperable dengan Java, dengan sintaks lebih ringkas, null-safety, dan dukungan coroutine untuk pemrograman asynchronous.<br><br>Kedua bahasa ini adalah standar resmi untuk pengembangan Android. Kotlin kini menjadi bahasa pilihan Google untuk Android development karena produktivitas dan keamanan kode yang lebih baik. Referensi: <a href='https://en.wikipedia.org/wiki/Java_(programming_language)' target='_blank'>Java</a>, <a href='https://en.wikipedia.org/wiki/Kotlin_(programming_language)' target='_blank'>Kotlin</a>.">
-            <div class="skill-icon"><i class="fab fa-java"></i></div><div class="skill-label">Java / Kotlin</div>
-          </div>
-          <div class="skill-tile" data-modal-icon="fab fa-js" data-modal-title="JavaScript (Programming Language)" data-modal-desc="<strong>JavaScript</strong> adalah bahasa pemrograman tingkat tinggi yang awalnya dirancang untuk membuat halaman web interaktif. Kini, JavaScript berjalan di server (Node.js), mobile (Cordova/React Native), dan desktop (Electron). Menurut <a href='https://en.wikipedia.org/wiki/JavaScript' target='_blank'>Wikipedia</a>, JavaScript mendukung paradigma pemrograman: imperative, OOP, dan functional.<br><br>Fitur modern ES6+ meliputi: arrow functions, destructuring, modules, async/await, dan classes. Dalam konteks Cordova, JavaScript berinteraksi dengan native code melalui bridge plugin, memungkinkan akses hardware perangkat dengan tetap menggunakan web technologies.">
-            <div class="skill-icon"><i class="fab fa-js"></i></div><div class="skill-label">JavaScript</div>
-          </div>
-          <div class="skill-tile" data-modal-icon="fab fa-html5" data-modal-title="HTML5 & CSS3" data-modal-desc="<strong>HTML5</strong> adalah versi kelima dari HyperText Markup Language, standar untuk struktur dan presentasi konten web. <strong>CSS3</strong> adalah versi terkini dari Cascading Style Sheets, digunakan untuk styling dan layout. Menurut <a href='https://en.wikipedia.org/wiki/HTML5' target='_blank'>Wikipedia</a>, HTML5 memperkenalkan elemen semantik, canvas, video/audio native, dan API seperti localStorage dan geolocation.<br><br>CSS3 menambahkan fitur seperti flexbox, grid, animasi, transform, dan media queries untuk responsive design. Dalam pengembangan hybrid apps, kombinasi HTML5+CSS3 memungkinkan pembuatan UI yang adaptif, performan, dan konsisten di berbagai ukuran layar perangkat mobile.">
-            <div class="skill-icon"><i class="fab fa-html5"></i></div><div class="skill-label">HTML5 / CSS3</div>
-          </div>
-          <div class="skill-tile" data-modal-icon="fas fa-plug" data-modal-title="Cordova Plugins Architecture" data-modal-desc="<strong>Plugin Cordova</strong> adalah modul yang memungkinkan aplikasi web-based mengakses fitur native perangkat seperti kamera, kontak, atau sensor. Menurut dokumentasi resmi dan <a href='https://en.wikipedia.org/wiki/Apache_Cordova#Plugins' target='_blank'>Wikipedia</a>, plugin terdiri dari dua bagian: interface JavaScript (untuk kode aplikasi) dan implementasi native (Java untuk Android, Objective-C/Swift untuk iOS).<br><br>Pengembang dapat menggunakan plugin publik dari registry Cordova atau membuat custom plugin untuk kebutuhan spesifik. Mekanisme exec() bridge memungkinkan komunikasi dua arah antara JavaScript dan native code, dengan manajemen lifecycle yang terintegrasi dengan aplikasi host.">
-            <div class="skill-icon"><i class="fas fa-plug"></i></div><div class="skill-label">Cordova Plugins</div>
-          </div>
-          <div class="skill-tile" data-modal-icon="fab fa-git-alt" data-modal-title="Git & GitHub" data-modal-desc="<strong>Git</strong> adalah sistem kontrol versi terdistribusi yang dikembangkan oleh Linus Torvalds untuk melacak perubahan dalam kode sumber selama pengembangan perangkat lunak. <strong>GitHub</strong> adalah platform hosting berbasis Git yang menambahkan fitur kolaborasi seperti pull request, issue tracking, dan CI/CD. Menurut <a href='https://en.wikipedia.org/wiki/Git' target='_blank'>Wikipedia</a>, Git memungkinkan kerja paralel melalui branching, merging, dan history yang lengkap.<br><br>Workflow umum: clone → branch → commit → push → pull request → review → merge. Praktik ini mendukung pengembangan kolaboratif, code review, dan integrasi berkelanjutan—esensial untuk proyek open source dan tim profesional.">
-            <div class="skill-icon"><i class="fab fa-git-alt"></i></div><div class="skill-label">Git & GitHub</div>
-          </div>
-          <div class="skill-tile" data-modal-icon="fas fa-graduation-cap" data-modal-title="Lifelong Learning in Technology" data-modal-desc="<strong>Pembelajaran sepanjang hayat</strong> (lifelong learning) adalah konsep pendidikan yang menekankan pentingnya terus memperbarui pengetahuan dan keterampilan seiring perkembangan zaman. Dalam bidang teknologi, menurut <a href='https://en.wikipedia.org/wiki/Lifelong_learning' target='_blank'>Wikipedia</a>, hal ini krusial karena siklus inovasi yang cepat: bahasa pemrograman baru, framework, dan best practice muncul terus-menerus.<br><br>Strategi efektif: mengikuti dokumentasi resmi, berkontribusi di open source, mengikuti kursus online, dan eksperimen proyek pribadi. Prinsip 'progress over perfection' mendorong iterasi cepat dan pembelajaran berbasis praktik, yang sesuai dengan filosofi pengembangan perangkat lunak modern.">
-            <div class="skill-icon"><i class="fas fa-graduation-cap"></i></div><div class="skill-label">Continuous Learning</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- JOURNEY -->
-    <section id="journey" class="fade-in">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-badge"><i class="fas fa-route"></i> JOURNEY</span>
-          <h2 class="section-title">Learning Journey</h2>
-          <div class="section-divider"></div>        </div>
-
-        <div class="cards-grid">
-          <div class="card" data-modal-icon="fas fa-school" data-modal-title="Vocational Secondary Education (SMK)" data-modal-desc="<strong>Sekolah Menengah Kejuruan (SMK)</strong> adalah jenjang pendidikan menengah di Indonesia yang fokus pada pengembangan kompetensi kejuruan untuk mempersiapkan siswa langsung bekerja atau melanjutkan pendidikan. Program <strong>Teknik Komputer dan Jaringan (TKJ)</strong> mencakup: instalasi jaringan kabel/nirkabel, konfigurasi router/switch, administrasi server Linux/Windows, keamanan jaringan, dan dasar pemrograman.<br><br>Kurikulum SMK mengintegrasikan teori dan praktik industri, dengan magang sebagai komponen wajib. Lulusan TKJ memiliki sertifikat kompetensi yang diakui industri, memungkinkan penyerapan kerja di bidang IT support, network technician, atau sistem administrator. Sumber: <a href='https://id.wikipedia.org/wiki/Sekolah_Menengah_Kejuruan' target='_blank'>Wikipedia Indonesia</a>.">
-            <div class="card-head"><div class="card-icon"><i class="fas fa-school"></i></div><div class="card-title">Education</div></div>
-            <div class="timeline-grid">
-              <div class="timeline-item" data-modal-icon="fas fa-graduation-cap" data-modal-title="SMK N 1 Lembah Melintang" data-modal-desc="<strong>SMK N 1 Lembah Melintang</strong> adalah sekolah kejuruan negeri di Kabupaten Pasaman Barat, Sumatera Barat, yang menyelenggarakan program keahlian Teknik Komputer dan Jaringan. Sekolah ini berfokus pada pembentukan kompetensi teknis di bidang: instalasi jaringan, konfigurasi perangkat Cisco/MikroTik, administrasi server, dan pengembangan aplikasi dasar.<br><br>Siswa dilatih melalui pendekatan project-based learning, dengan fasilitas lab komputer dan koneksi industri untuk magang. Partisipasi dalam kompetisi LKS dan kontribusi ke komunitas open source merupakan bagian dari pengembangan portofolio siswa.">
-                <div class="timeline-head">SMK N 1 Lembah Melintang</div>
-                <div class="timeline-sub mono">Computer & Network Engineering • 2025 – Present</div>
-                <div class="timeline-desc">Studying computer networking, Linux systems, Android development fundamentals, and building small-scale projects.</div>
-              </div>
-              <div class="timeline-item" data-modal-icon="fas fa-book" data-modal-title="SMP Tahfidz Al-Qur'an An-Naajiya" data-modal-desc="<strong>SMP Tahfidz</strong> adalah jenjang pendidikan menengah pertama yang mengintegrasikan kurikulum nasional dengan program hafalan Al-Qur'an. Di <strong>SMP Tahfidz Al-Qur'an An-Naajiya</strong>, siswa tidak hanya mempelajari mata pelajaran akademik, tetapi juga mengembangkan karakter melalui nilai-nilai keislaman dan disiplin.<br><br>Paparan awal terhadap teknologi di sekolah ini—seperti penggunaan komputer untuk penelitian, presentasi, dan eksplorasi pemrograman dasar—menjadi fondasi minat di bidang informatika. Pengalaman membantu maintenance lab komputer melatih problem-solving dan tanggung jawab teknis sejak dini.">
-                <div class="timeline-head">SMP Tahfidz Al-Qur'an An-Naajiya</div>
-                <div class="timeline-sub mono">Simpang Empat • 2021 – 2025</div>
-                <div class="timeline-desc">Developed interest in technology, assisted with computer lab maintenance, and began exploring basic programming concepts.</div>
-              </div>
+            <div class="timeline-item">
+              <div class="timeline-title">LINUX UBUNTU Indonesia</div>
+              <div class="timeline-meta mono">Active Member • 2021 – Present</div>
+              <div class="timeline-desc">Participating in technical discussions, troubleshooting Linux systems, and sharing knowledge about server administration and scripting.</div>
             </div>
-          </div>
-
-          <div class="card" data-modal-icon="fas fa-users" data-modal-title="Open Source Communities" data-modal-desc="<strong>Komunitas open source</strong> adalah kelompok pengembang dan pengguna yang berkolaborasi membuat, menguji, dan mendistribusikan perangkat lunak dengan kode sumber terbuka. Menurut <a href='https://en.wikipedia.org/wiki/Open-source_software' target='_blank'>Wikipedia</a>, model ini memungkinkan transparansi, inovasi kolektif, dan pembelajaran lintas batas geografis.<br><br>Komunitas seperti <strong>Ubuntu Indonesia</strong> dan <strong>Nusantara Project</strong> menyediakan forum diskusi, dokumentasi lokal, dan dukungan teknis bagi pengguna Linux di Indonesia. Kontribusi dapat berupa: pelaporan bug, penerjemahan, pengujian ROM, atau pengembangan fitur. Partisipasi aktif membangun reputasi, jaringan profesional, dan kompetensi teknis yang diakui industri.">
-            <div class="card-head"><div class="card-icon"><i class="fas fa-users"></i></div><div class="card-title">Communities & Projects</div></div>
-            <div class="timeline-grid">
-              <div class="timeline-item" data-modal-icon="fas fa-robot" data-modal-title="Nusantara Project ROM" data-modal-desc="<strong>Nusantara Project</strong> adalah proyek custom ROM berbasis Android Open Source Project (AOSP) yang dikembangkan oleh komunitas pengembang Indonesia. ROM kustom seperti ini memungkinkan pengguna memodifikasi sistem operasi perangkat untuk meningkatkan performa, privasi, atau fitur yang tidak tersedia di firmware resmi.<br><br>Sebagai kontributor, aktivitas meliputi: pengujian build harian, pelaporan bug, dokumentasi fitur, dan dukungan pengguna di forum. Pengalaman ini memberikan pemahaman mendalam tentang arsitektur Android, proses build AOSP, dan manajemen dependensi sistem. Sumber: <a href='https://en.wikipedia.org/wiki/Custom_ROM' target='_blank'>Custom ROM - Wikipedia</a>.">
-                <div class="timeline-head">Nusantara Project ROM</div>
-                <div class="timeline-sub mono">Contributor • 2020 – Present</div>
-                <div class="timeline-desc">Participating in Android custom ROM testing, feature documentation, and user support activities.</div>
-              </div>
-              <div class="timeline-item" data-modal-icon="fab fa-linux" data-modal-title="LINUX UBUNTU Indonesia" data-modal-desc="<strong>Ubuntu</strong> adalah distribusi Linux berbasis Debian yang dikembangkan oleh Canonical Ltd., dikenal karena kemudahan penggunaan dan dukungan komunitas yang kuat. <a href='https://en.wikipedia.org/wiki/Ubuntu' target='_blank'>Wikipedia</a> mencatat Ubuntu sebagai salah satu distro paling populer untuk desktop dan server.<br><br><strong>LINUX UBUNTU Indonesia</strong> adalah komunitas lokal yang memfasilitasi adopsi Ubuntu di Indonesia melalui: forum diskusi, instalasi bersama, workshop, dan terjemahan dokumentasi. Keanggotaan aktif memungkinkan pertukaran pengetahuan tentang administrasi sistem, scripting Bash, keamanan, dan integrasi dengan ekosistem open source lainnya.">
-                <div class="timeline-head">LINUX UBUNTU Indonesia</div>
-                <div class="timeline-sub mono">Active Member • 2021 – Present</div>
-                <div class="timeline-desc">Engaging in technical discussions, troubleshooting sessions, and knowledge sharing about Linux system administration.</div>
-              </div>
-              <div class="timeline-item" data-modal-icon="fas fa-code-branch" data-modal-title="Personal Hybrid App Projects" data-modal-desc="Proyek pribadi pengembangan aplikasi hybrid menggunakan <strong>Apache Cordova</strong> memungkinkan eksplorasi integrasi web dan native. Aktivitas meliputi: scaffold project dengan CLI Cordova, desain UI responsif dengan CSS Grid/Flexbox, implementasi logika bisnis dengan JavaScript modular, dan integrasi plugin untuk akses kamera, storage, atau notifikasi.<br><br>Proses deployment mencakup: build APK, signing, testing di device fisik, dan persiapan untuk Google Play Console. Pembelajaran ini memperkuat pemahaman tentang lifecycle aplikasi mobile, manajemen memori, dan optimasi performa untuk perangkat dengan resource terbatas.">
-                <div class="timeline-head">Personal Cordova Projects</div>
-                <div class="timeline-sub mono">Experiment • 2024 – Present</div>
-                <div class="timeline-desc">Building hybrid mobile applications, experimenting with custom plugin integration, and learning Play Store deployment workflows.</div>
-              </div>
+            <div class="timeline-item">
+              <div class="timeline-title">Personal Cordova Projects</div>
+              <div class="timeline-meta mono">Experiment • 2024 – Present</div>
+              <div class="timeline-desc">Building hybrid mobile apps, integrating custom plugins for camera/storage access, and learning Play Store deployment workflows.</div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" class="fade-in">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-badge"><i class="fas fa-paper-plane"></i> CONTACT</span>
-          <h2 class="section-title">Let's Connect</h2>
-          <div class="section-divider"></div>        </div>
-        <div class="contact-grid">
-          <div class="contact-item" data-modal-icon="fas fa-envelope" data-modal-title="Email Communication" data-modal-desc="<strong>Email</strong> (electronic mail) adalah metode pertukaran pesan digital melalui jaringan komputer, menjadi standar komunikasi profesional sejak 1970-an. Menurut <a href='https://en.wikipedia.org/wiki/Email' target='_blank'>Wikipedia</a>, email menggunakan protokol SMTP untuk pengiriman, dan IMAP/POP3 untuk pengambilan pesan.<br><br>Dalam konteks profesional, email memungkinkan: komunikasi asinkron, lampiran file, jejak audit, dan integrasi dengan kalender/task manager. Alamat email yang terdaftar di domain pribadi atau institusi meningkatkan kredibilitas dibandingkan layanan gratis. Keamanan email dapat ditingkatkan dengan enkripsi PGP/GPG dan autentikasi dua faktor.">
-            <div class="contact-ico"><i class="fas fa-envelope"></i></div>
-            <div class="contact-txt"><strong>Email</strong><a href="mailto:zhyllanf@gmail.com">zhyllanf@gmail.com</a></div>
+        <div class="card">
+          <div class="card-head">
+            <div class="card-icon"><i class="fas fa-tools"></i></div>
+            <div class="card-title">Technical Focus Areas</div>
           </div>
-          <div class="contact-item" data-modal-icon="fab fa-whatsapp" data-modal-title="WhatsApp Messenger" data-modal-desc="<strong>WhatsApp</strong> adalah aplikasi pesan instan lintas platform yang menggunakan koneksi internet untuk mengirim teks, suara, gambar, dan video. Dikembangkan oleh Meta Platforms, WhatsApp mengimplementasikan enkripsi end-to-end secara default untuk semua komunikasi, sesuai standar keamanan modern.<br><br>Fitur bisnis WhatsApp (WhatsApp Business API) memungkinkan otomatisasi pesan, katalog produk, dan integrasi CRM. Untuk komunikasi profesional, WhatsApp menawarkan kecepatan respons tinggi, terutama di wilayah dengan penetrasi mobile tinggi seperti Indonesia. Sumber: <a href='https://en.wikipedia.org/wiki/WhatsApp' target='_blank'>Wikipedia</a>.">
-            <div class="contact-ico"><i class="fab fa-whatsapp"></i></div>
-            <div class="contact-txt"><strong>WhatsApp</strong><a href="https://wa.me/6285165721384" target="_blank">+62 851 6572 1384</a></div>
-          </div>
-          <div class="contact-item" data-modal-icon="fab fa-github" data-modal-title="GitHub Platform" data-modal-desc="<strong>GitHub</strong> adalah platform hosting berbasis Git yang menyediakan kontrol versi, kolaborasi kode, dan alat pengembangan perangkat lunak. Menurut <a href='https://en.wikipedia.org/wiki/GitHub' target='_blank'>Wikipedia</a>, GitHub memiliki lebih dari 100 juta pengembang dan menjadi repositori open source terbesar di dunia.<br><br>Fitur utama: repository publik/privat, pull request untuk code review, GitHub Actions untuk CI/CD, dan GitHub Pages untuk hosting statis. Profil GitHub berfungsi sebagai portofolio teknis yang dapat diverifikasi, menampilkan riwayat kontribusi, bahasa dominan, dan proyek unggulan—sangat berharga untuk rekrutmen teknis.">
-            <div class="contact-ico"><i class="fab fa-github"></i></div>
-            <div class="contact-txt"><strong>GitHub</strong><a href="https://github.com/jirankun" target="_blank">github.com/jirankun</a></div>
-          </div>
-          <div class="contact-item" data-modal-icon="fab fa-linkedin-in" data-modal-title="LinkedIn Professional Network" data-modal-desc="<strong>LinkedIn</strong> adalah jejaring sosial yang berfokus pada pengembangan karier dan koneksi profesional. Diluncurkan pada 2003, platform ini memungkinkan pengguna membuat profil digital, menampilkan pengalaman kerja, keterampilan, dan rekomendasi. Menurut <a href='https://en.wikipedia.org/wiki/LinkedIn' target='_blank'>Wikipedia</a>, LinkedIn memiliki lebih dari 900 juta anggota di 200+ negara.<br><br>Fungsi strategis: personal branding, pencarian peluang kerja, networking industri, dan berbagi konten profesional. Untuk developer, LinkedIn memungkinkan koneksi dengan recruiter teknis, partisipasi di grup spesialis, dan eksposur proyek open source melalui integrasi GitHub.">
-            <div class="contact-ico"><i class="fab fa-linkedin-in"></i></div>
-            <div class="contact-txt"><strong>LinkedIn</strong><a href="https://www.linkedin.com/in/zhyllan-fyllah-56b45a38a/" target="_blank">Zhyllan Fyllah</a></div>
-          </div>
-          <div class="contact-item" data-modal-icon="fas fa-map-marker-alt" data-modal-title="West Sumatra, Indonesia" data-modal-desc="<strong>Sumatera Barat</strong> adalah provinsi di pulau Sumatera, Indonesia, dengan ibu kota Padang. Wilayah ini dikenal dengan budaya Minangkabau yang matrilineal, serta keindahan alam seperti Danau Maninjau dan Ngarai Sianok. Dalam konteks teknologi, Sumatera Barat memiliki ekosistem startup yang berkembang, didukung oleh komunitas IT lokal dan program pemerintah untuk digitalisasi UMKM.<br><br>Lembah Melintang, sebagai lokasi, merupakan bagian dari Kabupaten Pasaman Barat—wilayah yang terus meningkatkan infrastruktur digital untuk mendukung pendidikan dan ekonomi kreatif. Partisipasi dalam komunitas global dari lokasi ini menunjukkan bahwa kontribusi open source tidak terbatas geografi. Sumber: <a href='https://en.wikipedia.org/wiki/West_Sumatra' target='_blank'>Wikipedia</a>.">
-            <div class="contact-ico"><i class="fas fa-map-marker-alt"></i></div>
-            <div class="contact-txt"><strong>Location</strong>Ujunggading, Lembah Melintang, West Sumatra, Indonesia 🇮🇩</div>
+          <div class="card-body">
+            <p><strong>Localization & Patching:</strong> Experience creating language patches for RPG Maker MV/MZ games using JSON-based localization plugins.</p>
+            <p><strong>Plugin Development:</strong> Building custom Cordova plugins to bridge JavaScript and native Android code.</p>
+            <p><strong>Performance:</strong> Profiling app startup time, memory usage, and render performance; implementing lazy loading and resource optimization.</p>
+            <p><strong>Tooling:</strong> Comfortable with Android Studio, VS Code, Gradle, Cordova CLI, and Git workflows.</p>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- FOOTER -->
-    <footer>
-      <div class="footer-social">
-        <a href="https://github.com/jirankun" target="_blank"><i class="fab fa-github"></i></a>
-        <a href="https://www.linkedin.com/in/zhyllan-fyllah-56b45a38a/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-        <a href="mailto:zhyllanf@gmail.com"><i class="fas fa-envelope"></i></a>
-        <a href="https://wa.me/6285165721384" target="_blank"><i class="fab fa-whatsapp"></i></a>
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Contact</h2>
+        <div class="section-divider"></div>
       </div>
-      <p class="footer-copy">© 2025 <span>Zhyllan Fyllah</span> • Built with ❤️ for mobile</p>
-    </footer>
+      <div class="contact-list">
+        <a href="mailto:zhyllanf@gmail.com" class="contact-item">
+          <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+          <div>
+            <div class="contact-label">Email</div>
+            <div class="contact-value">zhyllanf@gmail.com</div>
+          </div>
+        </a>
+        <a href="https://wa.me/6285165721384" target="_blank" class="contact-item">
+          <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
+          <div>
+            <div class="contact-label">WhatsApp</div>
+            <div class="contact-value">+62 851 6572 1384</div>
+          </div>
+        </a>
+        <a href="https://github.com/jirankun" target="_blank" class="contact-item">
+          <div class="contact-icon"><i class="fab fa-github"></i></div>
+          <div>
+            <div class="contact-label">GitHub</div>
+            <div class="contact-value">github.com/jirankun</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
 
-  </div>
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p class="footer-copy">© 2025 <span>Tsuki Dev.</span> • Mobile Developer</p>
+    </div>
+  </footer>
 
-  <!-- GENERIC MODAL -->
-  <div class="modal-overlay" id="genericModal">
-    <div class="modal-content" id="modalContent">
-      <button class="modal-close" id="modalCloseBtn" aria-label="Close modal">
-        <i class="fas fa-times"></i>
-      </button>
+  <!-- MINIMAL MODAL -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
       <div class="modal-icon" id="modalIcon"></div>
       <h3 class="modal-title" id="modalTitle"></h3>
       <div class="modal-desc" id="modalDesc"></div>
-      <div class="modal-source">
-        Penjelasan disadur dari sumber terpercaya • <a href="https://wikipedia.org" target="_blank">Pelajari lebih lanjut di Wikipedia</a>      </div>
     </div>
   </div>
 
   <!-- SCRIPTS -->
   <script>
-    // === BUBBLE GENERATOR ===
-    function createBubbles() {
-      const container = document.getElementById('bubbles');
-      const bubbleCount = 35;
-      const colors = ['#00d4ff', '#7c3aed', '#00f5a0', '#ff6b9d', '#ffd93d'];
-      for (let i = 0; i < bubbleCount; i++) {
-        const bubble = document.createElement('div');
-        bubble.className = 'bubble';
-        const size = Math.random() * 5 + 3;
-        const left = Math.random() * 100;
-        const delay = Math.random() * 15;
-        const duration = Math.random() * 10 + 15;
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const opacity = Math.random() * 0.4 + 0.2;
-        bubble.style.width = `${size}px`;
-        bubble.style.height = `${size}px`;
-        bubble.style.left = `${left}%`;
-        bubble.style.animationDelay = `${delay}s`;
-        bubble.style.animationDuration = `${duration}s`;
-        bubble.style.color = color;
-        bubble.style.opacity = opacity;
-        container.appendChild(bubble);
-      }
-    }
-
-    // === DEVICE DETECTION ===
-    function isMobile() {
-      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
-    }
-
-    // === GENERIC MODAL SYSTEM ===
-    function initGenericModal() {
-      const modalOverlay = document.getElementById('genericModal');
-      const modalContent = document.getElementById('modalContent');
-      const modalClose = document.getElementById('modalCloseBtn');
-      const modalIcon = document.getElementById('modalIcon');
-      const modalTitle = document.getElementById('modalTitle');
-      const modalDesc = document.getElementById('modalDesc');
-      
-      // Selectors for all clickable items
-      const clickables = document.querySelectorAll(`
-        .card[data-modal-title],
-        .skill-tile[data-modal-title],
-        .timeline-item[data-modal-title],        .contact-item[data-modal-title]
-      `);
-
-      function openModal(element) {
-        const icon = element.dataset.modalIcon || 'fas fa-info-circle';
-        const title = element.dataset.modalTitle || 'Information';
-        const desc = element.dataset.modalDesc || 'No description available.';
-
-        modalIcon.innerHTML = `<i class="${icon}"></i>`;
-        modalTitle.textContent = title;
-        modalDesc.innerHTML = desc;
-
-        document.body.classList.add('modal-open');
-        modalOverlay.classList.add('active');
-        modalContent.classList.remove('closing');
-        
-        // Prevent background scroll
-        modalOverlay.style.pointerEvents = 'auto';
-      }
-
-      function closeModal() {
-        modalContent.classList.add('closing');
-        setTimeout(() => {
-          modalOverlay.classList.remove('active');
-          document.body.classList.remove('modal-open');
-          modalContent.classList.remove('closing');
-          modalOverlay.style.pointerEvents = 'none';
-        }, 300);
-      }
-
-      // Attach click handlers
-      clickables.forEach(el => {
-        el.addEventListener('click', (e) => {
-          // Prevent modal from opening if clicking a link inside
-          if (e.target.tagName === 'A' || e.target.closest('a')) return;
-          openModal(el);
-        });
-        // Touch feedback
-        el.addEventListener('touchstart', function() {
-          this.style.transform = this.classList.contains('skill-tile') ? 'scale(0.98)' : 'translateY(-2px)';
-        });
-        el.addEventListener('touchend', function() {
-          this.style.transform = '';
-        });
-      });
-
-      // Close handlers
-      modalClose.addEventListener('click', closeModal);
-      modalOverlay.addEventListener('click', (e) => {
-        if (e.target === modalOverlay) closeModal();      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modalOverlay.classList.contains('active')) closeModal();
-      });
-    }
-
-    // === MAIN INIT ===
+    // === SUBTLE FADE-IN ON SCROLL ===
     document.addEventListener('DOMContentLoaded', () => {
-      createBubbles();
-      initGenericModal();
-
-      if (!isMobile()) {
-        setTimeout(() => {
-          document.getElementById('desktop-warning').classList.add('show');
-        }, 800);
-      }
-
-      // Scroll animations
-      const sections = document.querySelectorAll('section.fade-in');
-      if (sections.length > 0) sections[0].classList.add('visible');
+      const fadeElements = document.querySelectorAll('.fade-in');
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) entry.target.classList.add('visible');
         });
       }, { threshold: 0.1 });
-      sections.forEach(sec => observer.observe(sec));
-
+      fadeElements.forEach(el => observer.observe(el));
+      
       // Nav active state
-      const navChips = document.querySelectorAll('.nav-chip');
+      const navLinks = document.querySelectorAll('.nav-link');
+      const sections = document.querySelectorAll('section');
       const navObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             const id = entry.target.getAttribute('id');
-            navChips.forEach(chip => {
-              chip.classList.remove('active');
-              if (chip.getAttribute('href') === `#${id}`) chip.classList.add('active');
+            navLinks.forEach(link => {
+              link.classList.remove('active');
+              if (link.getAttribute('href') === `#${id}`) link.classList.add('active');
             });
           }
         });
-      }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
+      }, { rootMargin: '-40% 0px -40% 0px', threshold: 0 });
       sections.forEach(sec => navObserver.observe(sec));
       
       // Smooth scroll
@@ -878,17 +791,47 @@
         anchor.addEventListener('click', function(e) {
           e.preventDefault();
           const target = document.querySelector(this.getAttribute('href'));
-          if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            document.getElementById('desktop-warning').classList.remove('show');          }
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
       });
+    });
 
-      // Touch feedback for buttons
-      document.querySelectorAll('.btn, .social-btn, .nav-chip').forEach(el => {
-        el.addEventListener('touchstart', function() { this.style.transform = 'scale(0.98)'; });
-        el.addEventListener('touchend', function() { this.style.transform = ''; });
-      });
+    // === MINIMAL MODAL FOR SKILLS (Optional) ===
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalClose = document.getElementById('modalClose');
+    const modalIcon = document.getElementById('modalIcon');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    
+    // Optional: attach to skill items if you want tooltips
+    // document.querySelectorAll('.skill-item').forEach(item => {
+    //   item.addEventListener('click', () => {
+    //     const name = item.querySelector('.skill-name').textContent;
+    //     modalIcon.innerHTML = item.querySelector('.skill-icon').innerHTML;
+    //     modalTitle.textContent = name;
+    //     modalDesc.textContent = `Details about ${name}...`;
+    //     modalOverlay.classList.add('active');
+    //     document.body.classList.add('modal-open');
+    //   });
+    // });
+    
+    modalClose.addEventListener('click', () => {
+      modalOverlay.classList.remove('active');
+      document.body.classList.remove('modal-open');
+    });
+    
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) {
+        modalOverlay.classList.remove('active');
+        document.body.classList.remove('modal-open');
+      }
+    });
+    
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+        modalOverlay.classList.remove('active');
+        document.body.classList.remove('modal-open');
+      }
     });
   </script>
 </body>
