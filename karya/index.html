@@ -3,199 +3,85 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>My Works • Zhyllan Fyllah</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Works • Tsuki Dev.</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg-primary: #0f0c29;
-      --bg-secondary: #1a1a3a;
-      --bg-card: rgba(30, 25, 65, 0.7);
-      --text-primary: #ffffff;
-      --text-secondary: #b8c1ec;
-      --accent-start: #00d4ff;
-      --accent-end: #7c3aed;
-      --accent-glow: rgba(124, 58, 237, 0.4);
-      --border-color: rgba(255, 255, 255, 0.1);
-      --success: #00f5a0;
-      --warning: #ffd93d;
-      --danger: #ff6b9d;
-      --info: #6366f1;
-      --radius: 16px;
-      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #13131f;
+      --bg-card: #1a1a2e;
+      --text-primary: #f0f0f5;
+      --text-secondary: #a0a0b5;
+      --accent: #6366f1;
+      --accent-hover: #818cf8;
+      --border: rgba(255, 255, 255, 0.08);
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --radius: 12px;
+      --transition: all 0.2s ease;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+    
     body {
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #1a1a3a);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
+      font-family: "Inter", sans-serif;
+      background: var(--bg-primary);
       color: var(--text-primary);
       line-height: 1.6;
       overflow-x: hidden;
-      min-height: 100vh;
-      position: relative;
     }
 
-    /* === BACKGROUND EFFECTS === */
-    body::before {
-      content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
-                  radial-gradient(circle at 80% 80%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
-                  radial-gradient(circle at 40% 20%, rgba(0, 245, 160, 0.1) 0%, transparent 40%);
-      animation: shimmer 8s ease-in-out infinite; pointer-events: none; z-index: 0;
-    }
-    body::after {
-      content: ""; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
-      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 212, 255, 0.03) 2px, rgba(0, 212, 255, 0.03) 4px);
-      animation: shimmerScan 10s linear infinite; pointer-events: none; z-index: 0;
-    }
-    @keyframes gradientBG { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-    @keyframes shimmer { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.05); } }
-    @keyframes shimmerScan { 0% { transform: translateY(0) rotate(0deg); } 100% { transform: translateY(-50px) rotate(2deg); } }
-
-    .fog-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: 1; }
-    .fog {
-      position: absolute; width: 300%; height: 100%;
-      background: url("image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-      opacity: 0.08; animation: fogMove 30s linear infinite;
-    }
-    .fog:nth-child(1) { top: 10%; animation-duration: 35s; opacity: 0.06; }
-    .fog:nth-child(2) { top: 40%; animation-duration: 25s; opacity: 0.08; animation-direction: reverse; }
-    .fog:nth-child(3) { top: 70%; animation-duration: 40s; opacity: 0.05; }
-    @keyframes fogMove { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-    .bubbles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; overflow: hidden; }
-    .bubble {
-      position: absolute; bottom: -20px; border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.2));
-      box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
-      animation: bubbleFloat linear infinite; opacity: 0;
-    }
-    @keyframes bubbleFloat {
-      0% { transform: translateY(0) scale(0.8); opacity: 0; }
-      10%, 90% { opacity: 0.6; }
-      100% { transform: translateY(-120vh) scale(1.2); opacity: 0; }
-    }
-
-    .content-wrapper { position: relative; z-index: 10; }
-
-    /* === TOAST NOTIFICATION SYSTEM === */
-    #toast-container {
-      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-      z-index: 9999; display: flex; flex-direction: column; gap: 10px;
-      max-width: 90%; width: 100%; max-width: 400px; pointer-events: none;
-    }
-    .toast {
-      background: var(--bg-card); border: 1px solid var(--border-color);
-      border-radius: 12px; padding: 14px 18px; display: flex; align-items: center; gap: 12px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4); animation: toastSlide 0.4s ease;
-      pointer-events: auto; cursor: pointer; position: relative; overflow: hidden;
-    }
-    .toast.success { border-left: 4px solid var(--success); }
-    .toast.warning { border-left: 4px solid var(--warning); }
-    .toast.error { border-left: 4px solid var(--danger); }
-    .toast.info { border-left: 4px solid var(--info); }
-    .toast-icon {
-      width: 28px; height: 28px; border-radius: 8px; display: flex; 
-      align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.9rem;
-    }
-    .toast.success .toast-icon { background: rgba(0, 245, 160, 0.2); color: var(--success); }
-    .toast.warning .toast-icon { background: rgba(255, 217, 61, 0.2); color: var(--warning); }
-    .toast.error .toast-icon { background: rgba(255, 107, 157, 0.2); color: var(--danger); }
-    .toast.info .toast-icon { background: rgba(99, 102, 241, 0.2); color: var(--info); }
-    .toast-content { flex: 1; min-width: 0; }
-    .toast-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 2px; }
-    .toast-message { font-size: 0.85rem; color: var(--text-secondary); }
-    .toast-close {
-      background: none; border: none; color: var(--text-secondary); 
-      font-size: 1.1rem; cursor: pointer; padding: 4px; transition: var(--transition);
-    }
-    .toast-close:hover { color: var(--text-primary); transform: scale(1.1); }
-    .toast-progress {
-      position: absolute; bottom: 0; left: 0; height: 3px; 
-      background: var(--accent-start); border-radius: 0 0 12px 12px;
-      animation: toastProgress linear forwards;
-    }
-    @keyframes toastSlide {
-      from { opacity: 0; transform: translateY(30px) scale(0.95); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    @keyframes toastExit {
-      to { opacity: 0; transform: translateY(20px) scale(0.95); }
-    }
-    @keyframes toastProgress { from { width: 100%; } to { width: 0%; } }
-
-    /* === DESKTOP WARNING MODAL === */
-    #desktop-warning {
-      display: none; position: fixed; inset: 0; background: rgba(15, 12, 41, 0.95);
-      backdrop-filter: blur(10px); z-index: 9999; align-items: center; justify-content: center; 
-      padding: 20px; text-align: center;
-    }
-    #desktop-warning.show { display: flex; animation: fadeIn 0.5s ease; }
-    .warning-card {
-      background: var(--bg-card); border: 1px solid var(--border-color);
-      border-radius: var(--radius); padding: 30px; max-width: 420px; 
-      animation: slideUp 0.6s ease;
-    }
-    .warning-icon { font-size: 3rem; color: var(--accent-start); margin-bottom: 16px; animation: bounce 2s infinite; }
-    .warning-title { font-size: 1.4rem; font-weight: 600; margin-bottom: 12px; }
-    .warning-text { color: var(--text-secondary); margin-bottom: 20px; font-size: 0.95rem; }
-    .warning-btn {
-      background: linear-gradient(135deg, var(--accent-start), var(--accent-end)); color: #fff;
-      border: none; padding: 12px 28px; border-radius: 25px; font-weight: 600; cursor: pointer; 
-      animation: pulse 2s infinite;
-    }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); } 50% { box-shadow: 0 0 0 12px transparent; } }
+    /* === LAYOUT === */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 60px 0; }
 
     /* === HEADER === */
     header {
-      position: fixed; top: 0; width: 100%;
-      background: rgba(15, 12, 41, 0.85); backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border-color); z-index: 100; padding: 12px 16px;
+      position: sticky; top: 0;
+      background: rgba(10, 10, 15, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100; padding: 14px 0;
     }
-    .nav-container { 
-      max-width: 1200px; margin: 0 auto; 
-      display: flex; align-items: center; gap: 16px; 
+    .nav-container {
+      display: flex; align-items: center; gap: 16px;
+      max-width: 1100px; margin: 0 auto; padding: 0 24px;
     }
     .back-btn {
       display: flex; align-items: center; gap: 8px;
       color: var(--text-secondary); font-weight: 500; font-size: 0.9rem;
-      padding: 8px 14px; border-radius: 10px; transition: var(--transition);
-      flex-shrink: 0;
+      padding: 8px 14px; border-radius: 10px;
+      text-decoration: none; transition: var(--transition);
     }
-    .back-btn:hover { color: var(--accent-start); background: var(--accent-glow); }
-    .page-title { 
-      font-weight: 600; font-size: 1.1rem; 
-      color: var(--text-primary);
-    }
+    .back-btn:hover { color: var(--accent); background: rgba(99, 102, 241, 0.1); }
+    .page-title { font-weight: 600; font-size: 1rem; color: var(--text-primary); }
 
     /* === HERO === */
     .works-hero {
-      padding: 100px 16px 30px; text-align: center; max-width: 800px; margin: 0 auto;
+      text-align: center; padding: 50px 24px 30px;
+      max-width: 700px; margin: 0 auto;
     }
     .works-hero h1 {
-      font-size: 2rem; font-weight: 700; margin-bottom: 12px;
-      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+      font-size: 1.8rem; font-weight: 700; margin-bottom: 10px;
+      background: linear-gradient(135deg, var(--accent), #a855f7);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-    .works-hero p { color: var(--text-secondary); font-size: 1rem; margin-bottom: 24px; }
+    .works-hero p { color: var(--text-secondary); font-size: 1rem; }
 
     /* === SEARCH & FILTER === */
     .controls {
       display: flex; flex-direction: column; gap: 12px;
-      max-width: 800px; margin: 0 auto 30px; padding: 0 16px;
+      max-width: 700px; margin: 0 auto 30px; padding: 0 24px;
     }
     .search-box {
       position: relative;
-      background: var(--bg-card); border: 1px solid var(--border-color);
-      border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 10px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px 14px;
+      display: flex; align-items: center; gap: 10px;
     }
     .search-box i { color: var(--text-secondary); }
     .search-box input {
@@ -203,235 +89,181 @@
       color: var(--text-primary); font-size: 0.95rem;
     }
     .search-box input::placeholder { color: var(--text-secondary); }
+    
     .filter-chips { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
     .filter-chip {
       padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 500;
-      background: var(--bg-card); border: 1px solid var(--border-color);
+      background: var(--bg-card); border: 1px solid var(--border);
       color: var(--text-secondary); cursor: pointer; transition: var(--transition);
     }
     .filter-chip.active, .filter-chip:hover {
-      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
-      color: #fff; border-color: transparent;
+      background: var(--accent); color: #fff; border-color: transparent;
     }
-    .filter-chip[data-filter="all"] { color: var(--accent-start); border-color: var(--accent-start); }
-    .filter-chip.active[data-filter="all"] { background: var(--accent-start); color: #0f0c29; }
 
-    /* === PROJECTS LIST - GITHUB STYLE LAYOUT === */
+    /* === PROJECTS LIST (GitHub Style) === */
     .projects-container {
-      max-width: 900px; margin: 0 auto; padding: 0 16px 40px;
+      max-width: 900px; margin: 0 auto; padding: 0 24px 40px;
       display: flex; flex-direction: column; gap: 12px;
     }
-
     .project-card {
-      background: var(--bg-card); border: 1px solid var(--border-color);
+      background: var(--bg-card); border: 1px solid var(--border);
       border-radius: var(--radius); overflow: hidden;
-      transition: var(--transition); animation: slideUp 0.5s ease backwards;
-      width: 100%;
+      transition: var(--transition);
     }
-    .project-card:nth-child(1) { animation-delay: 0.1s; }
-    .project-card:nth-child(2) { animation-delay: 0.15s; }
-    .project-card:nth-child(3) { animation-delay: 0.2s; }
-    
-    .project-card:hover {
-      border-color: var(--accent-start);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-    }
+    .project-card:hover { border-color: var(--accent); }
 
-    /* GITHUB STYLE: 2 COLUMN LAYOUT */
     .project-row {
-      display: grid;
-      grid-template-columns: 60px 1fr 40px;
-      gap: 16px;
-      align-items: center;
-      padding: 16px;
+      display: grid; grid-template-columns: 56px 1fr 36px;
+      gap: 14px; align-items: center; padding: 14px 16px;
       cursor: pointer;
     }
-
     .project-icon-wrapper {
-      width: 48px; height: 48px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+      width: 44px; height: 44px; border-radius: 10px;
+      background: var(--accent);
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0; overflow: hidden;
-      transition: var(--transition);
     }
-    .project-card:hover .project-icon-wrapper {
-      transform: scale(1.05);
-      box-shadow: 0 4px 15px var(--accent-glow);
-    }
-    .project-icon-wrapper img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-    }
-    .project-icon-wrapper i {
-      font-size: 1.4rem; color: #fff;
-    }
+    .project-icon-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+    .project-icon-wrapper i { font-size: 1.3rem; color: #fff; }
 
-    .project-info {
-      min-width: 0; flex: 1;
-    }
+    .project-info { min-width: 0; }
     .project-name {
-      font-weight: 600; font-size: 1.05rem; margin-bottom: 4px;
+      font-weight: 600; font-size: 1rem; margin-bottom: 4px;
       color: var(--text-primary); display: block; text-decoration: none;
-      transition: var(--transition);
     }
-    .project-name:hover { color: var(--accent-start); }
+    .project-name:hover { color: var(--accent); }
+    
     .project-meta-inline {
-      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
     }
     .category-badge {
       padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 500;
     }
-    .category-android { background: rgba(0, 212, 255, 0.2); color: var(--accent-start); }
-    .category-cordova { background: rgba(124, 58, 237, 0.2); color: var(--accent-end); }
-    .category-web { background: rgba(0, 245, 160, 0.2); color: var(--success); }
-    .category-tools { background: rgba(255, 217, 61, 0.2); color: var(--warning); }
+    .category-android { background: rgba(99, 102, 241, 0.2); color: var(--accent); }
+    .category-cordova { background: rgba(168, 85, 247, 0.2); color: #a855f7; }
+    .category-web { background: rgba(34, 197, 94, 0.2); color: var(--success); }
+    .category-tools { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+    
     .project-date {
       font-size: 0.8rem; color: var(--text-secondary);
       display: flex; align-items: center; gap: 4px;
     }
-    .project-date i { color: var(--accent-start); font-size: 0.75rem; }
-
     .toggle-indicator {
-      width: 32px; height: 32px; border-radius: 8px;
-      background: var(--bg-secondary); border: 1px solid var(--border-color);
+      width: 28px; height: 28px; border-radius: 8px;
+      background: var(--bg-secondary); border: 1px solid var(--border);
       display: flex; align-items: center; justify-content: center;
       color: var(--text-secondary); transition: var(--transition);
-      flex-shrink: 0;
+      flex-shrink: 0; font-size: 0.8rem;
     }
     .project-card:hover .toggle-indicator {
-      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
-      color: #fff; border-color: transparent;
+      background: var(--accent); color: #fff; border-color: transparent;
     }
-    .toggle-indicator.active {
-      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
-      color: #fff; border-color: transparent;
-      transform: rotate(180deg);
-    }
+    .toggle-indicator.active { transform: rotate(180deg); }
 
-    /* DROPDOWN DESCRIPTION */
     .project-description {
       max-height: 0; overflow: hidden;
       padding: 0 16px;
-      transition: max-height 0.4s ease, padding 0.4s ease;
+      transition: max-height 0.3s ease, padding 0.3s ease;
       border-top: 1px solid transparent;
     }
     .project-description.expanded {
-      max-height: 600px; 
-      padding: 16px;
-      border-top-color: var(--border-color);
-      background: rgba(0, 0, 0, 0.2);
+      max-height: 500px; padding: 14px 16px;
+      border-top-color: var(--border);
+      background: rgba(0, 0, 0, 0.15);
     }
     .project-description p {
       color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .project-meta-tags {
-      display: flex; gap: 12px; flex-wrap: wrap;
+      display: flex; gap: 10px; flex-wrap: wrap;
     }
     .meta-tag {
-      font-size: 0.8rem; color: var(--text-secondary);
+      font-size: 0.75rem; color: var(--text-secondary);
       display: flex; align-items: center; gap: 4px;
       padding: 4px 10px; background: rgba(255,255,255,0.05);
       border-radius: 8px;
     }
-    .meta-tag i { color: var(--accent-start); }
+    .meta-tag i { color: var(--accent); }
 
     /* === EMPTY STATE === */
     .empty-state {
       text-align: center; padding: 40px 20px; color: var(--text-secondary);
     }
-    .empty-state i { font-size: 3rem; color: var(--accent-start); margin-bottom: 16px; opacity: 0.6; }
-    .empty-state p { margin-bottom: 20px; }
+    .empty-state i { font-size: 2.5rem; color: var(--accent); margin-bottom: 14px; opacity: 0.7; }
+    .empty-state p { margin-bottom: 16px; }
+
+    /* === TOAST (Minimal) === */
+    #toast-container {
+      position: fixed; bottom: 20px; right: 20px;
+      z-index: 9999; display: flex; flex-direction: column; gap: 10px;
+      max-width: 360px; width: calc(100% - 40px); pointer-events: none;
+    }
+    .toast {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px 16px;
+      display: flex; align-items: center; gap: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      animation: toastIn 0.2s ease; pointer-events: auto;
+    }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .toast.success { border-left: 3px solid var(--success); }
+    .toast.warning { border-left: 3px solid var(--warning); }
+    .toast.error { border-left: 3px solid var(--danger); }
+    .toast.info { border-left: 3px solid var(--accent); }
+    .toast-icon {
+      width: 24px; height: 24px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 0.85rem;
+    }
+    .toast.success .toast-icon { background: rgba(34, 197, 94, 0.2); color: var(--success); }
+    .toast.warning .toast-icon { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+    .toast.error .toast-icon { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+    .toast.info .toast-icon { background: rgba(99, 102, 241, 0.2); color: var(--accent); }
+    .toast-content { flex: 1; min-width: 0; }
+    .toast-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 1px; }
+    .toast-message { font-size: 0.85rem; color: var(--text-secondary); }
+    .toast-close {
+      background: none; border: none; color: var(--text-secondary);
+      font-size: 1rem; cursor: pointer; padding: 4px;
+    }
+    .toast-close:hover { color: var(--text-primary); }
 
     /* === FOOTER === */
     footer {
-      background: rgba(15, 12, 41, 0.9); border-top: 1px solid var(--border-color);
-      padding: 24px 16px; text-align: center; position: relative; z-index: 10;
+      background: var(--bg-secondary); border-top: 1px solid var(--border);
+      padding: 24px 0; text-align: center; margin-top: 20px;
     }
-    .footer-text { color: var(--text-secondary); font-size: 0.85rem; }
-    .footer-text span { color: var(--accent-start); }
-
-    /* === ANIMATIONS === */
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .footer-text { color: var(--text-secondary); font-size: 0.9rem; }
+    .footer-text span { color: var(--accent); }
 
     /* === RESPONSIVE === */
-    @media (min-width: 769px) {
-      .fog-container { display: none; }
-      body::after { display: none; }
-      
-      header {
-        backdrop-filter: blur(6px);
-        background: rgba(15, 12, 41, 0.95);
-      }
-      
-      .content-wrapper {
-        max-width: 1200px; margin: 0 auto; width: 100%;
-      }
-      
-      .works-hero {
-        padding: 110px 24px 40px; text-align: left;
-      }
-      .works-hero h1 { text-align: left; }
-      .works-hero p { text-align: left; max-width: 600px; margin-left: auto; margin-right: auto; }
-      
-      .controls { max-width: 900px; }
-      
-      .projects-container {
-        max-width: 900px; padding: 0 24px 50px;
-      }
-      
-      #toast-container {
-        bottom: 30px; right: 30px; left: auto; transform: none; max-width: 380px;
-      }
-      
-      body.mobile-optimized::after { display: none; }
+    @media (min-width: 768px) {
+      .works-hero { text-align: left; padding: 60px 0 40px; }
+      .controls { padding: 0; }
+      .projects-container { padding: 0 0 50px; }
+      #toast-container { bottom: 30px; right: 30px; }
     }
-    
-    @media (max-width: 600px) {
-      .project-row {
-        grid-template-columns: 50px 1fr 32px;
-        gap: 12px;
-        padding: 14px;
-      }
-      .project-icon-wrapper {
-        width: 42px; height: 42px;
-      }
+    @media (max-width: 480px) {
+      .project-row { grid-template-columns: 48px 1fr 32px; gap: 12px; padding: 12px 14px; }
+      .project-icon-wrapper { width: 40px; height: 40px; }
       .project-name { font-size: 0.95rem; }
-      .project-meta-inline { gap: 8px; }
       .category-badge { font-size: 0.7rem; padding: 2px 8px; }
-      .project-date { font-size: 0.75rem; }
+      .filter-chips { justify-content: flex-start; }
     }
 
     /* === UTILS === */
-    .mono { font-family: "Fira Code", monospace; }
+    .mono { font-family: "JetBrains Mono", monospace; }
     .hidden { display: none !important; }
+    .fade-in { opacity: 0; transform: translateY(8px); transition: opacity 0.3s ease, transform 0.3s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
   </style>
 </head>
 
-<body class="mobile-optimized">
-
-  <!-- BACKGROUND EFFECTS -->
-  <div class="fog-container"><div class="fog"></div><div class="fog"></div><div class="fog"></div></div>
-  <div class="bubbles" id="bubbles"></div>
+<body>
 
   <!-- TOAST CONTAINER -->
   <div id="toast-container"></div>
-
-  <!-- DESKTOP WARNING -->
-  <div id="desktop-warning">
-    <div class="warning-card">
-      <div class="warning-icon">📱</div>
-      <div class="warning-title">Optimized for Mobile</div>
-      <div class="warning-text">This works page is designed for the best experience on mobile devices.</div>
-      <button class="warning-btn" onclick="document.getElementById('desktop-warning').classList.remove('show')">
-        <i class="fas fa-check"></i> Understood
-      </button>
-    </div>
-  </div>
 
   <!-- CONTENT -->
   <div class="content-wrapper">
@@ -442,14 +274,14 @@
         <a href="../index.html" class="back-btn">
           <i class="fas fa-arrow-left"></i> Back
         </a>
-        <span class="page-title">🚀 My Projects</span>
+        <span class="page-title">Projects</span>
       </div>
     </header>
 
     <!-- HERO -->
-    <section class="works-hero">
-      <h1>My Works Collection</h1>
-      <p>Click on any project to view details. Filter by category or search to find specific projects.</p>
+    <section class="works-hero fade-in">
+      <h1>My Works</h1>
+      <p>Click any project to view details. Filter or search to find what you're looking for.</p>
     </section>
 
     <!-- CONTROLS -->
@@ -466,59 +298,55 @@
       </div>
     </div>
 
-    <!-- PROJECTS LIST - GITHUB STYLE -->
+    <!-- PROJECTS LIST -->
     <div class="projects-container" id="projectsList">
 
       <!-- PROJECT: TKJ OnE App -->
-      <div class="project-card" data-category="app" data-link="https://github.com/Jirankun/TKJ-One">
+      <div class="project-card fade-in" data-category="app" data-link="https://github.com/Jirankun/TKJ-One">
         <div class="project-row">
           <div class="project-icon-wrapper">
-            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%2300d4ff' width='100' height='100' rx='12'/%3E%3Ctext x='50' y='58' font-family='Arial' font-size='40' fill='white' text-anchor='middle'%3E🤖%3C/text%3E%3C/svg%3E" alt="Icon">
+            <i class="fab fa-android"></i>
           </div>
           <div class="project-info">
             <a href="https://github.com/Jirankun/TKJ-One" target="_blank" class="project-name">TKJ OnE App</a>
             <div class="project-meta-inline">
-              <span class="category-badge category-android">App (Native/Hybrid)</span>
-              <span class="project-date"><i class="fas fa-calendar"></i> 2025-2026</span>
+              <span class="category-badge category-android">App</span>
+              <span class="project-date mono">2025–2026</span>
             </div>
           </div>
-          <div class="toggle-indicator">
-            <i class="fas fa-chevron-down"></i>
-          </div>
+          <div class="toggle-indicator"><i class="fas fa-chevron-down"></i></div>
         </div>
         <div class="project-description">
-          <p>Aplikasi TKJ OnE native maupun hybrid dari berbagai versi, mulai dari versi awal hybrid sampai versi terbaru native.</p>
+          <p>Aplikasi TKJ OnE dalam versi native (Kotlin) dan hybrid (Cordova). Mencakup iterasi dari versi awal hingga rilis stabil.</p>
           <div class="project-meta-tags">
-            <span class="meta-tag"><i class="fas fa-code"></i> Kotlin/Gradle</span>
-            <span class="meta-tag"><i class="fas fa-code"></i> HTML/JS/CSS</span>
-            <span class="meta-tag"><i class="fas fa-check-circle"></i> Complete & Live</span>
+            <span class="meta-tag mono"><i class="fas fa-code"></i> Kotlin/Gradle</span>
+            <span class="meta-tag mono"><i class="fas fa-code"></i> HTML/JS/CSS</span>
+            <span class="meta-tag"><i class="fas fa-check-circle"></i> Live</span>
           </div>
         </div>
       </div>
 
       <!-- PROJECT: TKJ OnE Web -->
-      <div class="project-card" data-category="web" data-link="https://github.com/Jirankun/tkj1">
+      <div class="project-card fade-in" data-category="web" data-link="https://github.com/Jirankun/tkj1">
         <div class="project-row">
           <div class="project-icon-wrapper">
-            <i class="fas fa-globe" style="font-size:1.4rem;color:#fff;"></i>
+            <i class="fas fa-globe"></i>
           </div>
           <div class="project-info">
             <a href="https://github.com/Jirankun/tkj1" target="_blank" class="project-name">TKJ OnE Web & Workers</a>
             <div class="project-meta-inline">
               <span class="category-badge category-web">Web</span>
-              <span class="project-date"><i class="fas fa-calendar"></i> 2025</span>
+              <span class="project-date mono">2025</span>
             </div>
           </div>
-          <div class="toggle-indicator">
-            <i class="fas fa-chevron-down"></i>
-          </div>
+          <div class="toggle-indicator"><i class="fas fa-chevron-down"></i></div>
         </div>
         <div class="project-description">
-          <p>Frontend worker TKJ OnE dan halaman web untuk handle database link foto dan video. Sistem ini mengambil data untuk aplikasi dan web TKJ OnE.</p>
+          <p>Frontend worker dan halaman web untuk mengelola database link media (foto/video). Menjadi sumber data untuk aplikasi dan web TKJ OnE.</p>
           <div class="project-meta-tags">
-            <span class="meta-tag"><i class="fas fa-code"></i> HTML/CSS/JS</span>
-            <span class="meta-tag"><i class="fas fa-database"></i> JSON</span>
-            <span class="meta-tag"><i class="fas fa-check-circle"></i> Complete & Live</span>
+            <span class="meta-tag mono"><i class="fas fa-code"></i> HTML/CSS/JS</span>
+            <span class="meta-tag mono"><i class="fas fa-database"></i> JSON</span>
+            <span class="meta-tag"><i class="fas fa-check-circle"></i> Live</span>
           </div>
         </div>
       </div>
@@ -528,91 +356,64 @@
     <!-- EMPTY STATE -->
     <div class="empty-state hidden" id="emptyState">
       <i class="fas fa-search"></i>
-      <p>No projects found matching your search.</p>
+      <p>No projects found.</p>
       <button class="filter-chip" onclick="resetFilters()">Clear Filters</button>
     </div>
 
     <!-- FOOTER -->
     <footer>
-      <p class="footer-text">© 2025 <span>Zhyllan Fyllah</span> • Built with ❤️ for mobile</p>
+      <p class="footer-text">© 2025 <span>Tsuki Dev.</span> • Mobile Developer</p>
     </footer>
 
   </div>
 
   <!-- SCRIPTS -->
   <script>
-    // === DEVICE DETECTION ===
-    function isMobile() {
-      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
-    }
+    // === SUBTLE FADE-IN ON SCROLL ===
+    document.addEventListener('DOMContentLoaded', () => {
+      const fadeElements = document.querySelectorAll('.fade-in');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+      }, { threshold: 0.1 });
+      fadeElements.forEach(el => observer.observe(el));
+    });
 
-    // === BUBBLE GENERATOR ===
-    function createBubbles() {
-      const container = document.getElementById('bubbles');
-      const bubbleCount = 30;
-      const colors = ['#00d4ff', '#7c3aed', '#00f5a0', '#ffd93d', '#ff6b9d'];
-      for (let i = 0; i < bubbleCount; i++) {
-        const bubble = document.createElement('div');
-        bubble.className = 'bubble';
-        const size = Math.random() * 5 + 3;
-        const left = Math.random() * 100;
-        const delay = Math.random() * 15;
-        const duration = Math.random() * 10 + 15;
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const opacity = Math.random() * 0.4 + 0.2;
-        bubble.style.width = `${size}px`;
-        bubble.style.height = `${size}px`;
-        bubble.style.left = `${left}%`;
-        bubble.style.animationDelay = `${delay}s`;
-        bubble.style.animationDuration = `${duration}s`;
-        bubble.style.color = color;
-        bubble.style.opacity = opacity;
-        container.appendChild(bubble);
-      }
-    }
-
-    // === TOAST NOTIFICATION SYSTEM ===
+    // === TOAST NOTIFICATION (Minimal) ===
     const Toast = {
-      container: null,
-      init() { this.container = document.getElementById('toast-container'); },
-      show({ type = 'info', title, message, duration = 4000, onClick = null }) {
+      container: document.getElementById('toast-container'),
+      show({ type = 'info', title, message, duration = 3500 }) {
         const toast = document.createElement('div');
         toast.className = `toast ${type}`;
-        toast.setAttribute('role', 'alert');
         const icons = {
-          success: 'fas fa-check-circle', warning: 'fas fa-exclamation-triangle',
-          error: 'fas fa-times-circle', info: 'fas fa-info-circle'
+          success: 'fa-check-circle', warning: 'fa-exclamation-triangle',
+          error: 'fa-times-circle', info: 'fa-info-circle'
         };
         toast.innerHTML = `
-          <div class="toast-icon"><i class="${icons[type]}"></i></div>
+          <div class="toast-icon"><i class="fas ${icons[type]}"></i></div>
           <div class="toast-content">
             <div class="toast-title">${title}</div>
-            <div class="toast-message">${message || ''}</div>
+            ${message ? `<div class="toast-message">${message}</div>` : ''}
           </div>
-          <button class="toast-close" aria-label="Close"><i class="fas fa-times"></i></button>
-          <div class="toast-progress"></div>
+          <button class="toast-close"><i class="fas fa-times"></i></button>
         `;
-        const progress = toast.querySelector('.toast-progress');
-        progress.style.animationDuration = `${duration}ms`;
         const close = () => {
-          toast.style.animation = 'toastExit 0.3s ease forwards';
-          setTimeout(() => toast.remove(), 300);
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(10px)';
+          setTimeout(() => toast.remove(), 200);
         };
         toast.querySelector('.toast-close').addEventListener('click', (e) => { e.stopPropagation(); close(); });
-        if (onClick) {
-          toast.style.cursor = 'pointer';
-          toast.addEventListener('click', (e) => { if (!e.target.closest('.toast-close')) onClick(); });
-        } else { setTimeout(close, duration); }
+        setTimeout(close, duration);
         this.container.appendChild(toast);
-        return toast;
       },
-      success(title, message, opts = {}) { return this.show({ type: 'success', title, message, ...opts }); },
-      warning(title, message, opts = {}) { return this.show({ type: 'warning', title, message, ...opts }); },
-      error(title, message, opts = {}) { return this.show({ type: 'error', title, message, ...opts }); },
-      info(title, message, opts = {}) { return this.show({ type: 'info', title, message, ...opts }); }
+      success: (t, m) => Toast.show({ type: 'success', title: t, message: m }),
+      warning: (t, m) => Toast.show({ type: 'warning', title: t, message: m }),
+      error: (t, m) => Toast.show({ type: 'error', title: t, message: m }),
+      info: (t, m) => Toast.show({ type: 'info', title: t, message: m })
     };
 
-    // === PROJECT TOGGLE (GITHUB STYLE) ===
+    // === PROJECT TOGGLE (Accordion) ===
     function initProjectToggles() {
       document.querySelectorAll('.project-card').forEach(card => {
         const row = card.querySelector('.project-row');
@@ -620,31 +421,19 @@
         const indicator = card.querySelector('.toggle-indicator');
         
         row.addEventListener('click', (e) => {
-          // Don't toggle if clicking the project link
           if (e.target.closest('.project-name')) return;
-          
           const isExpanding = !desc.classList.contains('expanded');
           
-          // Close all other cards (accordion)
-          document.querySelectorAll('.project-card').forEach(otherCard => {
-            if (otherCard !== card) {
-              const otherDesc = otherCard.querySelector('.project-description');
-              const otherIndicator = otherCard.querySelector('.toggle-indicator');
-              otherDesc?.classList.remove('expanded');
-              otherIndicator?.classList.remove('active');
+          // Close others
+          document.querySelectorAll('.project-card').forEach(other => {
+            if (other !== card) {
+              other.querySelector('.project-description')?.classList.remove('expanded');
+              other.querySelector('.toggle-indicator')?.classList.remove('active');
             }
           });
           
-          // Toggle current card
           desc.classList.toggle('expanded');
           indicator.classList.toggle('active');
-          
-          // Smooth scroll on desktop
-          if (isExpanding && window.innerWidth >= 769) {
-            setTimeout(() => {
-              card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 300);
-          }
         });
       });
     }
@@ -658,32 +447,23 @@
       const projectsList = document.getElementById('projectsList');
 
       function filterProjects() {
-        const searchTerm = searchInput.value.toLowerCase().trim();
-        const activeFilter = document.querySelector('.filter-chip.active')?.dataset.filter || 'all';
-        let visibleCount = 0;
+        const term = searchInput.value.toLowerCase().trim();
+        const active = document.querySelector('.filter-chip.active')?.dataset.filter || 'all';
+        let visible = 0;
         
         projects.forEach(card => {
           const name = card.querySelector('.project-name').textContent.toLowerCase();
-          const category = card.dataset.category;
+          const cat = card.dataset.category;
           const desc = card.querySelector('.project-description p')?.textContent.toLowerCase() || '';
-          const matchesSearch = name.includes(searchTerm) || desc.includes(searchTerm);
-          const matchesCategory = activeFilter === 'all' || category === activeFilter;
+          const matchSearch = name.includes(term) || desc.includes(term);
+          const matchCat = active === 'all' || cat === active;
           
-          if (matchesSearch && matchesCategory) {
-            card.classList.remove('hidden');
-            visibleCount++;
-          } else {
-            card.classList.add('hidden');
-          }
+          if (matchSearch && matchCat) { card.classList.remove('hidden'); visible++; }
+          else { card.classList.add('hidden'); }
         });
 
-        if (visibleCount === 0) {
-          projectsList.classList.add('hidden');
-          emptyState.classList.remove('hidden');
-        } else {
-          projectsList.classList.remove('hidden');
-          emptyState.classList.add('hidden');
-        }
+        projectsList.classList.toggle('hidden', visible === 0);
+        emptyState.classList.toggle('hidden', visible > 0);
       }
 
       searchInput.addEventListener('input', filterProjects);
@@ -692,7 +472,9 @@
           filterChips.forEach(c => c.classList.remove('active'));
           chip.classList.add('active');
           filterProjects();
-          Toast.info('Filter Applied', `Showing ${chip.textContent} projects`, { duration: 2500 });
+          if (chip.dataset.filter !== 'all') {
+            Toast.info('Filter Applied', `Showing ${chip.textContent} projects`);
+          }
         });
       });
     }
@@ -701,46 +483,27 @@
       document.getElementById('searchInput').value = '';
       document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
       document.querySelector('.filter-chip[data-filter="all"]').classList.add('active');
-      document.querySelectorAll('.project-card').forEach(card => card.classList.remove('hidden'));
+      document.querySelectorAll('.project-card').forEach(c => c.classList.remove('hidden'));
       document.getElementById('projectsList').classList.remove('hidden');
       document.getElementById('emptyState').classList.add('hidden');
-      Toast.success('Filters Reset', 'Showing all projects', { duration: 2500 });
+      Toast.success('Filters Reset', 'Showing all projects');
     }
 
-    // === PROJECT LINK CLICK ===
+    // === PROJECT LINK FEEDBACK ===
     function initProjectLinks() {
       document.querySelectorAll('.project-name').forEach(link => {
         link.addEventListener('click', () => {
-          Toast.success('Opening Project', `Loading ${link.textContent}...`, { duration: 2000 });
+          Toast.info('Opening', `Loading ${link.textContent}...`, 1500);
         });
       });
     }
 
-    // === WELCOME TOAST ===
-    function showWelcomeToast() {
-      setTimeout(() => {
-        Toast.info('Welcome! 👋', 'Click any project row to view details', { duration: 5000 });
-      }, 1500);
-    }
-
-    // === DESKTOP WARNING ===
-    function initDesktopWarning() {
-      if (!isMobile()) {
-        setTimeout(() => {
-          document.getElementById('desktop-warning')?.classList.add('show');
-        }, 1000);
-      }
-    }
-
     // === INIT ===
     document.addEventListener('DOMContentLoaded', () => {
-      createBubbles();
-      Toast.init();
       initProjectToggles();
       initFilters();
       initProjectLinks();
-      showWelcomeToast();
-      initDesktopWarning();
+      setTimeout(() => Toast.info('Tip', 'Click a project row to view details'), 1000);
     });
   </script>
 </body>
