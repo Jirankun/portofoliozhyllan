@@ -271,9 +271,24 @@
     <!-- HEADER -->
     <header>
       <div class="nav-container">
-        <a href="../index.html" class="back-btn">
-          <i class="fas fa-arrow-left"></i> Back
-        </a>
+        <a href="#" class="back-btn" onclick="goBack(event)">
+  <i class="fas fa-arrow-left"></i> Back
+</a>
+
+<script>
+function goBack(e) {
+  e.preventDefault();
+
+  // kalau ada history sebelumnya, kembali
+  if (window.history.length > 1) {
+    window.history.back();
+  } 
+  // kalau tidak ada history, fallback ke index
+  else {
+    window.location.href = "../index.html";
+  }
+}
+</script>
         <span class="page-title">Projects</span>
       </div>
     </header>
