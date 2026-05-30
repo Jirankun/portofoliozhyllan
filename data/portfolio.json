@@ -3,8 +3,8 @@
     "badge": "Masih belajar",
     "greeting": "Halo, saya",
     "name": "ZHYLLAN FYLLAH",
-    "title": "&lt; Mobile Developer /&gt;",
-    "description": "Fokus membangun aplikasi mobile yang ringan dan bertenaga menggunakan <strong>Android Native</strong> dan <strong>Apache Cordova</strong>. Kode bersih, solusi praktis, terus belajar.",
+    "title": "&lt; Mobile and Web Developer /&gt;",
+    "description": "Fokus membangun aplikasi mobile dan website yang ringan dan aesthetic.",
     "stats": [
       { "number": "2", "label": "Tahun Coding" },
       { "number": "3", "label": "Proyek" },
@@ -39,12 +39,12 @@
   "about": {
     "tag": "Tentang",
     "title": "Apa yang Saya Lakukan",
-    "subtitle": "Bergairah tentang teknologi mobile dan membangun pengalaman pengguna yang hebat",
+    "subtitle": "Saya suka membahas tentang teknologi mobile dan membangun pengalaman pengguna yang hebat",
     "cards": [
       {
         "icon": "fas fa-rocket",
         "title": "Pengembangan Mobile",
-        "body": "<p>Saya spesialisasi dalam pengembangan aplikasi mobile dengan dua pendekatan utama:</p><ul><li><strong>Native Android:</strong> Java/Kotlin, Android SDK, Gradle</li><li><strong>Hybrid dengan Cordova:</strong> HTML/CSS/JS + integrasi plugin kustom</li></ul><p>Fokus saya: aplikasi ringan, kode yang mudah dirawat, dan optimasi performa praktis.</p>"
+        "body": "<p>Saya suka dalam mengembangan aplikasi mobile dengan dua pendekatan utama:</p><ul><li><strong>Native Android:</strong> Java/Kotlin, Android SDK, Gradle</li><li><strong>Hybrid dengan Cordova:</strong> HTML/CSS/JS + integrasi plugin kustom</li></ul><p>Fokus saya: aplikasi ringan, web ringan, kode yang mudah dirawat, dan optimasi performa praktis.</p>"
       },
       {
         "icon": "fas fa-lightbulb",
@@ -54,7 +54,7 @@
       {
         "icon": "fas fa-heart",
         "title": "Di Luar Coding",
-        "body": "<p>Aktif di komunitas open-source Linux dan Android. Kontributor Nusantara Project ROM. Bergairah tentang lokalisasi, <em>game modding</em>, dan berbagi pengetahuan melalui diskusi teknis.</p>"
+        "body": "<p>Aktif di komunitas open-source Linux dan Android. Kontributor Nusantara Project ROM, <em>game modding</em>, dan berbagi pengetahuan melalui diskusi teknis.</p>"
       }
     ]
   },
@@ -142,7 +142,7 @@
   "contact": {
     "tag": "Kontak",
     "title": "Hubungi Saya",
-    "subtitle": "Punya proyek dalam pikiran? Mari bangun sesuatu yang hebat bersama",
+    "subtitle": "Mau mengobrol atau sekedar menyapa,silahkan...",
     "items": [
       {
         "icon": "fas fa-envelope",
