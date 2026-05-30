@@ -6,7 +6,7 @@ content:
   - name: portofolio
     label: Portofolio (Halaman Utama)
     type: file
-    path: data/portofolio.json
+    path: data/portfolio.json
     fields:
       # ─── HERO ───────────────────────────────────────────────
       - name: hero
