@@ -1,0 +1,47 @@
+{
+  "hero": {
+    "title": "Karya <span>Saya</span>",
+    "subtitle": "Koleksi aplikasi mobile, proyek web, dan alat yang telah saya buat"
+  },
+  "categories": [
+    { "id": "all", "label": "Semua" },
+    { "id": "app", "label": "Aplikasi" },
+    { "id": "web", "label": "Web" },
+    { "id": "tools", "label": "Alat" }
+  ],
+  "projects": [
+    {
+      "name": "TKJ OnE App",
+      "icon": "fab fa-android",
+      "category": "app",
+      "date": "2025–2026",
+      "description": "Aplikasi TKJ OnE dalam versi native (Kotlin) dan hybrid (Cordova). Mencakup iterasi dari versi awal hingga rilis stabil dengan berbagai fitur manajemen.",
+      "image": "https://opengraph.github.com/assets/1.0.0/graph.png",
+      "tags": ["Kotlin", "Gradle", "Cordova"],
+      "link": "https://github.com/Jirankun/TKJ-One",
+      "linkText": "Lihat Proyek"
+    },
+    {
+      "name": "TKJ OnE Web & Pekerja",
+      "icon": "fas fa-globe",
+      "category": "web",
+      "date": "2025",
+      "description": "Frontend worker dan halaman web untuk mengelola database link media (foto/video). Menjadi sumber data untuk aplikasi dan web TKJ OnE.",
+      "image": null,
+      "tags": ["HTML/CSS", "JavaScript", "JSON"],
+      "link": "https://github.com/Jirankun/tkj1",
+      "linkText": "Lihat Proyek"
+    },
+    {
+      "name": "Segera Hadir",
+      "icon": "fas fa-puzzle-piece",
+      "category": "tools",
+      "date": "Dalam Progres",
+      "description": "Lebih banyak proyek dan alat sedang dalam pengembangan. Nantikan pembaruan tentang aplikasi baru, plugin, dan kontribusi open-source.",
+      "image": null,
+      "tags": ["TBD", "TBD"],
+      "link": null,
+      "linkText": "Pantau Terus"
+    }
+  ]
+}

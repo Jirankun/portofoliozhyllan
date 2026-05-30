@@ -1,0 +1,174 @@
+{
+  "hero": {
+    "badge": "Tersedia untuk bekerja",
+    "greeting": "Halo, saya",
+    "name": "ZHYLLAN FYLLAH",
+    "title": "&lt; Mobile Developer /&gt;",
+    "description": "Fokus membangun aplikasi mobile yang ringan dan bertenaga menggunakan <strong>Android Native</strong> dan <strong>Apache Cordova</strong>. Kode bersih, solusi praktis, terus belajar.",
+    "stats": [
+      { "number": "2", "label": "Tahun Coding" },
+      { "number": "3", "label": "Proyek" },
+      { "number": "∞", "label": "Terus Belajar" }
+    ],
+    "buttons": [
+      {
+        "text": "Lihat Proyek",
+        "icon": "fas fa-briefcase",
+        "href": "karya/index.html",
+        "type": "primary"
+      },
+      {
+        "text": "Hubungi Saya",
+        "icon": "fab fa-whatsapp",
+        "href": "https://wa.me/6285165721384",
+        "type": "outline",
+        "target": "_blank"
+      }
+    ],
+    "socialLinks": [
+      { "icon": "fab fa-github", "href": "https://github.com/jirankun", "title": "GitHub" },
+      { "icon": "fas fa-envelope", "href": "mailto:zhyllanf@gmail.com", "title": "Email" },
+      { "icon": "fab fa-whatsapp", "href": "https://wa.me/6285165721384", "title": "WhatsApp" }
+    ],
+    "avatar": "https://github.com/Jirankun.png",
+    "badges": [
+      { "icon": "fab fa-android", "text": "Android", "small": "Native", "position": "badge-1" },
+      { "icon": "fas fa-mobile-alt", "text": "Apache", "small": "Cordova", "position": "badge-2" }
+    ]
+  },
+  "about": {
+    "tag": "Tentang",
+    "title": "Apa yang Saya Lakukan",
+    "subtitle": "Bergairah tentang teknologi mobile dan membangun pengalaman pengguna yang hebat",
+    "cards": [
+      {
+        "icon": "fas fa-rocket",
+        "title": "Pengembangan Mobile",
+        "body": "<p>Saya spesialisasi dalam pengembangan aplikasi mobile dengan dua pendekatan utama:</p><ul><li><strong>Native Android:</strong> Java/Kotlin, Android SDK, Gradle</li><li><strong>Hybrid dengan Cordova:</strong> HTML/CSS/JS + integrasi plugin kustom</li></ul><p>Fokus saya: aplikasi ringan, kode yang mudah dirawat, dan optimasi performa praktis.</p>"
+      },
+      {
+        "icon": "fas fa-lightbulb",
+        "title": "Pendekatan Saya",
+        "body": "<p>Saya percaya pada <strong>kemajuan dibanding kesempurnaan</strong>. Rilis cepat, belajar lebih cepat.</p><p>Setiap proyek adalah kesempatan untuk menyempurnakan arsitektur, meningkatkan UX, dan memperdalam pemahaman teknis. Saya mendokumentasikan keputusan, menulis kode yang terbaca, dan mengutamakan perawatan jangka panjang.</p>"
+      },
+      {
+        "icon": "fas fa-heart",
+        "title": "Di Luar Coding",
+        "body": "<p>Aktif di komunitas open-source Linux dan Android. Kontributor Nusantara Project ROM. Bergairah tentang lokalisasi, <em>game modding</em>, dan berbagi pengetahuan melalui diskusi teknis.</p>"
+      }
+    ]
+  },
+  "skills": {
+    "tag": "Keahlian",
+    "title": "Keahlian Teknis",
+    "subtitle": "Alat dan teknologi yang saya gunakan sehari-hari",
+    "items": [
+      { "icon": "fab fa-android", "name": "Android Native", "level": 85 },
+      { "icon": "fas fa-mobile-alt", "name": "Apache Cordova", "level": 75 },
+      { "icon": "fab fa-java", "name": "Java / Kotlin", "level": 70 },
+      { "icon": "fab fa-js", "name": "JavaScript", "level": 75 },
+      { "icon": "fab fa-html5", "name": "HTML5 / CSS3", "level": 80 },
+      { "icon": "fas fa-plug", "name": "Cordova Plugins", "level": 65 },
+      { "icon": "fab fa-git-alt", "name": "Git & GitHub", "level": 80 },
+      { "icon": "fas fa-search", "name": "Debug Performa", "level": 60 }
+    ]
+  },
+  "experience": {
+    "tag": "Perjalanan",
+    "title": "Pengalaman",
+    "subtitle": "Perjalanan profesional dan kontribusi saya",
+    "cards": [
+      {
+        "icon": "fas fa-code-branch",
+        "title": "Kontribusi Open Source",
+        "timeline": [
+          {
+            "title": "Nusantara Project ROM",
+            "meta": "2020 – Sekarang",
+            "desc": "Menguji build ROM Android kustom, mendokumentasikan fitur, dan mendukung komunitas. Memperdalam pemahaman arsitektur AOSP dan debugging tingkat sistem."
+          },
+          {
+            "title": "LINUX UBUNTU Indonesia",
+            "meta": "2021 – Sekarang",
+            "desc": "Berpartisipasi dalam diskusi teknis, memecahkan masalah sistem Linux, dan berbagi pengetahuan tentang administrasi server dan scripting."
+          },
+          {
+            "title": "Proyek Cordova Pribadi",
+            "meta": "2024 – Sekarang",
+            "desc": "Membangun aplikasi hybrid mobile, mengintegrasikan plugin kustom untuk akses kamera/penyimpanan, dan mempelajari alur deployment Play Store."
+          }
+        ]
+      },
+      {
+        "icon": "fas fa-tools",
+        "title": "Fokus Teknis",
+        "body": "<p><strong>Lokalisasi &amp; Patching:</strong> Pengalaman membuat patch bahasa untuk game RPG Maker MV/MZ menggunakan plugin lokalisasi berbasis JSON.</p><p><strong>Pengembangan Plugin:</strong> Membangun plugin Cordova kustom untuk menjembatani JavaScript dan kode Android native.</p><p><strong>Performa:</strong> Profiling waktu mulai aplikasi, penggunaan memori, dan performa render; menerapkan lazy loading dan optimasi resource.</p><p><strong>Tooling:</strong> Nyaman dengan Android Studio, VS Code, Gradle, Cordova CLI, dan alur kerja Git.</p>"
+      }
+    ]
+  },
+  "projects": {
+    "tag": "Portofolio",
+    "title": "Proyek Unggulan",
+    "subtitle": "Beberapa proyek yang baru-baru ini saya kerjakan",
+    "featured": [
+      {
+        "icon": "fab fa-android",
+        "title": "TKJ OnE App",
+        "description": "Versi native (Kotlin) dan hybrid (Cordova) dengan iterasi dari versi awal hingga rilis stabil. Aplikasi manajemen berbasis Android.",
+        "link": "karya/index.html",
+        "linkText": "Lihat Detail"
+      },
+      {
+        "icon": "fas fa-globe",
+        "title": "TKJ OnE Web & Pekerja",
+        "description": "Frontend worker dan halaman web untuk mengelola database link media (foto/video). Menjadi sumber data untuk aplikasi dan web TKJ OnE.",
+        "link": "karya/index.html",
+        "linkText": "Lihat Detail"
+      },
+      {
+        "icon": "fas fa-terminal",
+        "title": "Proyek Lainnya",
+        "description": "Jelajahi semua proyek saya termasuk kontribusi open-source, eksperimen, dan alat yang telah saya buat selama bertahun-tahun.",
+        "link": "karya/index.html",
+        "linkText": "Jelajahi Semua"
+      }
+    ],
+    "viewAll": {
+      "text": "Lihat Semua Proyek",
+      "icon": "fas fa-th-large",
+      "href": "karya/index.html"
+    }
+  },
+  "contact": {
+    "tag": "Kontak",
+    "title": "Hubungi Saya",
+    "subtitle": "Punya proyek dalam pikiran? Mari bangun sesuatu yang hebat bersama",
+    "items": [
+      {
+        "icon": "fas fa-envelope",
+        "label": "Email",
+        "value": "zhyllanfyllah@gmail.com",
+        "href": "mailto:zhyllanfyllah@gmail.com"
+      },
+      {
+        "icon": "fab fa-whatsapp",
+        "label": "WhatsApp",
+        "value": "+62 851 6572 1384",
+        "href": "https://wa.me/6285165721384",
+        "target": "_blank"
+      },
+      {
+        "icon": "fab fa-github",
+        "label": "GitHub",
+        "value": "github.com/jirankun",
+        "href": "https://github.com/jirankun",
+        "target": "_blank"
+      }
+    ]
+  },
+  "footer": {
+    "logo": "Zhyllan Fyllah",
+    "year": 2025,
+    "tagline": "Mobile and Web Developer"
+  }
+}

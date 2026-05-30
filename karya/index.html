@@ -1,13 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Projects • Tsuki Dev.</title>
+  <title>Karya • Tsuki Dev</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
+    /* === READING PROGRESS BAR === */
+    #readingProgress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: var(--bg-gradient);
+      z-index: 10001;
+      transition: width 0.1s linear;
+      pointer-events: none;
+    }
+    #readingProgress::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 60px;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3));
+      filter: blur(3px);
+    }
+
+    /* === STAGGER ANIMATION === */
+    .fade-in.stagger {
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.stagger.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* === RESET & VARIABLES === */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
       --bg-primary: #0f0f1a;
       --bg-secondary: #1a1a2e;
@@ -15,76 +49,168 @@
       --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       --text-primary: #ffffff;
       --text-secondary: #b8b8d0;
+      --text-muted: #8888a0;
       --accent: #6366f1;
       --accent-light: #818cf8;
+      --warning: #f59e0b;
       --border: rgba(255, 255, 255, 0.1);
+      --border-hover: rgba(99, 102, 241, 0.3);
       --shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
       --shadow-hover: 0 20px 60px rgba(99, 102, 241, 0.2);
       --radius-sm: 8px;
       --radius-md: 16px;
       --radius-lg: 24px;
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --max-width: 1200px;
+      --header-height: 72px;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    
+    html { scroll-behavior: smooth; scroll-padding-top: var(--header-height); }
+
     body {
-      font-family: "Inter", sans-serif;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg-primary);
       color: var(--text-primary);
       line-height: 1.7;
       overflow-x: hidden;
     }
 
+    /* Hide scrollbar for all browsers */
+    html {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    html::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+    body {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    body::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+
     body::before {
       content: "";
       position: fixed;
       top: -50%;
-      right: -50%;
-      width: 100%;
+      right: -30%;
+      width: 80%;
       height: 100%;
-      background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
       pointer-events: none;
       z-index: -1;
     }
 
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+    .container { max-width: var(--max-width); margin: 0 auto; padding: 0 32px; }
+
+    /* === UTILITY === */
+    .mono { font-family: "JetBrains Mono", monospace; }
+    .text-gradient {
+      background: var(--bg-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* === FADE-IN === */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* === LAZY IMAGE === */
+    .lazy-img {
+      display: block;
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      background: var(--bg-secondary);
+      transition: opacity 0.6s ease, filter 0.6s ease;
+    }
+    .lazy-img.loading {
+      opacity: 0.3;
+      filter: blur(10px);
+      transform: scale(1.05);
+    }
+    .lazy-img.loaded {
+      opacity: 1;
+      filter: blur(0);
+      transform: scale(1);
+    }
+
+    /* Skeleton shimmer for image placeholder */
+    .img-skeleton {
+      width: 100%;
+      height: 160px;
+      background: var(--bg-secondary);
+      position: relative;
+      overflow: hidden;
+    }
+    .img-skeleton::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.03) 50%,
+        transparent 100%
+      );
+      background-size: 200% 100%;
+      animation: shimmer 1.5s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
 
     /* === HEADER === */
     header {
-      position: sticky;
+      position: fixed;
       top: 0;
-      background: rgba(15, 15, 26, 0.95);
+      left: 0;
+      right: 0;
+      background: rgba(15, 15, 26, 0.85);
       backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid transparent;
       z-index: 1000;
-      padding: 20px 0;
+      padding: 14px 0;
       transition: var(--transition);
+      height: var(--header-height);
     }
-    
+
     header.scrolled {
-      padding: 12px 0;
-      box-shadow: var(--shadow);
+      padding: 8px 0;
+      border-bottom-color: var(--border);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
     }
 
     .nav-wrapper {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      max-width: 1200px;
+      max-width: var(--max-width);
       margin: 0 auto;
       padding: 0 32px;
     }
 
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 800;
-      background: var(--bg-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-decoration: none;
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
     }
 
     .back-link {
@@ -93,27 +219,51 @@
       gap: 8px;
       color: var(--text-secondary);
       font-weight: 500;
+      font-size: 0.9rem;
       text-decoration: none;
-      padding: 8px 16px;
+      padding: 8px 14px;
       border-radius: var(--radius-sm);
       transition: var(--transition);
     }
-    .back-link:hover {
-      color: var(--text-primary);
-      background: rgba(99, 102, 241, 0.1);
+    @media (hover: hover) {
+      .back-link:hover {
+        color: var(--text-primary);
+        background: rgba(99, 102, 241, 0.1);
+      }
+    }
+
+    .header-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      object-fit: cover;
+    }
+
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 800;
+      background: var(--bg-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
     }
 
     /* === HERO === */
     .works-hero {
       text-align: center;
-      padding: 80px 24px 40px;
+      padding: calc(var(--header-height) + 60px) 24px 40px;
       max-width: 700px;
       margin: 0 auto;
     }
     .works-hero h1 {
       font-size: 2.5rem;
       font-weight: 800;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    .works-hero h1 span {
       background: var(--bg-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -121,16 +271,16 @@
     }
     .works-hero p {
       color: var(--text-secondary);
-      font-size: 1.1rem;
+      font-size: 1.05rem;
     }
 
     /* === SEARCH & FILTER === */
     .controls {
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      max-width: 700px;
-      margin: 0 auto 40px;
+      gap: 14px;
+      max-width: 660px;
+      margin: 0 auto 36px;
       padding: 0 24px;
     }
     .search-box {
@@ -138,51 +288,95 @@
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      padding: 14px 20px;
+      padding: 12px 18px;
       display: flex;
       align-items: center;
       gap: 12px;
+      transition: var(--transition);
     }
-    .search-box i { color: var(--text-secondary); }
+    .search-box:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+    .search-box i {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
     .search-box input {
       flex: 1;
       background: transparent;
       border: none;
       outline: none;
       color: var(--text-primary);
-      font-size: 1rem;
+      font-size: 0.95rem;
+      font-family: inherit;
     }
-    .search-box input::placeholder { color: var(--text-secondary); }
-    
+    .search-box input::placeholder {
+      color: var(--text-muted);
+    }
+    .search-clear {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+    @media (hover: hover) {
+      .search-clear:hover {
+        color: var(--text-primary);
+      }
+    }
+    .search-clear.visible {
+      display: block;
+    }
+
     .filter-chips {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
       justify-content: center;
     }
     .filter-chip {
-      padding: 8px 20px;
+      padding: 6px 18px;
       border-radius: 50px;
-      font-size: 0.9rem;
+      font-size: 0.84rem;
       font-weight: 500;
       background: var(--bg-card);
       border: 1px solid var(--border);
       color: var(--text-secondary);
       cursor: pointer;
       transition: var(--transition);
+      user-select: none;
     }
-    .filter-chip.active, .filter-chip:hover {
+    .filter-chip.active {
       background: var(--bg-gradient);
       color: #fff;
       border-color: transparent;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    }
+    @media (hover: hover) {
+      .filter-chip:hover:not(.active) {
+        border-color: var(--accent);
+        color: var(--text-primary);
+      }
+    }
+
+    .result-count {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
     }
 
     /* === PROJECTS GRID === */
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 24px;
-      max-width: 1200px;
+      max-width: var(--max-width);
       margin: 0 auto 60px;
       padding: 0 32px;
     }
@@ -194,34 +388,44 @@
       overflow: hidden;
       transition: var(--transition);
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
     }
-    .project-card:hover {
-      transform: translateY(-8px);
-      box-shadow: var(--shadow-hover);
-      border-color: rgba(99, 102, 241, 0.3);
+    @media (hover: hover) {
+      .project-card:hover {
+        transform: translateY(-6px);
+        box-shadow: var(--shadow-hover);
+        border-color: var(--border-hover);
+      }
+    }
+
+    .project-card .project-image-wrap {
+      position: relative;
+      overflow: hidden;
+      height: 160px;
+      background: var(--bg-secondary);
     }
 
     .project-header {
-      padding: 24px;
-      border-bottom: 1px solid var(--border);
+      padding: 24px 24px 16px;
     }
     .project-icon-wrapper {
-      width: 60px;
-      height: 60px;
+      width: 52px;
+      height: 52px;
       border-radius: var(--radius-md);
       background: var(--bg-gradient);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
     .project-icon-wrapper i {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       color: #fff;
     }
     .project-name {
       font-weight: 700;
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       margin-bottom: 8px;
       color: var(--text-primary);
     }
@@ -232,47 +436,50 @@
       flex-wrap: wrap;
     }
     .category-badge {
-      padding: 4px 12px;
+      padding: 3px 10px;
       border-radius: 50px;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 600;
     }
-    .category-app { background: rgba(99, 102, 241, 0.2); color: var(--accent-light); }
-    .category-web { background: rgba(168, 85, 247, 0.2); color: #a855f7; }
-    .category-tools { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
-    
+    .category-app { background: rgba(99, 102, 241, 0.18); color: var(--accent-light); }
+    .category-web { background: rgba(168, 85, 247, 0.18); color: #a855f7; }
+    .category-tools { background: rgba(245, 158, 11, 0.18); color: #f59e0b; }
+
     .project-date {
-      font-size: 0.8rem;
-      color: var(--text-secondary);
+      font-size: 0.78rem;
+      color: var(--text-muted);
       display: flex;
       align-items: center;
       gap: 4px;
+      font-family: "JetBrains Mono", monospace;
     }
 
     .project-body {
-      padding: 24px;
+      padding: 0 24px 20px;
+      flex: 1;
     }
     .project-description {
       color: var(--text-secondary);
-      font-size: 0.95rem;
-      line-height: 1.7;
-      margin-bottom: 20px;
+      font-size: 0.9rem;
+      line-height: 1.75;
+      margin-bottom: 16px;
     }
     .project-tags {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       flex-wrap: wrap;
     }
     .tech-tag {
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      padding: 4px 12px;
-      background: rgba(255, 255, 255, 0.05);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      padding: 3px 10px;
+      background: rgba(255, 255, 255, 0.04);
       border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
     }
 
     .project-footer {
-      padding: 16px 24px;
+      padding: 14px 24px;
       border-top: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
@@ -282,15 +489,17 @@
       color: var(--accent-light);
       text-decoration: none;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       display: flex;
       align-items: center;
       gap: 6px;
       transition: var(--transition);
     }
-    .view-link:hover {
-      color: var(--text-primary);
-      gap: 10px;
+    @media (hover: hover) {
+      .view-link:hover {
+        color: var(--text-primary);
+        gap: 10px;
+      }
     }
 
     /* === EMPTY STATE === */
@@ -298,228 +507,555 @@
       text-align: center;
       padding: 60px 20px;
       color: var(--text-secondary);
+      display: none;
+    }
+    .empty-state.visible {
+      display: block;
     }
     .empty-state i {
       font-size: 3rem;
-      color: var(--accent);
+      background: var(--bg-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       margin-bottom: 16px;
-      opacity: 0.7;
+    }
+    .empty-state p {
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+    .empty-state .btn {
+      display: inline-flex;
+      padding: 10px 24px;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 0.85rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+    @media (hover: hover) {
+      .empty-state .btn:hover {
+        border-color: var(--accent);
+        background: rgba(99, 102, 241, 0.1);
+      }
     }
 
     /* === FOOTER === */
     footer {
       background: var(--bg-secondary);
       border-top: 1px solid var(--border);
-      padding: 40px 0;
+      padding: 36px 0 24px;
       text-align: center;
     }
     .footer-copy {
-      color: var(--text-secondary);
-      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
     }
     .footer-copy span { color: var(--accent-light); }
+
+    /* === BACK TO TOP === */
+    .back-to-top {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--bg-gradient);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.35);
+      transition: var(--transition);
+      opacity: 0;
+      transform: translateY(20px) scale(0.9);
+      pointer-events: none;
+      z-index: 999;
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+    @media (hover: hover) {
+      .back-to-top:hover {
+        transform: translateY(-3px) scale(1.05);
+      }
+    }
+
+    /* === TAP FEEDBACK (MOBILE) — native feel === */
+    @media (hover: none) and (pointer: coarse) {
+      .project-card.tap-active {
+        transform: translateY(-6px);
+        box-shadow: var(--shadow-hover);
+        border-color: var(--border-hover);
+      }
+      .back-link.tap-active {
+        color: var(--text-primary);
+        background: rgba(99, 102, 241, 0.1);
+      }
+      .back-to-top.tap-active {
+        transform: translateY(-3px) scale(1.05);
+      }
+      .filter-chip.tap-active:not(.active) {
+        border-color: var(--accent);
+        color: var(--text-primary);
+      }
+      .view-link.tap-active {
+        color: var(--text-primary);
+        gap: 10px;
+      }
+      .empty-state .btn.tap-active {
+        border-color: var(--accent);
+        background: rgba(99, 102, 241, 0.1);
+      }
+      .search-clear.tap-active {
+        color: var(--text-primary);
+      }
+    }
 
     /* === RESPONSIVE === */
     @media (max-width: 768px) {
       .works-hero h1 { font-size: 2rem; }
-      .projects-grid { grid-template-columns: 1fr; }
+      .projects-grid {
+        grid-template-columns: 1fr;
+        padding: 0 20px;
+        gap: 18px;
+      }
       .nav-wrapper { padding: 0 20px; }
       .container { padding: 0 20px; }
+      .controls { padding: 0 20px; }
     }
 
-    /* === UTILS === */
-    .mono { font-family: "JetBrains Mono", monospace; }
+    @media (max-width: 480px) {
+      .works-hero h1 { font-size: 1.7rem; }
+      .works-hero p { font-size: 0.95rem; }
+      .works-hero { padding-top: calc(var(--header-height) + 40px); }
+      .back-link span { display: none; }
+      .back-link i { font-size: 1.1rem; }
+      .back-link { padding: 8px 10px; }
+      .header-avatar { display: none; }
+      .projects-grid { margin-bottom: 40px; }
+      .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .nav-left .logo { display: none; }
+    }
+
     .hidden { display: none !important; }
-    .fade-in {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
   </style>
 </head>
 
 <body>
 
-  <!-- HEADER -->
+  <!-- ========== READING PROGRESS BAR ========== -->
+  <div id="readingProgress"></div>
+
+  <!-- ========== HEADER ========== -->
   <header id="header">
     <div class="nav-wrapper">
-      <a href="../index.html" class="back-link">
-        <i class="fas fa-arrow-left"></i> Back to Home
-      </a>
-      <div style="display: flex; align-items: center; gap: 16px;">
-        <img src="https://github.com/Jirankun.png" alt="Tsuki Dev" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--border);" />
+      <div class="nav-left">
+        <a href="../index.html" class="back-link">
+          <i class="fas fa-arrow-left"></i>
+          <span>Kembali ke Beranda</span>
+        </a>
+        <img
+          src="https://github.com/Jirankun.png"
+          alt="Tsuki Dev"
+          class="header-avatar"
+          loading="lazy"
+        />
         <a href="#" class="logo">Tsuki Dev.</a>
       </div>
     </div>
   </header>
 
-  <!-- HERO -->
-  <section class="works-hero fade-in">
-    <h1>My Projects</h1>
-    <p>A collection of mobile apps, web projects, and tools I've built</p>
-  </section>
+  <!-- ========== HERO ========== -->
+  <section class="works-hero fade-in" id="worksHero"></section>
 
-  <!-- CONTROLS -->
+  <!-- ========== CONTROLS ========== -->
   <div class="controls fade-in">
     <div class="search-box">
       <i class="fas fa-search"></i>
-      <input type="text" id="searchInput" placeholder="Search projects...">
+      <input type="text" id="searchInput" placeholder="Cari proyek berdasarkan nama atau deskripsi..." aria-label="Cari proyek">
+      <button class="search-clear" id="searchClear" aria-label="Bersihkan pencarian">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
-    <div class="filter-chips">
-      <span class="filter-chip active" data-filter="all">All</span>
-      <span class="filter-chip" data-filter="app">App</span>
-      <span class="filter-chip" data-filter="web">Web</span>
-      <span class="filter-chip" data-filter="tools">Tools</span>
-    </div>
+    <div class="filter-chips" id="filterChips"></div>
+    <div class="result-count" id="resultCount"></div>
   </div>
 
-  <!-- PROJECTS GRID -->
-  <div class="projects-grid" id="projectsGrid">
+  <!-- ========== PROJECTS GRID ========== -->
+  <div class="projects-grid" id="projectsGrid"></div>
 
-    <!-- PROJECT: TKJ OnE App -->
-    <div class="project-card fade-in" data-category="app">
-      <div class="project-header">
-        <div class="project-icon-wrapper">
-          <i class="fab fa-android"></i>
-        </div>
-        <h3 class="project-name">TKJ OnE App</h3>
-        <div class="project-meta">
-          <span class="category-badge category-app">App</span>
-          <span class="project-date mono"><i class="far fa-calendar"></i> 2025–2026</span>
-        </div>
-      </div>
-      <div class="project-body">
-        <p class="project-description">Aplikasi TKJ OnE dalam versi native (Kotlin) dan hybrid (Cordova). Mencakup iterasi dari versi awal hingga rilis stabil.</p>
-        <div class="project-tags">
-          <span class="tech-tag mono">Kotlin</span>
-          <span class="tech-tag mono">Gradle</span>
-          <span class="tech-tag mono">Cordova</span>
-        </div>
-      </div>
-      <div class="project-footer">
-        <a href="https://github.com/Jirankun/TKJ-One" target="_blank" class="view-link">
-          View Project <i class="fas fa-arrow-right"></i>
-        </a>
-      </div>
-    </div>
-
-    <!-- PROJECT: TKJ OnE Web -->
-    <div class="project-card fade-in" data-category="web">
-      <div class="project-header">
-        <div class="project-icon-wrapper">
-          <i class="fas fa-globe"></i>
-        </div>
-        <h3 class="project-name">TKJ OnE Web & Workers</h3>
-        <div class="project-meta">
-          <span class="category-badge category-web">Web</span>
-          <span class="project-date mono"><i class="far fa-calendar"></i> 2025</span>
-        </div>
-      </div>
-      <div class="project-body">
-        <p class="project-description">Frontend worker dan halaman web untuk mengelola database link media (foto/video). Menjadi sumber data untuk aplikasi dan web TKJ OnE.</p>
-        <div class="project-tags">
-          <span class="tech-tag mono">HTML/CSS</span>
-          <span class="tech-tag mono">JavaScript</span>
-          <span class="tech-tag mono">JSON</span>
-        </div>
-      </div>
-      <div class="project-footer">
-        <a href="https://github.com/Jirankun/tkj1" target="_blank" class="view-link">
-          View Project <i class="fas fa-arrow-right"></i>
-        </a>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- EMPTY STATE -->
-  <div class="empty-state hidden" id="emptyState">
+  <!-- ========== EMPTY STATE ========== -->
+  <div class="empty-state" id="emptyState">
     <i class="fas fa-search"></i>
-    <p>No projects found matching your criteria.</p>
-    <button class="filter-chip" onclick="resetFilters()" style="margin-top: 16px;">Clear Filters</button>
+    <p>Tidak ada proyek yang sesuai dengan kriteria Anda.</p>
+    <button class="btn" onclick="resetFilters()">Reset Filter</button>
   </div>
 
-  <!-- FOOTER -->
+  <!-- ========== FOOTER ========== -->
   <footer>
-    <p class="footer-copy">© 2025 <span>Tsuki Dev.</span> • Professional Mobile Developer</p>
+    <div class="container">
+      <p class="footer-copy">&copy; 2025 <span>Tsuki Dev.</span> &bull; Professional Mobile Developer</p>
+    </div>
   </footer>
 
-  <!-- SCRIPTS -->
+  <!-- ========== BACK TO TOP ========== -->
+  <button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script src="../js/router.js"></script>
   <script>
-    // === HEADER SCROLL EFFECT ===
-    const header = document.getElementById('header');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
+    (function() {
+      'use strict';
+
+      let projectData = [];
+      let currentFilter = 'all';
+
+      // === DATA LOADER ===
+      (async function loadProjects() {
+        try {
+          const res = await fetch('../data/projects.json');
+          const data = await res.json();
+          projectData = data.projects;
+
+          // Hero
+          document.getElementById('worksHero').innerHTML = `
+            <h1>${data.hero.title}</h1>
+            <p>${data.hero.subtitle}</p>
+          `;
+
+          // Filter chips
+          const filterChips = document.getElementById('filterChips');
+          filterChips.innerHTML = data.categories.map(cat =>
+            `<span class="filter-chip${cat.id === 'all' ? ' active' : ''}" data-filter="${cat.id}">${cat.label}</span>`
+          ).join('');
+
+          // Bind filter chip events
+          document.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+              document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+              this.classList.add('active');
+              currentFilter = this.dataset.filter;
+              filterProjects();
+            });
+          });
+
+          // Render projects
+          renderProjects(data.projects);
+          // Wait for reveal animation to complete, then init fade-in
+          waitForReveal(initFadeIn);
+
+        } catch (err) {
+          console.error('Gagal memuat data proyek:', err);
+        }
+      })();
+
+      function renderProjects(projects) {
+        const grid = document.getElementById('projectsGrid');
+        if (!projects.length) {
+          grid.innerHTML = '';
+          document.getElementById('emptyState').classList.add('visible');
+          return;
+        }
+
+        grid.innerHTML = projects.map(p => {
+          const categoryClass = p.category === 'app' ? 'category-app' : p.category === 'web' ? 'category-web' : 'category-tools';
+          const linkHtml = p.link
+            ? `<a href="${p.link}" target="_blank" rel="noopener" class="view-link">${p.linkText} <i class="fas fa-arrow-right"></i></a>`
+            : `<span class="view-link" style="color: var(--text-muted); cursor: default;">${p.linkText} <i class="fas fa-clock"></i></span>`;
+          const icon = p.icon ? `<i class="${p.icon}"></i>` : `<i class="fas fa-code"></i>`;
+
+          // Build optional image with lazy loading
+          const imageHtml = p.image
+            ? `<div class="project-image-wrap">
+                <div class="img-skeleton"></div>
+                <img
+                  data-src="${p.image}"
+                  alt="${p.name}"
+                  class="lazy-img loading"
+                  loading="lazy"
+                />
+              </div>`
+            : '';
+
+          return `
+            <div class="project-card fade-in stagger" data-category="${p.category}" data-name="${p.name.toLowerCase()}" data-desc="${p.description.toLowerCase()}" data-tags="${p.tags.join(' ').toLowerCase()}">
+              ${imageHtml}
+              <div class="project-header">
+                <div class="project-icon-wrapper">${icon}</div>
+                <h3 class="project-name">${p.name}</h3>
+                <div class="project-meta">
+                  <span class="category-badge ${categoryClass}">${p.category === 'app' ? 'Aplikasi' : p.category === 'web' ? 'Web' : 'Alat'}</span>
+                  <span class="project-date"><i class="far fa-calendar"></i> ${p.date}</span>
+                </div>
+              </div>
+              <div class="project-body">
+                <p class="project-description">${p.description}</p>
+                <div class="project-tags">
+                  ${p.tags.map(t => `<span class="tech-tag mono">${t}</span>`).join('')}
+                </div>
+              </div>
+              <div class="project-footer">${linkHtml}</div>
+            </div>
+          `;
+        }).join('');
+
+        document.getElementById('emptyState').classList.remove('visible');
+
+        // Init lazy image loading for newly rendered cards
+        initLazyImages();
       }
-    });
 
-    // === FADE-IN ON SCROLL ===
-    document.addEventListener('DOMContentLoaded', () => {
-      const fadeElements = document.querySelectorAll('.fade-in');
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) entry.target.classList.add('visible');
+      function filterProjects() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+
+        const filtered = projectData.filter(p => {
+          const matchesCategory = currentFilter === 'all' || p.category === currentFilter;
+          const matchesSearch = !searchTerm ||
+            p.name.toLowerCase().includes(searchTerm) ||
+            p.description.toLowerCase().includes(searchTerm) ||
+            p.tags.some(t => t.toLowerCase().includes(searchTerm));
+          return matchesCategory && matchesSearch;
         });
-      }, { threshold: 0.1 });
-      fadeElements.forEach(el => observer.observe(el));
-    });
 
-    // === SEARCH & FILTER ===
-    const searchInput = document.getElementById('searchInput');
-    const filterChips = document.querySelectorAll('.filter-chip');
-    const projectCards = document.querySelectorAll('.project-card');
-    const emptyState = document.getElementById('emptyState');
+        renderProjects(filtered);
 
-    let currentFilter = 'all';
-
-    function filterProjects() {
-      const searchTerm = searchInput.value.toLowerCase();
-      let visibleCount = 0;
-
-      projectCards.forEach(card => {
-        const category = card.dataset.category;
-        const name = card.querySelector('.project-name').textContent.toLowerCase();
-        const description = card.querySelector('.project-description').textContent.toLowerCase();
-        
-        const matchesCategory = currentFilter === 'all' || category === currentFilter;
-        const matchesSearch = name.includes(searchTerm) || description.includes(searchTerm);
-        
-        if (matchesCategory && matchesSearch) {
-          card.classList.remove('hidden');
-          visibleCount++;
+        const total = projectData.length;
+        const count = document.getElementById('resultCount');
+        if (searchTerm || currentFilter !== 'all') {
+          count.textContent = `Menampilkan ${filtered.length} dari ${total} proyek`;
         } else {
-          card.classList.add('hidden');
+          count.textContent = '';
+        }
+
+        document.getElementById('searchClear').classList.toggle('visible', searchTerm.length > 0);
+
+        // Re-init fade-in for newly rendered cards
+        setTimeout(initFadeIn, 50);
+      }
+
+      window.resetFilters = function() {
+        document.getElementById('searchInput').value = '';
+        currentFilter = 'all';
+        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        document.querySelector('.filter-chip[data-filter="all"]').classList.add('active');
+        filterProjects();
+      };
+
+      // === HEADER SCROLL + READING PROGRESS ===
+      const header = document.getElementById('header');
+      const backToTop = document.getElementById('backToTop');
+      const progressBar = document.getElementById('readingProgress');
+
+      window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        header.classList.toggle('scrolled', scrollY > 50);
+        backToTop.classList.toggle('visible', scrollY > 400);
+
+        if (progressBar) {
+          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          const progress = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
+          progressBar.style.width = Math.min(progress, 100) + '%';
+        }
+      }, { passive: true });
+
+      backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // === SEARCH ===
+      let searchTimeout = null;
+      document.getElementById('searchInput').addEventListener('input', () => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(filterProjects, 150);
+      });
+
+      document.getElementById('searchClear').addEventListener('click', () => {
+        document.getElementById('searchInput').value = '';
+        filterProjects();
+        document.getElementById('searchInput').focus();
+      });
+
+      document.getElementById('searchInput').addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          document.getElementById('searchInput').value = '';
+          filterProjects();
+          document.getElementById('searchInput').blur();
         }
       });
 
-      emptyState.classList.toggle('hidden', visibleCount > 0);
-    }
+      // === WAIT FOR REVEAL ANIMATION ===
+      let revealDone = false;
+      document.addEventListener('revealComplete', () => { revealDone = true; });
 
-    searchInput.addEventListener('input', filterProjects);
+      function waitForReveal(callback) {
+        if (revealDone) {
+          callback();
+        } else {
+          document.addEventListener('revealComplete', callback, { once: true });
+        }
+      }
 
-    filterChips.forEach(chip => {
-      chip.addEventListener('click', () => {
-        filterChips.forEach(c => c.classList.remove('active'));
-        chip.classList.add('active');
-        currentFilter = chip.dataset.filter;
-        filterProjects();
-      });
-    });
+      // === LAZY IMAGE LOADING ===
+      function initLazyImages() {
+        const lazyImages = document.querySelectorAll('.lazy-img.loading');
+        if (!lazyImages.length) return;
 
-    function resetFilters() {
-      searchInput.value = '';
-      currentFilter = 'all';
-      filterChips.forEach(c => c.classList.remove('active'));
-      filterChips[0].classList.add('active');
-      filterProjects();
-    }
+        if ('loading' in HTMLImageElement.prototype) {
+          // Native lazy loading — just set src and listen for load
+          lazyImages.forEach(img => {
+            img.src = img.dataset.src;
+            img.removeAttribute('data-src');
+            img.addEventListener('load', function onLoad() {
+              this.classList.remove('loading');
+              this.classList.add('loaded');
+              // Remove skeleton placeholder
+              const skeleton = this.previousElementSibling;
+              if (skeleton && skeleton.classList.contains('img-skeleton')) {
+                skeleton.remove();
+              }
+            });
+            // Fallback if image fails
+            img.addEventListener('error', function onError() {
+              this.classList.remove('loading');
+              this.classList.add('loaded');
+              const skeleton = this.previousElementSibling;
+              if (skeleton && skeleton.classList.contains('img-skeleton')) {
+                skeleton.remove();
+              }
+            });
+          });
+        } else {
+          // Fallback: IntersectionObserver for browsers without native lazy
+          const imgObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.removeAttribute('data-src');
+                img.addEventListener('load', function onLoad() {
+                  this.classList.remove('loading');
+                  this.classList.add('loaded');
+                  const skeleton = this.previousElementSibling;
+                  if (skeleton && skeleton.classList.contains('img-skeleton')) {
+                    skeleton.remove();
+                  }
+                });
+                img.addEventListener('error', function onError() {
+                  this.classList.remove('loading');
+                  this.classList.add('loaded');
+                  const skeleton = this.previousElementSibling;
+                  if (skeleton && skeleton.classList.contains('img-skeleton')) {
+                    skeleton.remove();
+                  }
+                });
+                imgObserver.unobserve(img);
+              }
+            });
+          }, { rootMargin: '200px 0px' });
+          lazyImages.forEach(img => imgObserver.observe(img));
+        }
+      }
+
+      // === TAP FEEDBACK (MOBILE) — native press highlight ===
+      if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
+        var tapActiveTimer = null;
+        var tapActiveEl = null;
+
+        document.addEventListener('touchstart', function(e) {
+          var target = e.target.closest('.project-card, .back-link, .filter-chip, .view-link, .btn, .search-clear, .back-to-top');
+          if (target) {
+            clearTimeout(tapActiveTimer);
+            if (tapActiveEl && tapActiveEl !== target) {
+              tapActiveEl.classList.remove('tap-active');
+            }
+            target.classList.add('tap-active');
+            tapActiveEl = target;
+          }
+        }, { passive: true });
+
+        document.addEventListener('touchmove', function() {
+          if (tapActiveEl) {
+            tapActiveEl.classList.remove('tap-active');
+            tapActiveEl = null;
+          }
+          clearTimeout(tapActiveTimer);
+        }, { passive: true });
+
+        document.addEventListener('touchend', function() {
+          tapActiveTimer = setTimeout(function() {
+            if (tapActiveEl) {
+              tapActiveEl.classList.remove('tap-active');
+              tapActiveEl = null;
+            }
+          }, 280);
+        }, { passive: true });
+
+        document.addEventListener('touchcancel', function() {
+          if (tapActiveEl) {
+            tapActiveEl.classList.remove('tap-active');
+            tapActiveEl = null;
+          }
+          clearTimeout(tapActiveTimer);
+        }, { passive: true });
+      }
+
+      // === FADE-IN ON SCROLL WITH STAGGER ===
+      function initFadeIn() {
+        const fadeElements = document.querySelectorAll('.fade-in');
+        if (!fadeElements.length) return;
+
+        // Group by parent container for stagger
+        const containerMap = new Map();
+        fadeElements.forEach(el => {
+          const parent = el.parentElement;
+          if (!containerMap.has(parent)) {
+            containerMap.set(parent, []);
+          }
+          containerMap.get(parent).push(el);
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const el = entry.target;
+              const parent = el.parentElement;
+              const siblings = containerMap.get(parent) || [];
+              const idx = siblings.indexOf(el);
+
+              const delay = el.classList.contains('stagger') ? idx * 80 : 0;
+
+              setTimeout(() => {
+                el.classList.add('visible');
+                observer.unobserve(el);
+              }, delay);
+            }
+          });
+        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+        fadeElements.forEach(el => observer.observe(el));
+      }
+
+    })();
   </script>
 </body>
 </html>
