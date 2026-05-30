@@ -4,24 +4,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Works • Tsuki Dev.</title>
+  <title>Projects • Tsuki Dev.</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg-primary: #0a0a0f;
-      --bg-secondary: #13131f;
-      --bg-card: #1a1a2e;
-      --text-primary: #f0f0f5;
-      --text-secondary: #a0a0b5;
+      --bg-primary: #0f0f1a;
+      --bg-secondary: #1a1a2e;
+      --bg-card: #16213e;
+      --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --text-primary: #ffffff;
+      --text-secondary: #b8b8d0;
       --accent: #6366f1;
-      --accent-hover: #818cf8;
-      --border: rgba(255, 255, 255, 0.08);
-      --success: #22c55e;
-      --warning: #f59e0b;
-      --danger: #ef4444;
-      --radius: 12px;
-      --transition: all 0.2s ease;
+      --accent-light: #818cf8;
+      --border: rgba(255, 255, 255, 0.1);
+      --shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      --shadow-hover: 0 20px 60px rgba(99, 102, 241, 0.2);
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,360 +33,434 @@
       font-family: "Inter", sans-serif;
       background: var(--bg-primary);
       color: var(--text-primary);
-      line-height: 1.6;
+      line-height: 1.7;
       overflow-x: hidden;
     }
 
-    /* === LAYOUT === */
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-    section { padding: 60px 0; }
+    body::before {
+      content: "";
+      position: fixed;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
 
     /* === HEADER === */
     header {
-      position: sticky; top: 0;
-      background: rgba(10, 10, 15, 0.95);
-      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      background: rgba(15, 15, 26, 0.95);
+      backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
-      z-index: 100; padding: 14px 0;
+      z-index: 1000;
+      padding: 20px 0;
+      transition: var(--transition);
     }
-    .nav-container {
-      display: flex; align-items: center; gap: 16px;
-      max-width: 1100px; margin: 0 auto; padding: 0 24px;
+    
+    header.scrolled {
+      padding: 12px 0;
+      box-shadow: var(--shadow);
     }
-    .back-btn {
-      display: flex; align-items: center; gap: 8px;
-      color: var(--text-secondary); font-weight: 500; font-size: 0.9rem;
-      padding: 8px 14px; border-radius: 10px;
-      text-decoration: none; transition: var(--transition);
+
+    .nav-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
     }
-    .back-btn:hover { color: var(--accent); background: rgba(99, 102, 241, 0.1); }
-    .page-title { font-weight: 600; font-size: 1rem; color: var(--text-primary); }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: var(--bg-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+
+    .back-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      font-weight: 500;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+    }
+    .back-link:hover {
+      color: var(--text-primary);
+      background: rgba(99, 102, 241, 0.1);
+    }
 
     /* === HERO === */
     .works-hero {
-      text-align: center; padding: 50px 24px 30px;
-      max-width: 700px; margin: 0 auto;
+      text-align: center;
+      padding: 80px 24px 40px;
+      max-width: 700px;
+      margin: 0 auto;
     }
     .works-hero h1 {
-      font-size: 1.8rem; font-weight: 700; margin-bottom: 10px;
-      background: linear-gradient(135deg, var(--accent), #a855f7);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+      background: var(--bg-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    .works-hero p { color: var(--text-secondary); font-size: 1rem; }
+    .works-hero p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+    }
 
     /* === SEARCH & FILTER === */
     .controls {
-      display: flex; flex-direction: column; gap: 12px;
-      max-width: 700px; margin: 0 auto 30px; padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 700px;
+      margin: 0 auto 40px;
+      padding: 0 24px;
     }
     .search-box {
       position: relative;
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 10px; padding: 10px 14px;
-      display: flex; align-items: center; gap: 10px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
     .search-box i { color: var(--text-secondary); }
     .search-box input {
-      flex: 1; background: transparent; border: none; outline: none;
-      color: var(--text-primary); font-size: 0.95rem;
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-primary);
+      font-size: 1rem;
     }
     .search-box input::placeholder { color: var(--text-secondary); }
     
-    .filter-chips { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+    .filter-chips {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
     .filter-chip {
-      padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 500;
-      background: var(--bg-card); border: 1px solid var(--border);
-      color: var(--text-secondary); cursor: pointer; transition: var(--transition);
-    }
-    .filter-chip.active, .filter-chip:hover {
-      background: var(--accent); color: #fff; border-color: transparent;
-    }
-
-    /* === PROJECTS LIST (GitHub Style) === */
-    .projects-container {
-      max-width: 900px; margin: 0 auto; padding: 0 24px 40px;
-      display: flex; flex-direction: column; gap: 12px;
-    }
-    .project-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); overflow: hidden;
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      cursor: pointer;
       transition: var(--transition);
     }
-    .project-card:hover { border-color: var(--accent); }
+    .filter-chip.active, .filter-chip:hover {
+      background: var(--bg-gradient);
+      color: #fff;
+      border-color: transparent;
+    }
 
-    .project-row {
-      display: grid; grid-template-columns: 56px 1fr 36px;
-      gap: 14px; align-items: center; padding: 14px 16px;
+    /* === PROJECTS GRID === */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 24px;
+      max-width: 1200px;
+      margin: 0 auto 60px;
+      padding: 0 32px;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: var(--transition);
       cursor: pointer;
     }
-    .project-icon-wrapper {
-      width: 44px; height: 44px; border-radius: 10px;
-      background: var(--accent);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; overflow: hidden;
+    .project-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(99, 102, 241, 0.3);
     }
-    .project-icon-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-    .project-icon-wrapper i { font-size: 1.3rem; color: #fff; }
 
-    .project-info { min-width: 0; }
-    .project-name {
-      font-weight: 600; font-size: 1rem; margin-bottom: 4px;
-      color: var(--text-primary); display: block; text-decoration: none;
+    .project-header {
+      padding: 24px;
+      border-bottom: 1px solid var(--border);
     }
-    .project-name:hover { color: var(--accent); }
-    
-    .project-meta-inline {
-      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    .project-icon-wrapper {
+      width: 60px;
+      height: 60px;
+      border-radius: var(--radius-md);
+      background: var(--bg-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .project-icon-wrapper i {
+      font-size: 1.8rem;
+      color: #fff;
+    }
+    .project-name {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+    .project-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
     .category-badge {
-      padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
     }
-    .category-android { background: rgba(99, 102, 241, 0.2); color: var(--accent); }
-    .category-cordova { background: rgba(168, 85, 247, 0.2); color: #a855f7; }
-    .category-web { background: rgba(34, 197, 94, 0.2); color: var(--success); }
+    .category-app { background: rgba(99, 102, 241, 0.2); color: var(--accent-light); }
+    .category-web { background: rgba(168, 85, 247, 0.2); color: #a855f7; }
     .category-tools { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
     
     .project-date {
-      font-size: 0.8rem; color: var(--text-secondary);
-      display: flex; align-items: center; gap: 4px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
-    .toggle-indicator {
-      width: 28px; height: 28px; border-radius: 8px;
-      background: var(--bg-secondary); border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--text-secondary); transition: var(--transition);
-      flex-shrink: 0; font-size: 0.8rem;
-    }
-    .project-card:hover .toggle-indicator {
-      background: var(--accent); color: #fff; border-color: transparent;
-    }
-    .toggle-indicator.active { transform: rotate(180deg); }
 
+    .project-body {
+      padding: 24px;
+    }
     .project-description {
-      max-height: 0; overflow: hidden;
-      padding: 0 16px;
-      transition: max-height 0.3s ease, padding 0.3s ease;
-      border-top: 1px solid transparent;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 20px;
     }
-    .project-description.expanded {
-      max-height: 500px; padding: 14px 16px;
-      border-top-color: var(--border);
-      background: rgba(0, 0, 0, 0.15);
+    .project-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
     }
-    .project-description p {
-      color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7;
-      margin-bottom: 10px;
+    .tech-tag {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      padding: 4px 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-sm);
     }
-    .project-meta-tags {
-      display: flex; gap: 10px; flex-wrap: wrap;
+
+    .project-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    .meta-tag {
-      font-size: 0.75rem; color: var(--text-secondary);
-      display: flex; align-items: center; gap: 4px;
-      padding: 4px 10px; background: rgba(255,255,255,0.05);
-      border-radius: 8px;
+    .view-link {
+      color: var(--accent-light);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
     }
-    .meta-tag i { color: var(--accent); }
+    .view-link:hover {
+      color: var(--text-primary);
+      gap: 10px;
+    }
 
     /* === EMPTY STATE === */
     .empty-state {
-      text-align: center; padding: 40px 20px; color: var(--text-secondary);
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-secondary);
     }
-    .empty-state i { font-size: 2.5rem; color: var(--accent); margin-bottom: 14px; opacity: 0.7; }
-    .empty-state p { margin-bottom: 16px; }
-
-    /* === TOAST (Minimal) === */
-    #toast-container {
-      position: fixed; bottom: 20px; right: 20px;
-      z-index: 9999; display: flex; flex-direction: column; gap: 10px;
-      max-width: 360px; width: calc(100% - 40px); pointer-events: none;
+    .empty-state i {
+      font-size: 3rem;
+      color: var(--accent);
+      margin-bottom: 16px;
+      opacity: 0.7;
     }
-    .toast {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 10px; padding: 12px 16px;
-      display: flex; align-items: center; gap: 10px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-      animation: toastIn 0.2s ease; pointer-events: auto;
-    }
-    @keyframes toastIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .toast.success { border-left: 3px solid var(--success); }
-    .toast.warning { border-left: 3px solid var(--warning); }
-    .toast.error { border-left: 3px solid var(--danger); }
-    .toast.info { border-left: 3px solid var(--accent); }
-    .toast-icon {
-      width: 24px; height: 24px; border-radius: 6px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; font-size: 0.85rem;
-    }
-    .toast.success .toast-icon { background: rgba(34, 197, 94, 0.2); color: var(--success); }
-    .toast.warning .toast-icon { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
-    .toast.error .toast-icon { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
-    .toast.info .toast-icon { background: rgba(99, 102, 241, 0.2); color: var(--accent); }
-    .toast-content { flex: 1; min-width: 0; }
-    .toast-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 1px; }
-    .toast-message { font-size: 0.85rem; color: var(--text-secondary); }
-    .toast-close {
-      background: none; border: none; color: var(--text-secondary);
-      font-size: 1rem; cursor: pointer; padding: 4px;
-    }
-    .toast-close:hover { color: var(--text-primary); }
 
     /* === FOOTER === */
     footer {
-      background: var(--bg-secondary); border-top: 1px solid var(--border);
-      padding: 24px 0; text-align: center; margin-top: 20px;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      text-align: center;
     }
-    .footer-text { color: var(--text-secondary); font-size: 0.9rem; }
-    .footer-text span { color: var(--accent); }
+    .footer-copy {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+    .footer-copy span { color: var(--accent-light); }
 
     /* === RESPONSIVE === */
-    @media (min-width: 768px) {
-      .works-hero { text-align: left; padding: 60px 0 40px; }
-      .controls { padding: 0; }
-      .projects-container { padding: 0 0 50px; }
-      #toast-container { bottom: 30px; right: 30px; }
-    }
-    @media (max-width: 480px) {
-      .project-row { grid-template-columns: 48px 1fr 32px; gap: 12px; padding: 12px 14px; }
-      .project-icon-wrapper { width: 40px; height: 40px; }
-      .project-name { font-size: 0.95rem; }
-      .category-badge { font-size: 0.7rem; padding: 2px 8px; }
-      .filter-chips { justify-content: flex-start; }
+    @media (max-width: 768px) {
+      .works-hero h1 { font-size: 2rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .nav-wrapper { padding: 0 20px; }
+      .container { padding: 0 20px; }
     }
 
     /* === UTILS === */
     .mono { font-family: "JetBrains Mono", monospace; }
     .hidden { display: none !important; }
-    .fade-in { opacity: 0; transform: translateY(8px); transition: opacity 0.3s ease, transform 0.3s ease; }
-    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
 
 <body>
 
-  <!-- TOAST CONTAINER -->
-  <div id="toast-container"></div>
-
-  <!-- CONTENT -->
-  <div class="content-wrapper">
-
-    <!-- HEADER -->
-    <header>
-      <div class="nav-container">
-        <a href="#" class="back-btn" onclick="goBack(event)">
-  <i class="fas fa-arrow-left"></i> Back
-</a>
-
-<script>
-function goBack(e) {
-  e.preventDefault();
-
-  // kalau ada history sebelumnya, kembali
-  if (window.history.length > 1) {
-    window.history.back();
-  } 
-  // kalau tidak ada history, fallback ke index
-  else {
-    window.location.href = "../index.html";
-  }
-}
-</script>
-        <span class="page-title">Projects</span>
-      </div>
-    </header>
-
-    <!-- HERO -->
-    <section class="works-hero fade-in">
-      <h1>My Works</h1>
-      <p>Click any project to view details. Filter or search to find what you're looking for.</p>
-    </section>
-
-    <!-- CONTROLS -->
-    <div class="controls">
-      <div class="search-box">
-        <i class="fas fa-search"></i>
-        <input type="text" id="searchInput" placeholder="Search projects...">
-      </div>
-      <div class="filter-chips">
-        <span class="filter-chip active" data-filter="all">All</span>
-        <span class="filter-chip" data-filter="app">App</span>
-        <span class="filter-chip" data-filter="web">Web</span>
-        <span class="filter-chip" data-filter="tools">Tools</span>
+  <!-- HEADER -->
+  <header id="header">
+    <div class="nav-wrapper">
+      <a href="../index.html" class="back-link">
+        <i class="fas fa-arrow-left"></i> Back to Home
+      </a>
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <img src="https://github.com/Jirankun.png" alt="Tsuki Dev" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--border);" />
+        <a href="#" class="logo">Tsuki Dev.</a>
       </div>
     </div>
+  </header>
 
-    <!-- PROJECTS LIST -->
-    <div class="projects-container" id="projectsList">
+  <!-- HERO -->
+  <section class="works-hero fade-in">
+    <h1>My Projects</h1>
+    <p>A collection of mobile apps, web projects, and tools I've built</p>
+  </section>
 
-      <!-- PROJECT: TKJ OnE App -->
-      <div class="project-card fade-in" data-category="app" data-link="https://github.com/Jirankun/TKJ-One">
-        <div class="project-row">
-          <div class="project-icon-wrapper">
-            <i class="fab fa-android"></i>
-          </div>
-          <div class="project-info">
-            <a href="https://github.com/Jirankun/TKJ-One" target="_blank" class="project-name">TKJ OnE App</a>
-            <div class="project-meta-inline">
-              <span class="category-badge category-android">App</span>
-              <span class="project-date mono">2025–2026</span>
-            </div>
-          </div>
-          <div class="toggle-indicator"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="project-description">
-          <p>Aplikasi TKJ OnE dalam versi native (Kotlin) dan hybrid (Cordova). Mencakup iterasi dari versi awal hingga rilis stabil.</p>
-          <div class="project-meta-tags">
-            <span class="meta-tag mono"><i class="fas fa-code"></i> Kotlin/Gradle</span>
-            <span class="meta-tag mono"><i class="fas fa-code"></i> HTML/JS/CSS</span>
-            <span class="meta-tag"><i class="fas fa-check-circle"></i> Live</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- PROJECT: TKJ OnE Web -->
-      <div class="project-card fade-in" data-category="web" data-link="https://github.com/Jirankun/tkj1">
-        <div class="project-row">
-          <div class="project-icon-wrapper">
-            <i class="fas fa-globe"></i>
-          </div>
-          <div class="project-info">
-            <a href="https://github.com/Jirankun/tkj1" target="_blank" class="project-name">TKJ OnE Web & Workers</a>
-            <div class="project-meta-inline">
-              <span class="category-badge category-web">Web</span>
-              <span class="project-date mono">2025</span>
-            </div>
-          </div>
-          <div class="toggle-indicator"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="project-description">
-          <p>Frontend worker dan halaman web untuk mengelola database link media (foto/video). Menjadi sumber data untuk aplikasi dan web TKJ OnE.</p>
-          <div class="project-meta-tags">
-            <span class="meta-tag mono"><i class="fas fa-code"></i> HTML/CSS/JS</span>
-            <span class="meta-tag mono"><i class="fas fa-database"></i> JSON</span>
-            <span class="meta-tag"><i class="fas fa-check-circle"></i> Live</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- EMPTY STATE -->
-    <div class="empty-state hidden" id="emptyState">
+  <!-- CONTROLS -->
+  <div class="controls fade-in">
+    <div class="search-box">
       <i class="fas fa-search"></i>
-      <p>No projects found.</p>
-      <button class="filter-chip" onclick="resetFilters()">Clear Filters</button>
+      <input type="text" id="searchInput" placeholder="Search projects...">
+    </div>
+    <div class="filter-chips">
+      <span class="filter-chip active" data-filter="all">All</span>
+      <span class="filter-chip" data-filter="app">App</span>
+      <span class="filter-chip" data-filter="web">Web</span>
+      <span class="filter-chip" data-filter="tools">Tools</span>
+    </div>
+  </div>
+
+  <!-- PROJECTS GRID -->
+  <div class="projects-grid" id="projectsGrid">
+
+    <!-- PROJECT: TKJ OnE App -->
+    <div class="project-card fade-in" data-category="app">
+      <div class="project-header">
+        <div class="project-icon-wrapper">
+          <i class="fab fa-android"></i>
+        </div>
+        <h3 class="project-name">TKJ OnE App</h3>
+        <div class="project-meta">
+          <span class="category-badge category-app">App</span>
+          <span class="project-date mono"><i class="far fa-calendar"></i> 2025–2026</span>
+        </div>
+      </div>
+      <div class="project-body">
+        <p class="project-description">Aplikasi TKJ OnE dalam versi native (Kotlin) dan hybrid (Cordova). Mencakup iterasi dari versi awal hingga rilis stabil.</p>
+        <div class="project-tags">
+          <span class="tech-tag mono">Kotlin</span>
+          <span class="tech-tag mono">Gradle</span>
+          <span class="tech-tag mono">Cordova</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <a href="https://github.com/Jirankun/TKJ-One" target="_blank" class="view-link">
+          View Project <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
     </div>
 
-    <!-- FOOTER -->
-    <footer>
-      <p class="footer-text">© 2025 <span>Tsuki Dev.</span> • Mobile Developer</p>
-    </footer>
+    <!-- PROJECT: TKJ OnE Web -->
+    <div class="project-card fade-in" data-category="web">
+      <div class="project-header">
+        <div class="project-icon-wrapper">
+          <i class="fas fa-globe"></i>
+        </div>
+        <h3 class="project-name">TKJ OnE Web & Workers</h3>
+        <div class="project-meta">
+          <span class="category-badge category-web">Web</span>
+          <span class="project-date mono"><i class="far fa-calendar"></i> 2025</span>
+        </div>
+      </div>
+      <div class="project-body">
+        <p class="project-description">Frontend worker dan halaman web untuk mengelola database link media (foto/video). Menjadi sumber data untuk aplikasi dan web TKJ OnE.</p>
+        <div class="project-tags">
+          <span class="tech-tag mono">HTML/CSS</span>
+          <span class="tech-tag mono">JavaScript</span>
+          <span class="tech-tag mono">JSON</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <a href="https://github.com/Jirankun/tkj1" target="_blank" class="view-link">
+          View Project <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
 
   </div>
 
+  <!-- EMPTY STATE -->
+  <div class="empty-state hidden" id="emptyState">
+    <i class="fas fa-search"></i>
+    <p>No projects found matching your criteria.</p>
+    <button class="filter-chip" onclick="resetFilters()" style="margin-top: 16px;">Clear Filters</button>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p class="footer-copy">© 2025 <span>Tsuki Dev.</span> • Professional Mobile Developer</p>
+  </footer>
+
   <!-- SCRIPTS -->
   <script>
-    // === SUBTLE FADE-IN ON SCROLL ===
+    // === HEADER SCROLL EFFECT ===
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // === FADE-IN ON SCROLL ===
     document.addEventListener('DOMContentLoaded', () => {
       const fadeElements = document.querySelectorAll('.fade-in');
       const observer = new IntersectionObserver((entries) => {
@@ -395,131 +471,55 @@ function goBack(e) {
       fadeElements.forEach(el => observer.observe(el));
     });
 
-    // === TOAST NOTIFICATION (Minimal) ===
-    const Toast = {
-      container: document.getElementById('toast-container'),
-      show({ type = 'info', title, message, duration = 3500 }) {
-        const toast = document.createElement('div');
-        toast.className = `toast ${type}`;
-        const icons = {
-          success: 'fa-check-circle', warning: 'fa-exclamation-triangle',
-          error: 'fa-times-circle', info: 'fa-info-circle'
-        };
-        toast.innerHTML = `
-          <div class="toast-icon"><i class="fas ${icons[type]}"></i></div>
-          <div class="toast-content">
-            <div class="toast-title">${title}</div>
-            ${message ? `<div class="toast-message">${message}</div>` : ''}
-          </div>
-          <button class="toast-close"><i class="fas fa-times"></i></button>
-        `;
-        const close = () => {
-          toast.style.opacity = '0';
-          toast.style.transform = 'translateY(10px)';
-          setTimeout(() => toast.remove(), 200);
-        };
-        toast.querySelector('.toast-close').addEventListener('click', (e) => { e.stopPropagation(); close(); });
-        setTimeout(close, duration);
-        this.container.appendChild(toast);
-      },
-      success: (t, m) => Toast.show({ type: 'success', title: t, message: m }),
-      warning: (t, m) => Toast.show({ type: 'warning', title: t, message: m }),
-      error: (t, m) => Toast.show({ type: 'error', title: t, message: m }),
-      info: (t, m) => Toast.show({ type: 'info', title: t, message: m })
-    };
-
-    // === PROJECT TOGGLE (Accordion) ===
-    function initProjectToggles() {
-      document.querySelectorAll('.project-card').forEach(card => {
-        const row = card.querySelector('.project-row');
-        const desc = card.querySelector('.project-description');
-        const indicator = card.querySelector('.toggle-indicator');
-        
-        row.addEventListener('click', (e) => {
-          if (e.target.closest('.project-name')) return;
-          const isExpanding = !desc.classList.contains('expanded');
-          
-          // Close others
-          document.querySelectorAll('.project-card').forEach(other => {
-            if (other !== card) {
-              other.querySelector('.project-description')?.classList.remove('expanded');
-              other.querySelector('.toggle-indicator')?.classList.remove('active');
-            }
-          });
-          
-          desc.classList.toggle('expanded');
-          indicator.classList.toggle('active');
-        });
-      });
-    }
-
     // === SEARCH & FILTER ===
-    function initFilters() {
-      const searchInput = document.getElementById('searchInput');
-      const filterChips = document.querySelectorAll('.filter-chip');
-      const projects = document.querySelectorAll('.project-card');
-      const emptyState = document.getElementById('emptyState');
-      const projectsList = document.getElementById('projectsList');
+    const searchInput = document.getElementById('searchInput');
+    const filterChips = document.querySelectorAll('.filter-chip');
+    const projectCards = document.querySelectorAll('.project-card');
+    const emptyState = document.getElementById('emptyState');
 
-      function filterProjects() {
-        const term = searchInput.value.toLowerCase().trim();
-        const active = document.querySelector('.filter-chip.active')?.dataset.filter || 'all';
-        let visible = 0;
+    let currentFilter = 'all';
+
+    function filterProjects() {
+      const searchTerm = searchInput.value.toLowerCase();
+      let visibleCount = 0;
+
+      projectCards.forEach(card => {
+        const category = card.dataset.category;
+        const name = card.querySelector('.project-name').textContent.toLowerCase();
+        const description = card.querySelector('.project-description').textContent.toLowerCase();
         
-        projects.forEach(card => {
-          const name = card.querySelector('.project-name').textContent.toLowerCase();
-          const cat = card.dataset.category;
-          const desc = card.querySelector('.project-description p')?.textContent.toLowerCase() || '';
-          const matchSearch = name.includes(term) || desc.includes(term);
-          const matchCat = active === 'all' || cat === active;
-          
-          if (matchSearch && matchCat) { card.classList.remove('hidden'); visible++; }
-          else { card.classList.add('hidden'); }
-        });
-
-        projectsList.classList.toggle('hidden', visible === 0);
-        emptyState.classList.toggle('hidden', visible > 0);
-      }
-
-      searchInput.addEventListener('input', filterProjects);
-      filterChips.forEach(chip => {
-        chip.addEventListener('click', () => {
-          filterChips.forEach(c => c.classList.remove('active'));
-          chip.classList.add('active');
-          filterProjects();
-          if (chip.dataset.filter !== 'all') {
-            Toast.info('Filter Applied', `Showing ${chip.textContent} projects`);
-          }
-        });
+        const matchesCategory = currentFilter === 'all' || category === currentFilter;
+        const matchesSearch = name.includes(searchTerm) || description.includes(searchTerm);
+        
+        if (matchesCategory && matchesSearch) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
       });
+
+      emptyState.classList.toggle('hidden', visibleCount > 0);
     }
+
+    searchInput.addEventListener('input', filterProjects);
+
+    filterChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        filterChips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        currentFilter = chip.dataset.filter;
+        filterProjects();
+      });
+    });
 
     function resetFilters() {
-      document.getElementById('searchInput').value = '';
-      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-      document.querySelector('.filter-chip[data-filter="all"]').classList.add('active');
-      document.querySelectorAll('.project-card').forEach(c => c.classList.remove('hidden'));
-      document.getElementById('projectsList').classList.remove('hidden');
-      document.getElementById('emptyState').classList.add('hidden');
-      Toast.success('Filters Reset', 'Showing all projects');
+      searchInput.value = '';
+      currentFilter = 'all';
+      filterChips.forEach(c => c.classList.remove('active'));
+      filterChips[0].classList.add('active');
+      filterProjects();
     }
-
-    // === PROJECT LINK FEEDBACK ===
-    function initProjectLinks() {
-      document.querySelectorAll('.project-name').forEach(link => {
-        link.addEventListener('click', () => {
-          Toast.info('Opening', `Loading ${link.textContent}...`, 1500);
-        });
-      });
-    }
-
-    // === INIT ===
-    document.addEventListener('DOMContentLoaded', () => {
-      initProjectToggles();
-      initFilters();
-      initProjectLinks();
-      setTimeout(() => Toast.info('Tip', 'Click a project row to view details'), 1000);
-    });
   </script>
 </body>
 </html>
