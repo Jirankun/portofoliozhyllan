@@ -1,0 +1,366 @@
+media:
+  input: assets/images
+  output: assets/images
+
+content:
+  - name: portofolio
+    label: Portofolio (Halaman Utama)
+    type: file
+    path: data/portofolio.json
+    fields:
+      # ─── HERO ───────────────────────────────────────────────
+      - name: hero
+        label: Hero Section
+        type: object
+        fields:
+          - name: badge
+            label: Badge (misal "Tersedia untuk bekerja")
+            type: string
+          - name: greeting
+            label: Sapaan
+            type: string
+          - name: name
+            label: Nama Lengkap
+            type: string
+          - name: title
+            label: Judul / Title
+            type: string
+          - name: description
+            label: Deskripsi (HTML diizinkan)
+            type: rich-text
+          - name: avatar
+            label: URL Avatar
+            type: string
+          - name: stats
+            label: Statistik
+            type: list
+            fields:
+              - name: number
+                label: Angka
+                type: string
+              - name: label
+                label: Label
+                type: string
+          - name: buttons
+            label: Tombol CTA
+            type: list
+            fields:
+              - name: text
+                label: Teks Tombol
+                type: string
+              - name: icon
+                label: Icon Class (FontAwesome)
+                type: string
+              - name: href
+                label: Link
+                type: string
+              - name: type
+                label: Tipe Tombol
+                type: select
+                options:
+                  values:
+                    - primary
+                    - outline
+              - name: target
+                label: Target
+                type: select
+                options:
+                  values:
+                    - _self
+                    - _blank
+          - name: socialLinks
+            label: Social Links
+            type: list
+            fields:
+              - name: icon
+                label: Icon Class (FontAwesome)
+                type: string
+              - name: href
+                label: URL
+                type: string
+              - name: title
+                label: Tooltip / Title
+                type: string
+          - name: badges
+            label: Floating Badges
+            type: list
+            fields:
+              - name: icon
+                label: Icon Class
+                type: string
+              - name: text
+                label: Teks Utama
+                type: string
+              - name: small
+                label: Teks Kecil
+                type: string
+              - name: position
+                label: Posisi CSS Class
+                type: string
+
+      # ─── ABOUT ──────────────────────────────────────────────
+      - name: about
+        label: About Section
+        type: object
+        fields:
+          - name: tag
+            label: Tag
+            type: string
+          - name: title
+            label: Judul
+            type: string
+          - name: subtitle
+            label: Subjudul
+            type: string
+          - name: cards
+            label: Kartu About
+            type: list
+            fields:
+              - name: icon
+                label: Icon Class
+                type: string
+              - name: title
+                label: Judul Kartu
+                type: string
+              - name: body
+                label: Isi (HTML diizinkan)
+                type: rich-text
+
+      # ─── SKILLS ─────────────────────────────────────────────
+      - name: skills
+        label: Skills Section
+        type: object
+        fields:
+          - name: tag
+            label: Tag
+            type: string
+          - name: title
+            label: Judul
+            type: string
+          - name: subtitle
+            label: Subjudul
+            type: string
+          - name: items
+            label: Daftar Keahlian
+            type: list
+            fields:
+              - name: icon
+                label: Icon Class
+                type: string
+              - name: name
+                label: Nama Keahlian
+                type: string
+              - name: level
+                label: Level (0–100)
+                type: number
+
+      # ─── EXPERIENCE ─────────────────────────────────────────
+      - name: experience
+        label: Experience Section
+        type: object
+        fields:
+          - name: tag
+            label: Tag
+            type: string
+          - name: title
+            label: Judul
+            type: string
+          - name: subtitle
+            label: Subjudul
+            type: string
+          - name: cards
+            label: Kartu Pengalaman
+            type: list
+            fields:
+              - name: icon
+                label: Icon Class
+                type: string
+              - name: title
+                label: Judul Kartu
+                type: string
+              - name: body
+                label: Isi (HTML, opsional)
+                type: rich-text
+              - name: timeline
+                label: Timeline (opsional)
+                type: list
+                fields:
+                  - name: title
+                    label: Judul
+                    type: string
+                  - name: meta
+                    label: Periode
+                    type: string
+                  - name: desc
+                    label: Deskripsi
+                    type: string
+
+      # ─── PROJECTS ───────────────────────────────────────────
+      - name: projects
+        label: Projects Section (Halaman Utama)
+        type: object
+        fields:
+          - name: tag
+            label: Tag
+            type: string
+          - name: title
+            label: Judul
+            type: string
+          - name: subtitle
+            label: Subjudul
+            type: string
+          - name: featured
+            label: Proyek Unggulan
+            type: list
+            fields:
+              - name: icon
+                label: Icon Class
+                type: string
+              - name: title
+                label: Judul Proyek
+                type: string
+              - name: description
+                label: Deskripsi
+                type: string
+              - name: link
+                label: Link
+                type: string
+              - name: linkText
+                label: Teks Link
+                type: string
+          - name: viewAll
+            label: Tombol Lihat Semua
+            type: object
+            fields:
+              - name: text
+                label: Teks
+                type: string
+              - name: icon
+                label: Icon Class
+                type: string
+              - name: href
+                label: Link
+                type: string
+
+      # ─── CONTACT ────────────────────────────────────────────
+      - name: contact
+        label: Contact Section
+        type: object
+        fields:
+          - name: tag
+            label: Tag
+            type: string
+          - name: title
+            label: Judul
+            type: string
+          - name: subtitle
+            label: Subjudul
+            type: string
+          - name: items
+            label: Item Kontak
+            type: list
+            fields:
+              - name: icon
+                label: Icon Class
+                type: string
+              - name: label
+                label: Label
+                type: string
+              - name: value
+                label: Nilai Tampil
+                type: string
+              - name: href
+                label: URL / Href
+                type: string
+              - name: target
+                label: Target
+                type: select
+                options:
+                  values:
+                    - _self
+                    - _blank
+
+      # ─── FOOTER ─────────────────────────────────────────────
+      - name: footer
+        label: Footer
+        type: object
+        fields:
+          - name: logo
+            label: Nama Logo
+            type: string
+          - name: year
+            label: Tahun
+            type: number
+          - name: tagline
+            label: Tagline
+            type: string
+
+  # ─── PROJECTS.JSON ──────────────────────────────────────────
+  - name: projects-page
+    label: Projects (Halaman Karya)
+    type: file
+    path: data/projects.json
+    fields:
+      - name: hero
+        label: Hero Section
+        type: object
+        fields:
+          - name: title
+            label: Judul (HTML diizinkan)
+            type: string
+          - name: subtitle
+            label: Subjudul
+            type: string
+
+      - name: categories
+        label: Kategori Filter
+        type: list
+        fields:
+          - name: id
+            label: ID Kategori
+            type: string
+          - name: label
+            label: Label Tampil
+            type: string
+
+      - name: projects
+        label: Daftar Proyek
+        type: list
+        fields:
+          - name: name
+            label: Nama Proyek
+            type: string
+          - name: icon
+            label: Icon Class (FontAwesome)
+            type: string
+          - name: category
+            label: Kategori
+            type: select
+            options:
+              values:
+                - all
+                - app
+                - web
+                - tools
+          - name: date
+            label: Tanggal / Periode
+            type: string
+          - name: description
+            label: Deskripsi
+            type: string
+          - name: image
+            label: URL Gambar (opsional)
+            type: string
+          - name: tags
+            label: Tags Teknologi
+            type: list
+            fields:
+              - name: value
+                label: Tag
+                type: string
+          - name: link
+            label: URL Proyek (opsional)
+            type: string
+          - name: linkText
+            label: Teks Tombol Link
+            type: string
