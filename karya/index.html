@@ -4,7 +4,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Karya • Tsuki Dev</title>
+  
+  <!-- Primary Meta Tags -->
+  <title>Karya • Zhyllan Fyllah</title>
+  <meta name="title" content="Karya • Zhyllan Fyllah" />
+  <meta name="description" content="Kumpulan proyek Mobile dan Web Development oleh Zhyllan Fyllah. Lihat karya-karya dalam Android Native dan Apache Cordova." />
+  <meta name="author" content="Zhyllan Fyllah" />
+  <meta name="keywords" content="portfolio projects, mobile apps, android apps, web development, zhyllan fyllah" />
+  <link rel="icon" type="image/x-icon" href="../mage.ico" />
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://zhyllanfyllah.github.io/karya/" />
+  <meta property="og:title" content="Karya • Zhyllan Fyllah" />
+  <meta property="og:description" content="Kumpulan proyek Mobile dan Web Development oleh Zhyllan Fyllah. Lihat karya-karya dalam Android Native dan Apache Cordova." />
+  <meta property="og:image" content="https://github.com/Jirankun.png" />
+  <meta property="og:site_name" content="Zhyllan Fyllah Portfolio" />
+  <meta property="og:locale" content="id_ID" />
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://zhyllanfyllah.github.io/karya/" />
+  <meta name="twitter:title" content="Karya • Zhyllan Fyllah" />
+  <meta name="twitter:description" content="Kumpulan proyek Mobile dan Web Development oleh Zhyllan Fyllah. Lihat karya-karya dalam Android Native dan Apache Cordova." />
+  <meta name="twitter:image" content="https://github.com/Jirankun.png" />
+  
+  <!-- Additional SEO -->
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0f0f1a" />
+  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
@@ -205,39 +233,7 @@
       max-width: var(--max-width);
       margin: 0 auto;
       padding: 0 32px;
-    }
-
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .back-link {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--text-secondary);
-      font-weight: 500;
-      font-size: 0.9rem;
-      text-decoration: none;
-      padding: 8px 14px;
-      border-radius: var(--radius-sm);
-      transition: var(--transition);
-    }
-    @media (hover: hover) {
-      .back-link:hover {
-        color: var(--text-primary);
-        background: rgba(99, 102, 241, 0.1);
-      }
-    }
-
-    .header-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: 2px solid var(--border);
-      object-fit: cover;
+      position: relative;
     }
 
     .logo {
@@ -248,6 +244,33 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
       text-decoration: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .back-button {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--text-secondary);
+    }
+
+    .back-button:hover {
+      border-color: var(--accent);
+      color: var(--text-primary);
+      background: rgba(99, 102, 241, 0.1);
+    }
+
+    .back-button i {
+      font-size: 1rem;
     }
 
     /* === HERO === */
@@ -597,10 +620,6 @@
         box-shadow: var(--shadow-hover);
         border-color: var(--border-hover);
       }
-      .back-link.tap-active {
-        color: var(--text-primary);
-        background: rgba(99, 102, 241, 0.1);
-      }
       .back-to-top.tap-active {
         transform: translateY(-3px) scale(1.05);
       }
@@ -638,10 +657,6 @@
       .works-hero h1 { font-size: 1.7rem; }
       .works-hero p { font-size: 0.95rem; }
       .works-hero { padding-top: calc(var(--header-height) + 40px); }
-      .back-link span { display: none; }
-      .back-link i { font-size: 1.1rem; }
-      .back-link { padding: 8px 10px; }
-      .header-avatar { display: none; }
       .projects-grid { margin-bottom: 40px; }
       .back-to-top {
         bottom: 20px;
@@ -650,10 +665,6 @@
         height: 40px;
         font-size: 1rem;
       }
-    }
-
-    @media (max-width: 380px) {
-      .nav-left .logo { display: none; }
     }
 
     .hidden { display: none !important; }
@@ -668,19 +679,10 @@
   <!-- ========== HEADER ========== -->
   <header id="header">
     <div class="nav-wrapper">
-      <div class="nav-left">
-        <a href="../index.html" class="back-link">
-          <i class="fas fa-arrow-left"></i>
-          <span>Kembali ke Beranda</span>
-        </a>
-        <img
-          src="https://github.com/Jirankun.png"
-          alt="Tsuki Dev"
-          class="header-avatar"
-          loading="lazy"
-        />
-        <a href="#" class="logo">Tsuki Dev.</a>
-      </div>
+      <button class="back-button" id="backButton" aria-label="Kembali/Tutup" onclick="closeTabOrBack()">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <a href="../index.html" class="logo">Zhyllan Fyllah</a>
     </div>
   </header>
 
@@ -983,7 +985,7 @@
         var tapActiveEl = null;
 
         document.addEventListener('touchstart', function(e) {
-          var target = e.target.closest('.project-card, .back-link, .filter-chip, .view-link, .btn, .search-clear, .back-to-top');
+          var target = e.target.closest('.project-card, .filter-chip, .view-link, .btn, .search-clear, .back-to-top');
           if (target) {
             clearTimeout(tapActiveTimer);
             if (tapActiveEl && tapActiveEl !== target) {
@@ -1053,6 +1055,22 @@
           });
         }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
         fadeElements.forEach(el => observer.observe(el));
+      }
+
+      // Fungsi untuk tombol kembali: coba tutup tab, jika gagal kembali ke halaman sebelumnya
+      function closeTabOrBack() {
+        // Coba tutup tab (hanya berfungsi jika tab dibuka oleh script)
+        if (window.opener || window.name === 'opened-by-script') {
+          window.close();
+        } else {
+          // Jika tidak bisa ditutup, coba kembali ke history sebelumnya
+          if (window.history.length > 1) {
+            window.history.back();
+          } else {
+            // Fallback: kembali ke homepage
+            window.location.href = '../index.html';
+          }
+        }
       }
 
     })();
