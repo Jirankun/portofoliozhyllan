@@ -4,34 +4,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Karya • ZHYLLAN FYLLAH</title>
   
-  <!-- Primary Meta Tags -->
-  <title>Karya • Zhyllan Fyllah</title>
-  <meta name="title" content="Karya • Zhyllan Fyllah" />
-  <meta name="description" content="Kumpulan proyek Mobile dan Web Development oleh Zhyllan Fyllah. Lihat karya-karya dalam Android Native dan Apache Cordova." />
+  <!-- Meta Tags SEO -->
+  <meta name="description" content="Portofolio karya Zhyllan Fyllah - Mobile and Web Developer profesional specializing dalam pengembangan aplikasi mobile dan web modern." />
+  <meta name="keywords" content="Zhyllan Fyllah, Mobile Developer, Web Developer, Portfolio, App Development, Flutter, React Native, Android, iOS" />
   <meta name="author" content="Zhyllan Fyllah" />
-  <meta name="keywords" content="portfolio projects, mobile apps, android apps, web development, zhyllan fyllah" />
-  <link rel="icon" type="image/x-icon" href="../mage.ico" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0f0f1a" />
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://zhyllanfyllah.github.io/karya/" />
-  <meta property="og:title" content="Karya • Zhyllan Fyllah" />
-  <meta property="og:description" content="Kumpulan proyek Mobile dan Web Development oleh Zhyllan Fyllah. Lihat karya-karya dalam Android Native dan Apache Cordova." />
+  <meta property="og:url" content="https://zhyllanfylah.com/karya/" />
+  <meta property="og:title" content="Karya • ZHYLLAN FYLLAH" />
+  <meta property="og:description" content="Portofolio karya Zhyllan Fyllah - Mobile and Web Developer profesional." />
   <meta property="og:image" content="https://github.com/Jirankun.png" />
-  <meta property="og:site_name" content="Zhyllan Fyllah Portfolio" />
+  <meta property="og:site_name" content="ZHYLLAN FYLLAH Portfolio" />
   <meta property="og:locale" content="id_ID" />
   
-  <!-- Twitter -->
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:url" content="https://zhyllanfyllah.github.io/karya/" />
-  <meta name="twitter:title" content="Karya • Zhyllan Fyllah" />
-  <meta name="twitter:description" content="Kumpulan proyek Mobile dan Web Development oleh Zhyllan Fyllah. Lihat karya-karya dalam Android Native dan Apache Cordova." />
+  <meta name="twitter:title" content="Karya • ZHYLLAN FYLLAH" />
+  <meta name="twitter:description" content="Portofolio karya Zhyllan Fyllah - Mobile and Web Developer profesional." />
   <meta name="twitter:image" content="https://github.com/Jirankun.png" />
   
-  <!-- Additional SEO -->
-  <meta name="robots" content="index, follow" />
-  <meta name="theme-color" content="#0f0f1a" />
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://zhyllanfylah.com/karya/" />
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -263,14 +261,14 @@
       color: var(--text-secondary);
     }
 
-    .back-button:hover {
-      border-color: var(--accent);
-      color: var(--text-primary);
-      background: rgba(99, 102, 241, 0.1);
-    }
-
-    .back-button i {
-      font-size: 1rem;
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 800;
+      background: var(--bg-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
     }
 
     /* === HERO === */
@@ -657,6 +655,9 @@
       .works-hero h1 { font-size: 1.7rem; }
       .works-hero p { font-size: 0.95rem; }
       .works-hero { padding-top: calc(var(--header-height) + 40px); }
+      .back-link span { display: none; }
+      .back-link i { font-size: 1.1rem; }
+      .back-link { padding: 8px 10px; }
       .projects-grid { margin-bottom: 40px; }
       .back-to-top {
         bottom: 20px;
@@ -679,10 +680,13 @@
   <!-- ========== HEADER ========== -->
   <header id="header">
     <div class="nav-wrapper">
-      <button class="back-button" id="backButton" aria-label="Kembali/Tutup" onclick="closeTabOrBack()">
-        <i class="fas fa-arrow-left"></i>
-      </button>
-      <a href="../index.html" class="logo">Zhyllan Fyllah</a>
+      <div class="nav-left">
+        <a href="../index.html" class="back-link">
+          <i class="fas fa-arrow-left"></i>
+          <span>Kembali ke Beranda</span>
+        </a>
+        <a href="#" class="logo">ZHYLLAN FYLLAH.</a>
+      </div>
     </div>
   </header>
 
