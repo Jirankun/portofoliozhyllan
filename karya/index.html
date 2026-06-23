@@ -231,31 +231,34 @@
       max-width: var(--max-width);
       margin: 0 auto;
       padding: 0 32px;
+      position: relative;
     }
 
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .back-link {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--text-secondary);
-      font-weight: 500;
-      font-size: 0.9rem;
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 800;
+      background: var(--bg-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       text-decoration: none;
-      padding: 8px 14px;
-      border-radius: var(--radius-sm);
-      transition: var(--transition);
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
     }
-    @media (hover: hover) {
-      .back-link:hover {
-        color: var(--text-primary);
-        background: rgba(99, 102, 241, 0.1);
-      }
+
+    .back-button {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--text-secondary);
     }
 
     .logo {
@@ -615,10 +618,6 @@
         box-shadow: var(--shadow-hover);
         border-color: var(--border-hover);
       }
-      .back-link.tap-active {
-        color: var(--text-primary);
-        background: rgba(99, 102, 241, 0.1);
-      }
       .back-to-top.tap-active {
         transform: translateY(-3px) scale(1.05);
       }
@@ -667,10 +666,6 @@
         height: 40px;
         font-size: 1rem;
       }
-    }
-
-    @media (max-width: 380px) {
-      .nav-left .logo { display: none; }
     }
 
     .hidden { display: none !important; }
@@ -994,7 +989,7 @@
         var tapActiveEl = null;
 
         document.addEventListener('touchstart', function(e) {
-          var target = e.target.closest('.project-card, .back-link, .filter-chip, .view-link, .btn, .search-clear, .back-to-top');
+          var target = e.target.closest('.project-card, .filter-chip, .view-link, .btn, .search-clear, .back-to-top');
           if (target) {
             clearTimeout(tapActiveTimer);
             if (tapActiveEl && tapActiveEl !== target) {
@@ -1064,6 +1059,22 @@
           });
         }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
         fadeElements.forEach(el => observer.observe(el));
+      }
+
+      // Fungsi untuk tombol kembali: coba tutup tab, jika gagal kembali ke halaman sebelumnya
+      function closeTabOrBack() {
+        // Coba tutup tab (hanya berfungsi jika tab dibuka oleh script)
+        if (window.opener || window.name === 'opened-by-script') {
+          window.close();
+        } else {
+          // Jika tidak bisa ditutup, coba kembali ke history sebelumnya
+          if (window.history.length > 1) {
+            window.history.back();
+          } else {
+            // Fallback: kembali ke homepage
+            window.location.href = '../index.html';
+          }
+        }
       }
 
     })();
