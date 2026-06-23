@@ -1,10 +1,10 @@
 {
   "hero": {
-    "badge": "Masih belajar",
+    "badge": "Siswa TKJ",
     "greeting": "Halo, saya",
     "name": "ZHYLLAN FYLLAH",
-    "title": "&lt; Mobile and Web Developer /&gt;",
-    "description": "Fokus membangun aplikasi mobile dan website yang ringan dan aesthetic.",
+    "title": "&lt; Siswa TKJ &amp; Developer Pemula /&gt;",
+    "description": "Siswa SMKN 1 Lembah Melintang jurusan TKJ yang sedang belajar membangun aplikasi mobile dan website. Masih dalam proses pembelajaran dan terus berkembang.",
     "stats": [
       { "number": "2", "label": "Tahun Coding" },
       { "number": "3", "label": "Proyek" },
@@ -39,96 +39,86 @@
   "about": {
     "tag": "Tentang",
     "title": "Apa yang Saya Lakukan",
-    "subtitle": "Saya suka membahas tentang teknologi mobile dan membangun pengalaman pengguna yang hebat",
+    "subtitle": "Saya seorang siswa TKJ di SMKN 1 Lembah Melintang yang tertarik dengan teknologi mobile dan web",
     "cards": [
       {
         "icon": "fas fa-rocket",
         "title": "Pengembangan Mobile",
-        "body": "<p>Saya suka dalam mengembangan aplikasi mobile dengan dua pendekatan utama:</p><ul><li><strong>Native Android:</strong> Java/Kotlin, Android SDK, Gradle</li><li><strong>Hybrid dengan Cordova:</strong> HTML/CSS/JS + integrasi plugin kustom</li></ul><p>Fokus saya: aplikasi ringan, web ringan, kode yang mudah dirawat, dan optimasi performa praktis.</p>"
+        "body": "<p>Saya sedang belajar pengembangan aplikasi mobile dengan pendekatan:</p><ul><li><strong>Flutter:</strong> Framework cross-platform dari Google</li><li><strong>Kotlin:</strong> Bahasa native Android modern</li></ul><p>Fokus saya: belajar konsep dasar, memahami arsitektur aplikasi, dan membangun proyek sederhana.</p>"
       },
       {
         "icon": "fas fa-lightbulb",
         "title": "Pendekatan Saya",
-        "body": "<p>Saya percaya pada <strong>kemajuan dibanding kesempurnaan</strong>. Rilis cepat, belajar lebih cepat.</p><p>Setiap proyek adalah kesempatan untuk menyempurnakan arsitektur, meningkatkan UX, dan memperdalam pemahaman teknis. Saya mendokumentasikan keputusan, menulis kode yang terbaca, dan mengutamakan perawatan jangka panjang.</p>"
+        "body": "<p>Saya percaya bahwa <strong>belajar adalah proses berkelanjutan</strong>. Setiap hari adalah kesempatan untuk berkembang.</p><p>Saya mendokumentasikan perjalanan belajar saya, mencoba berbagai teknologi baru, dan tidak takut membuat kesalahan karena dari situlah kita belajar.</p>"
       },
       {
         "icon": "fas fa-heart",
         "title": "Di Luar Coding",
-        "body": "<p>Aktif di komunitas open-source Linux dan Android. Kontributor Nusantara Project ROM, <em>game modding</em>, dan berbagi pengetahuan melalui diskusi teknis.</p>"
+        "body": "<p>Siswa SMK Negeri 1 Lembah Melintang jurusan Teknik Komputer dan Jaringan (TKJ). Tertarik dengan dunia jaringan, sistem operasi Linux, dan teknologi mobile.</p>"
       }
     ]
   },
   "skills": {
-    "tag": "Keahlian",
-    "title": "Keahlian Teknis",
-    "subtitle": "Alat dan teknologi yang saya gunakan sehari-hari",
+    "tag": "Teknologi",
+    "title": "Teknologi yang Saya Pelajari",
+    "subtitle": "Alat dan teknologi yang sedang saya pelajari",
     "items": [
-      { "icon": "fab fa-android", "name": "Android Native", "level": 85 },
-      { "icon": "fas fa-mobile-alt", "name": "Apache Cordova", "level": 75 },
-      { "icon": "fab fa-java", "name": "Java / Kotlin", "level": 70 },
-      { "icon": "fab fa-js", "name": "JavaScript", "level": 75 },
-      { "icon": "fab fa-html5", "name": "HTML5 / CSS3", "level": 80 },
-      { "icon": "fas fa-plug", "name": "Cordova Plugins", "level": 65 },
-      { "icon": "fab fa-git-alt", "name": "Git & GitHub", "level": 80 },
-      { "icon": "fas fa-search", "name": "Debug Performa", "level": 60 }
+      { "icon": "fab fa-flutter", "name": "Flutter", "level": 60 },
+      { "icon": "fab fa-android", "name": "Kotlin", "level": 50 },
+      { "icon": "fas fa-cog", "name": "Gradle", "level": 45 },
+      { "icon": "fab fa-git-alt", "name": "Git", "level": 65 },
+      { "icon": "fab fa-html5", "name": "HTML", "level": 70 },
+      { "icon": "fab fa-css3-alt", "name": "CSS", "level": 65 },
+      { "icon": "fab fa-js", "name": "JavaScript Tradisional", "level": 55 },
+      { "icon": "fas fa-cloud", "name": "Cloudflare", "level": 50 }
     ]
   },
   "experience": {
     "tag": "Perjalanan",
-    "title": "Pengalaman",
-    "subtitle": "Perjalanan profesional dan kontribusi saya",
+    "title": "Pengalaman Belajar",
+    "subtitle": "Perjalanan pendidikan dan pembelajaran saya",
     "cards": [
       {
-        "icon": "fas fa-code-branch",
-        "title": "Kontribusi Open Source",
+        "icon": "fas fa-school",
+        "title": "Pendidikan Formal",
         "timeline": [
           {
-            "title": "Nusantara Project ROM",
-            "meta": "2020 – Sekarang",
-            "desc": "Menguji build ROM Android kustom, mendokumentasikan fitur, dan mendukung komunitas. Memperdalam pemahaman arsitektur AOSP dan debugging tingkat sistem."
-          },
-          {
-            "title": "LINUX UBUNTU Indonesia",
-            "meta": "2021 – Sekarang",
-            "desc": "Berpartisipasi dalam diskusi teknis, memecahkan masalah sistem Linux, dan berbagi pengetahuan tentang administrasi server dan scripting."
-          },
-          {
-            "title": "Proyek Cordova Pribadi",
-            "meta": "2024 – Sekarang",
-            "desc": "Membangun aplikasi hybrid mobile, mengintegrasikan plugin kustom untuk akses kamera/penyimpanan, dan mempelajari alur deployment Play Store."
+            "title": "SMKN 1 Lembah Melintang",
+            "meta": "Sekarang",
+            "desc": "Siswa jurusan Teknik Komputer dan Jaringan (TKJ). Mempelajari dasar-dasar jaringan komputer, sistem operasi, dan pemrograman."
           }
         ]
       },
       {
-        "icon": "fas fa-tools",
-        "title": "Fokus Teknis",
-        "body": "<p><strong>Lokalisasi &amp; Patching:</strong> Pengalaman membuat patch bahasa untuk game RPG Maker MV/MZ menggunakan plugin lokalisasi berbasis JSON.</p><p><strong>Pengembangan Plugin:</strong> Membangun plugin Cordova kustom untuk menjembatani JavaScript dan kode Android native.</p><p><strong>Performa:</strong> Profiling waktu mulai aplikasi, penggunaan memori, dan performa render; menerapkan lazy loading dan optimasi resource.</p><p><strong>Tooling:</strong> Nyaman dengan Android Studio, VS Code, Gradle, Cordova CLI, dan alur kerja Git.</p>"
+        "icon": "fas fa-code-branch",
+        "title": "Pembelajaran Mandiri",
+        "body": "<p><strong>Mobile Development:</strong> Sedang mempelajari Flutter dan Kotlin untuk pengembangan aplikasi Android.</p><p><strong>Web Development:</strong> Mempelajari HTML, CSS, dan JavaScript tradisional untuk memahami dasar-dasar web.</p><p><strong>Tools:</strong> Menggunakan Git untuk version control, Gradle untuk build automation, dan Cloudflare untuk layanan web.</p><p><strong>Fokus:</strong> Membangun fondasi yang kuat sebelum melanjutkan ke konsep yang lebih kompleks.</p>"
       }
     ]
   },
   "projects": {
     "tag": "Portofolio",
-    "title": "Proyek Unggulan",
-    "subtitle": "Beberapa proyek yang baru-baru ini saya kerjakan",
+    "title": "Proyek Pembelajaran",
+    "subtitle": "Beberapa proyek yang sedang saya kerjakan sebagai bahan belajar",
     "featured": [
       {
         "icon": "fab fa-android",
         "title": "TKJ OnE App",
-        "description": "Versi native (Kotlin) dan hybrid (Cordova) dengan iterasi dari versi awal hingga rilis stabil. Aplikasi manajemen berbasis Android.",
+        "description": "Aplikasi manajemen sederhana yang saya buat dengan Kotlin (native) dan Cordova (hybrid) sebagai latihan pengembangan mobile.",
         "link": "karya/index.html",
         "linkText": "Lihat Detail"
       },
       {
         "icon": "fas fa-globe",
         "title": "TKJ OnE Web & Pekerja",
-        "description": "Frontend worker dan halaman web untuk mengelola database link media (foto/video). Menjadi sumber data untuk aplikasi dan web TKJ OnE.",
+        "description": "Frontend worker dan halaman web sederhana untuk mengelola database link media. Dibuat dengan HTML, CSS, dan JavaScript tradisional.",
         "link": "karya/index.html",
         "linkText": "Lihat Detail"
       },
       {
         "icon": "fas fa-terminal",
-        "title": "Proyek Lainnya",
-        "description": "Jelajahi semua proyek saya termasuk kontribusi open-source, eksperimen, dan alat yang telah saya buat selama bertahun-tahun.",
+        "title": "Proyek Pembelajaran Lainnya",
+        "description": "Berbagai eksperimen dan proyek kecil yang saya buat untuk melatih keterampilan coding saya.",
         "link": "karya/index.html",
         "linkText": "Jelajahi Semua"
       }
@@ -142,7 +132,7 @@
   "contact": {
     "tag": "Kontak",
     "title": "Hubungi Saya",
-    "subtitle": "Mau mengobrol atau sekedar menyapa,silahkan...",
+    "subtitle": "Mau mengobrol atau sekedar menyapa, silahkan...",
     "items": [
       {
         "icon": "fas fa-envelope",
@@ -169,6 +159,6 @@
   "footer": {
     "logo": "Zhyllan Fyllah",
     "year": 2025,
-    "tagline": "Mobile and Web Developer"
+    "tagline": "Siswa TKJ & Developer Pemula"
   }
 }

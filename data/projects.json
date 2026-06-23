@@ -1,7 +1,7 @@
 {
   "hero": {
     "title": "Karya <span>Saya</span>",
-    "subtitle": "Koleksi aplikasi mobile, proyek web, dan alat yang telah saya buat"
+    "subtitle": "Koleksi aplikasi mobile, proyek web, dan alat yang telah saya buat sebagai bahan pembelajaran"
   },
   "categories": [
     { "id": "all", "label": "Semua" },
@@ -15,9 +15,9 @@
       "icon": "fab fa-android",
       "category": "app",
       "date": "2025–2026",
-      "description": "Aplikasi TKJ OnE dalam versi native (Kotlin) dan hybrid (Cordova). Mencakup iterasi dari versi awal hingga rilis stabil dengan berbagai fitur manajemen.",
+      "description": "Aplikasi TKJ OnE dalam versi native (Kotlin) dan hybrid (Cordova). Proyek latihan untuk mempelajari pengembangan aplikasi Android.",
       "image": "https://opengraph.github.com/assets/1.0.0/graph.png",
-      "tags": ["Kotlin", "Gradle", "Cordova"],
+      "tags": ["Kotlin", "Gradle", "Flutter"],
       "link": "https://github.com/Jirankun/TKJ-One",
       "linkText": "Lihat Proyek"
     },
@@ -26,9 +26,9 @@
       "icon": "fas fa-globe",
       "category": "web",
       "date": "2025",
-      "description": "Frontend worker dan halaman web untuk mengelola database link media (foto/video). Menjadi sumber data untuk aplikasi dan web TKJ OnE.",
+      "description": "Frontend worker dan halaman web untuk mengelola database link media (foto/video). Dibuat dengan HTML, CSS, dan JavaScript tradisional.",
       "image": null,
-      "tags": ["HTML/CSS", "JavaScript", "JSON"],
+      "tags": ["HTML", "CSS", "JavaScript"],
       "link": "https://github.com/Jirankun/tkj1",
       "linkText": "Lihat Proyek"
     },
@@ -37,7 +37,7 @@
       "icon": "fas fa-puzzle-piece",
       "category": "tools",
       "date": "Dalam Progres",
-      "description": "Lebih banyak proyek dan alat sedang dalam pengembangan. Nantikan pembaruan tentang aplikasi baru, plugin, dan kontribusi open-source.",
+      "description": "Lebih banyak proyek dan alat sedang dalam pengembangan. Nantikan pembaruan tentang aplikasi baru dan proyek pembelajaran lainnya.",
       "image": null,
       "tags": ["TBD", "TBD"],
       "link": null,
