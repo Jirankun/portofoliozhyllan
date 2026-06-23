@@ -1,10 +1,10 @@
 {
   "hero": {
-    "badge": "Siswa TKJ",
+    "badge": "Student Developer",
     "greeting": "Halo, saya",
     "name": "ZHYLLAN FYLLAH",
-    "title": "&lt; Siswa TKJ &amp; Developer Pemula /&gt;",
-    "description": "Siswa SMKN 1 Lembah Melintang jurusan TKJ yang sedang belajar membangun aplikasi mobile dan website. Masih dalam proses pembelajaran dan terus berkembang.",
+    "title": "&lt; Student Developer &amp; TKJ Student /&gt;",
+    "description": "Siswa SMKN 1 Lembah Melintang jurusan Teknik Komputer dan Jaringan (TKJ). Bersemangat dalam Web dan Mobile Development. Pengguna Linux Mint dan open-source enthusiast yang selalu belajar, bereksperimen, dan membangun proyek.",
     "stats": [
       { "number": "2", "label": "Tahun Coding" },
       { "number": "3", "label": "Proyek" },
@@ -32,51 +32,53 @@
     ],
     "avatar": "https://github.com/Jirankun.png",
     "badges": [
-      { "icon": "fab fa-android", "text": "Android", "small": "Native", "position": "badge-1" },
-      { "icon": "fas fa-mobile-alt", "text": "Apache", "small": "Cordova", "position": "badge-2" }
+      { "icon": "fab fa-android", "text": "Android", "small": "Kotlin", "position": "badge-1" },
+      { "icon": "fas fa-mobile-alt", "text": "Flutter", "small": "Cross-Platform", "position": "badge-2" }
     ]
   },
   "about": {
     "tag": "Tentang",
     "title": "Apa yang Saya Lakukan",
-    "subtitle": "Saya seorang siswa TKJ di SMKN 1 Lembah Melintang yang tertarik dengan teknologi mobile dan web",
+    "subtitle": "Siswa TKJ di SMKN 1 Lembah Melintang yang bersemangat dalam pengembangan web dan mobile",
     "cards": [
       {
-        "icon": "fas fa-rocket",
-        "title": "Pengembangan Mobile",
-        "body": "<p>Saya sedang belajar pengembangan aplikasi mobile dengan pendekatan:</p><ul><li><strong>Flutter:</strong> Framework cross-platform dari Google</li><li><strong>Kotlin:</strong> Bahasa native Android modern</li></ul><p>Fokus saya: belajar konsep dasar, memahami arsitektur aplikasi, dan membangun proyek sederhana.</p>"
+        "icon": "fas fa-code",
+        "title": "Web Development",
+        "body": "<p>Saya membangun aplikasi web modern dengan teknologi:</p><ul><li><strong>Next.js:</strong> Framework React untuk produksi</li><li><strong>Tailwind CSS:</strong> Utility-first CSS framework</li><li><strong>HTML, CSS, JavaScript:</strong> Fondasi web development</li></ul><p>Fokus: Membuat website responsif, landing page, dan aplikasi frontend.</p>"
       },
       {
-        "icon": "fas fa-lightbulb",
-        "title": "Pendekatan Saya",
-        "body": "<p>Saya percaya bahwa <strong>belajar adalah proses berkelanjutan</strong>. Setiap hari adalah kesempatan untuk berkembang.</p><p>Saya mendokumentasikan perjalanan belajar saya, mencoba berbagai teknologi baru, dan tidak takut membuat kesalahan karena dari situlah kita belajar.</p>"
+        "icon": "fas fa-mobile-alt",
+        "title": "Mobile Development",
+        "body": "<p>Saya mengembangkan aplikasi mobile dengan pendekatan:</p><ul><li><strong>Kotlin:</strong> Native Android development dengan Gradle</li><li><strong>Flutter:</strong> Cross-platform apps dengan Dart</li></ul><p>Membangun aplikasi Android native dan aplikasi cross-platform.</p>"
       },
       {
         "icon": "fas fa-heart",
-        "title": "Di Luar Coding",
-        "body": "<p>Siswa SMK Negeri 1 Lembah Melintang jurusan Teknik Komputer dan Jaringan (TKJ). Tertarik dengan dunia jaringan, sistem operasi Linux, dan teknologi mobile.</p>"
+        "title": "Open Source & Linux",
+        "body": "<p>Pengguna <strong>Linux Mint</strong> dan open-source enthusiast. Aktif menggunakan Git dan GitHub untuk version control. Selalu berkontribusi dan belajar dari komunitas open source.</p>"
       }
     ]
   },
   "skills": {
     "tag": "Teknologi",
-    "title": "Teknologi yang Saya Pelajari",
-    "subtitle": "Alat dan teknologi yang sedang saya pelajari",
+    "title": "Tech Stack & Keahlian",
+    "subtitle": "Teknologi dan tools yang saya gunakan dalam pengembangan",
     "items": [
-      { "icon": "fab fa-flutter", "name": "Flutter", "level": 60 },
-      { "icon": "fab fa-android", "name": "Kotlin", "level": 50 },
-      { "icon": "fas fa-cog", "name": "Gradle", "level": 45 },
-      { "icon": "fab fa-git-alt", "name": "Git", "level": 65 },
-      { "icon": "fab fa-html5", "name": "HTML", "level": 70 },
-      { "icon": "fab fa-css3-alt", "name": "CSS", "level": 65 },
-      { "icon": "fab fa-js", "name": "JavaScript Tradisional", "level": 55 },
-      { "icon": "fas fa-cloud", "name": "Cloudflare", "level": 50 }
+      { "icon": "fab fa-html5", "name": "HTML5", "level": 85 },
+      { "icon": "fab fa-css3-alt", "name": "CSS3", "level": 80 },
+      { "icon": "fab fa-js", "name": "JavaScript", "level": 75 },
+      { "icon": "fas fa-bolt", "name": "Next.js", "level": 70 },
+      { "icon": "fas fa-wind", "name": "Tailwind CSS", "level": 80 },
+      { "icon": "fab fa-android", "name": "Kotlin", "level": 65 },
+      { "icon": "fas fa-mobile-alt", "name": "Flutter", "level": 60 },
+      { "icon": "fab fa-git-alt", "name": "Git", "level": 75 },
+      { "icon": "fab fa-github", "name": "GitHub", "level": 75 },
+      { "icon": "fab fa-linux", "name": "Linux", "level": 70 }
     ]
   },
   "experience": {
     "tag": "Perjalanan",
-    "title": "Pengalaman Belajar",
-    "subtitle": "Perjalanan pendidikan dan pembelajaran saya",
+    "title": "Pengalaman & Fokus",
+    "subtitle": "Perjalanan pendidikan dan area fokus pengembangan saya",
     "cards": [
       {
         "icon": "fas fa-school",
@@ -85,40 +87,50 @@
           {
             "title": "SMKN 1 Lembah Melintang",
             "meta": "Sekarang",
-            "desc": "Siswa jurusan Teknik Komputer dan Jaringan (TKJ). Mempelajari dasar-dasar jaringan komputer, sistem operasi, dan pemrograman."
+            "desc": "Siswa jurusan Teknik Komputer dan Jaringan (TKJ). Mempelajari dasar-dasar jaringan komputer, sistem operasi Linux, dan pemrograman."
           }
         ]
       },
       {
         "icon": "fas fa-code-branch",
-        "title": "Pembelajaran Mandiri",
-        "body": "<p><strong>Mobile Development:</strong> Sedang mempelajari Flutter dan Kotlin untuk pengembangan aplikasi Android.</p><p><strong>Web Development:</strong> Mempelajari HTML, CSS, dan JavaScript tradisional untuk memahami dasar-dasar web.</p><p><strong>Tools:</strong> Menggunakan Git untuk version control, Gradle untuk build automation, dan Cloudflare untuk layanan web.</p><p><strong>Fokus:</strong> Membangun fondasi yang kuat sebelum melanjutkan ke konsep yang lebih kompleks.</p>"
+        "title": "Web Development",
+        "body": "<p><strong>Responsive Websites:</strong> Landing page dan website portofolio.</p><p><strong>Frontend Apps:</strong> Aplikasi dengan Next.js dan Tailwind CSS.</p><p><strong>Tech Stack:</strong> HTML5, CSS3, JavaScript, Next.js, Tailwind CSS.</p>"
+      },
+      {
+        "icon": "fas fa-mobile-alt",
+        "title": "Mobile Development",
+        "body": "<p><strong>Android Native:</strong> Aplikasi Android dengan Kotlin dan Gradle.</p><p><strong>Cross-Platform:</strong> Aplikasi Flutter untuk iOS dan Android.</p><p>Fokus pada pembangunan aplikasi mobile yang fungsional dan user-friendly.</p>"
+      },
+      {
+        "icon": "fab fa-linux",
+        "title": "Open Source & Tools",
+        "body": "<p><strong>OS:</strong> Linux Mint daily driver.</p><p><strong>Editors:</strong> VSCodium, Android Studio.</p><p><strong>Version Control:</strong> Git dan GitHub untuk semua proyek.</p><p>Kontributor dan pembelajar open source.</p>"
       }
     ]
   },
   "projects": {
     "tag": "Portofolio",
-    "title": "Proyek Pembelajaran",
-    "subtitle": "Beberapa proyek yang sedang saya kerjakan sebagai bahan belajar",
+    "title": "Proyek & Fokus",
+    "subtitle": "Proyek yang saya kerjakan dalam pengembangan web dan mobile",
     "featured": [
       {
         "icon": "fab fa-android",
-        "title": "TKJ OnE App",
-        "description": "Aplikasi manajemen sederhana yang saya buat dengan Kotlin (native) dan Cordova (hybrid) sebagai latihan pengembangan mobile.",
+        "title": "Android Apps with Kotlin",
+        "description": "Aplikasi Android native yang dibangun dengan Kotlin dan Gradle. Fokus pada arsitektur modern dan best practices.",
+        "link": "karya/index.html",
+        "linkText": "Lihat Detail"
+      },
+      {
+        "icon": "fas fa-mobile-alt",
+        "title": "Flutter Cross-Platform",
+        "description": "Aplikasi cross-platform dengan Flutter untuk iOS dan Android. Membangun UI yang beautiful dan performant.",
         "link": "karya/index.html",
         "linkText": "Lihat Detail"
       },
       {
         "icon": "fas fa-globe",
-        "title": "TKJ OnE Web & Pekerja",
-        "description": "Frontend worker dan halaman web sederhana untuk mengelola database link media. Dibuat dengan HTML, CSS, dan JavaScript tradisional.",
-        "link": "karya/index.html",
-        "linkText": "Lihat Detail"
-      },
-      {
-        "icon": "fas fa-terminal",
-        "title": "Proyek Pembelajaran Lainnya",
-        "description": "Berbagai eksperimen dan proyek kecil yang saya buat untuk melatih keterampilan coding saya.",
+        "title": "Web Development",
+        "description": "Responsive websites, landing pages, dan frontend applications dengan Next.js dan Tailwind CSS.",
         "link": "karya/index.html",
         "linkText": "Jelajahi Semua"
       }
@@ -159,6 +171,12 @@
   "footer": {
     "logo": "Zhyllan Fyllah",
     "year": 2025,
-    "tagline": "Siswa TKJ & Developer Pemula"
+    "tagline": "Student Developer | TKJ Student | Open Source Enthusiast"
+  },
+  "githubStats": {
+    "username": "jirankun",
+    "theme": "radical",
+    "showStats": true,
+    "showStreak": true
   }
 }
