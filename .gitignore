@@ -1,41 +1,47 @@
-```gitignore
-# Compiled and binary files
-*.pyc
-__pycache__/
-*.class
-*.o
-*.exe
-*.dll
-*.so
-*.a
-*.obj
-*.out
-
-# Dependencies
-node_modules/
-venv/
-.venv/
+# Environment variables
 .env
 .env.local
 .env.*
 
+# Logs
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git/
+.mypy_cache/
+.pytest_cache/
+
 # Build artifacts
 dist/
 build/
-target/
-*.log
-coverage/
-htmlcov/
-.coverage
+*.egg-info/
 
-# Editors and IDEs
+# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 *.tmp
 
-# System files
+# OS
 .DS_Store
 Thumbs.db
 
@@ -62,4 +68,508 @@ Thumbs.db
 *.tar.bz2
 *.tar.xz
 *.tar.zst
-```
+
+# Testing
+htmlcov/
+.coverage
+coverage/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+target/
+.gradle/
+build/
+
+# C/C++
+*.o
+*.a
+*.so
+*.dll
+*.exe
+*.out
+*.obj
+
+# Go
+*.exe
+*.test
+*.prof
+*.out
+
+# Ruby
+*.gem
+*.rbc
+.bundle/
+vendor/bundle/
+.ruby-version
+
+# Rust
+target/
+Cargo.lock
+
+# Julia
+julia-*/
+
+# Zig
+zig-out/
+zig-cache/
+
+# Elixir
+.erlang.cookie
+.eunit
+.rebar
+.rebar3
+ebin/
+_generated/
+deps/
+
+# PHP
+vendor/
+composer.phar
+
+# Dart
+.dart_tool/
+.build/
+web/.build/
+packages/
+*.dart.js
+*.info.json
+
+# C#
+*.sln
+*.csproj.user
+*.pidb
+*.userprefs
+bin/
+obj/
+TestResults/
+
+# Haskell
+dist-newstyle/
+cabal.project.local
+cabal.project.local~
+*.o
+*.hi
+
+# OCaml
+*.annot
+*.cmi
+*.cmo
+*.cmx
+*.cma
+*.cmxa
+*.cmi
+*.cmt
+*.cmti
+*.merlin
+*.o
+*.a
+*.so
+
+# Erlang
+*.beam
+*.plt
+.erlang.mk
+
+# Clojure
+target/
+*.jar
+*.class
+lib/
+checkouts/
+.clj-kondo/
+
+# Scala
+target/
+.scala_history
+.bsp/
+
+# Puppet
+spec/fixtures/
+pkg/
+.sass-cache/
+*.splay
+modules/
+.hiera_cache/
+
+# Meson
+meson-private/
+meson-log.txt
+
+# Gradle
+.gradle/
+build/
+
+# Maven
+target/
+
+# Bazel
+bazel-*
+
+# Vagrant
+.vagrant/
+
+# VirtualEnv
+.venv/
+venv/
+ENV/
+
+# Conda
+env/
+environment.yml
+
+# Jupyter
+.ipynb_checkpoints/
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+.Ruserdata/
+
+# MATLAB
+*.fig
+*.mat
+*.mex*
+*.mx3
+
+# Solidity
+cache/
+artifacts/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfvars
+
+# Ansible
+.retry/
+
+# Docker
+.dockerignore
+
+# Kubernetes
+.kube/
+
+# AWS
+.aws/
+
+# Azure
+.azure/
+
+# Google Cloud
+.gcloud/
+
+# Heroku
+.heroku/
+
+# Netlify
+.netlify/
+
+# Vercel
+.vercel/
+
+# Railway
+.railway/
+
+# Railway
+.railway/
+
+# Platform.sh
+.platform/
+
+# DigitalOcean
+.do/
+
+# Render
+.render/
+
+# Supabase
+.supabase/
+
+# Firebase
+.firebase/
+
+# Amplify
+.amplify/
+
+# Expo
+.expo/
+
+# React Native
+.rncache/
+
+# Ionic
+ionic.config.json
+
+# Cordova
+platforms/
+plugins/
+config.xml
+
+# Electron
+electron/
+Electron\ Helper.app
+Electron\ Helper\ \(Renderer\).app
+Electron\ Helper\ \(Plugin\).app
+Electron\ Helper\ \(GPU\).app
+Electron\ Helper\ \(Utility\).app
+Electron\ Helper\ \(Renderer\ Process\).app
+Electron\ Helper\ \(Plugin\ Process\).app
+Electron\ Helper\ \(GPU\ Process\).app
+Electron\ Helper\ \(Utility\ Process\).app
+
+# Unity
+Library/
+Temp/
+Obj/
+Build/
+Logs/
+MemoryCaptures/
+Packages/
+UserSettings/
+
+# Unreal Engine
+Saved/
+Binaries/
+Intermediate/
+*.uproject
+*.uplugin
+*.uasset
+*.umap
+*.uexp
+*.ubulk
+*.bin
+*.pak
+*.sig
+*.ini
+
+# Godot
+.godot/
+*.import
+*.remap
+
+# GameMaker Studio
+.yyp
+*.yy
+*.yyp.backup
+*.yy.backup
+*.yymps
+*.yyprefs
+
+# Construct 3
+*.c3project
+*.c3runtime
+
+# Stencyl
+*.stencyl
+*.stencylworks
+
+# GDevelop
+*.gdevelop
+*.gdproj
+*.gdlayout
+*.gdsprite
+*.gdanimation
+*.gdobject
+*.gdevent
+*.gdtimeline
+*.gdfunction
+*.gdbehavior
+*.gdpanel
+*.gdmenu
+*.gdscene
+*.gdscript
+*.gdbutton
+*.gdlabel
+*.gdtext
+*.gdimage
+*.gdaudio
+*.gdvideo
+*.gdprefab
+*.gdmaterial
+*.gdshader
+*.gdcamera
+*.gdlight
+*.gdphysics
+*.gdparticle
+*.gdmodel
+*.gdterrain
+*.gdui
+*.gdaabbtree
+*.gdquadtree
+*.gdgrid
+*.gdbvh
+*.gdkdtree
+*.gdrtree
+*.gdoctree
+*.gdbsp
+*.gdkdtree
+*.gdquadtree
+*.gdgrid
+*.gdbvh
+*.gdoctree
+*.gdbsp
+
+# Lumberyard
+.code/
+dev/
+Scripts/
+Assets/
+user.settings
+game.cfg
+bootstrap.cfg
+system.cfg
+editor.cfg
+renderer.cfg
+input.cfg
+network.cfg
+audio.cfg
+streaming.ini
+preload.ini
+profile.ini
+system_user.cfg
+log.cfg
+*.pak
+*.pak.sig
+*.level
+*.cell
+*.area
+*.navmesh
+*.ai
+*.animgraph
+*.motion
+*.chrparams
+*.skin
+*.mtl
+*.fbx
+*.dae
+*.3ds
+*.obj
+*.blend
+*.max
+*.ma
+*.mb
+*.c4d
+*.blend1
+*.blend2
+*.3ds~
+*.max~
+*.ma~
+*.mb~
+*.c4d~
+
+# Godot
+.godot/
+*.import
+*.remap
+
+# Ren'Py
+*.rpyc
+*.rpymc
+*.rpa
+*.rvs
+*.rpyb
+*.rpy
+*.rpym
+*.rpyl
+*.rpyo
+*.pyo
+*.pyc
+*.pyd
+*.dll
+*.so
+*.dylib
+*.exe
+*.bat
+*.sh
+*.cmd
+*.com
+*.ps1
+*.psm1
+*.psd1
+*.psc1
+*.pssc
+*.msi
+*.msp
+*.msm
+*.inf
+*.nsh
+*.nsi
+*.nsis
+*.iss
+*.inno
+*.setup
+*.app
+*.appx
+*.appxbundle
+*.msix
+*.msixbundle
+*.deb
+*.rpm
+*.snap
+*.flatpak
+*.flatpakref
+*.flatpakrepo
+*.AppImage
+*.dmg
+*.iso
+*.img
+*.toast
+*.vcd
+*.vdi
+*.vmdk
+*.ova
+*.ovf
+*.box
+*.vagrant
+*.vmwarevm
+*.vmx
+*.vmsd
+*.vmsn
+*.vmss
+*.vswp
+*.nvram
+*.snapshot
+*.savestate
+*.vmem
+*.vcpu
+*.vmrs
+*.vbox
+*.vbox-ver
+*.VirtualBox
+*.VMware
+*.Parallels
+*.Hyper-V
+*.Docker
+*.Kubernetes
+*.Podman
+*.LXC
+*.LXD
+*.OpenVZ
+*.Vagrant
+*.QEMU
+*.Xen
+*.KVM
+*.VirtualBox
+*.VMware
+*.Parallels
+*.Hyper-V
+*.Docker
+*.Kubernetes
+*.Podman
+*.LXC
+*.LXD
+*.OpenVZ
+*.Vagrant
+*.QEMU
+*.Xen
+*.KVM

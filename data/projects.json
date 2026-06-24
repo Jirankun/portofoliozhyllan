@@ -11,6 +11,17 @@
   ],
   "projects": [
     {
+      "name": "Umma — Qur'an Indonesia",
+      "icon": "fas fa-quran",
+      "category": "app",
+      "date": "2026",
+      "description": "Aplikasi Muslim berbasis Flutter dengan gaya iOS (Cupertino) untuk ibadah sehari-hari. Menyediakan fitur lengkap seperti jadwal sholat, bacaan Al-Qur'an (surah & juz), doa, hadits, fiqih, zakat, tasbih, tracker ibadah, jurnal, kompas kiblat, dan sinkronisasi data via QR.",
+      "image": "https://opengraph.github.com/assets/1.0.0/graph.png",
+      "tags": ["Flutter", "Dart", "Cupertino"],
+      "link": "https://github.com/Jirankun/Umma---Qur-an-Indonesia",
+      "linkText": "Lihat Proyek"
+    },
+    {
       "name": "TKJ OnE App",
       "icon": "fab fa-android",
       "category": "app",
