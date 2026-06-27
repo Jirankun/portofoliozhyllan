@@ -379,6 +379,30 @@
       transform: translateX(-50%) scaleX(1);
     }
 
+    /* Blog link button style */
+    .nav-link.blog-link {
+      background: var(--bg-gradient);
+      color: #ffffff;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+      transition: var(--transition);
+    }
+    .nav-link.blog-link i {
+      margin-right: 6px;
+    }
+    @media (hover: hover) {
+      .nav-link.blog-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+      }
+    }
+    .nav-link.blog-link::after {
+      display: none;
+    }
+
     /* Mobile menu toggle */
     .menu-toggle {
       display: none;
@@ -426,9 +450,9 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(15, 15, 26, 0);
-      backdrop-filter: blur(0px);
-      -webkit-backdrop-filter: blur(0px);
+      background: rgba(15, 15, 26, 0.98);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -437,25 +461,10 @@
       opacity: 0;
       transition: background 0.5s ease, backdrop-filter 0.5s ease, opacity 0.5s ease;
     }
-    .mobile-nav::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 100% 70% at 20% 15%, rgba(99, 102, 241, 0.20) 0%, transparent 65%),
-        radial-gradient(ellipse 80% 60% at 80% 85%, rgba(118, 75, 162, 0.15) 0%, transparent 65%),
-        radial-gradient(ellipse 60% 60% at 50% 50%, rgba(15, 15, 26, 0) 0%, transparent 100%);
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-    }
     .mobile-nav.open {
-      background: rgba(15, 15, 26, 0.95);
+      background: rgba(15, 15, 26, 0.98);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      opacity: 1;
-    }
-    .mobile-nav.open::before {
       opacity: 1;
     }
 
@@ -494,6 +503,19 @@
     .mobile-nav .nav-link.exit-right {
       opacity: 0;
       transform: scale(0.5) translateX(50px);
+    }
+    /* Blog link khusus untuk mobile - dengan style tombol */
+    .mobile-nav .nav-link.blog-link {
+      background: var(--bg-gradient);
+      color: #ffffff !important;
+      font-weight: 700;
+      border-radius: 50px;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+      margin-top: 10px;
+      max-width: 300px;
+    }
+    .mobile-nav .nav-link.blog-link i {
+      margin-right: 8px;
     }
 
     /* === HERO SECTION === */
@@ -1452,6 +1474,7 @@
         <a href="#projects" class="nav-link">Proyek</a>
         <a href="#contact" class="nav-link">Kontak</a>
         <a href="#github-stats" class="nav-link">GitHub Stats</a>
+        <a href="https://nettowakudays.pages.dev/" target="_blank" rel="noopener noreferrer" class="nav-link blog-link"><i class="fas fa-rss"></i> Kunjungi Blog</a>
       </nav>
       <button class="menu-toggle" id="menuToggle" aria-label="Buka/tutup menu navigasi">
         <span></span>
@@ -1468,6 +1491,7 @@
       <a href="#projects" class="nav-link">Proyek</a>
       <a href="#contact" class="nav-link">Kontak</a>
       <a href="#github-stats" class="nav-link">GitHub Stats</a>
+      <a href="https://nettowakudays.pages.dev/" target="_blank" rel="noopener noreferrer" class="nav-link blog-link"><i class="fas fa-rss"></i> Kunjungi Blog</a>
     </div>
   </header>
 
@@ -1846,6 +1870,10 @@
 
       mobileLinks.forEach(function(link) {
         link.addEventListener('click', function() {
+          // Jangan tutup menu jika link adalah blog link (target _blank)
+          if (link.classList.contains('blog-link') && link.getAttribute('target') === '_blank') {
+            return; // Biarkan link terbuka di tab baru tanpa menutup menu
+          }
           closeMenu();
           document.querySelectorAll('.nav-link').forEach(function(l) { l.classList.remove('active'); });
           link.classList.add('active');
