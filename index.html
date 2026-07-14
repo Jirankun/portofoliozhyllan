@@ -2,112 +2,182 @@
 <html lang="id">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Block Search Engines - NO INDEX, NO FOLLOW -->
-    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate" />
-    <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
-    <meta http-equiv="X-Robots-Tag" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate" />
+    <title>Portofolio Dipindahkan</title>
 
-    <!-- Redirect to zhyllanfyllah.pages.dev -->
-    <meta http-equiv="refresh" content="3; url=https://zhyllanfyllah.pages.dev/" />
-    <link rel="canonical" href="https://zhyllanfyllah.pages.dev/" />
+    <!-- Search Engine -->
+    <meta name="robots"
+        content="noindex,nofollow,noarchive,nosnippet,noimageindex,max-image-preview:none,max-snippet:0,max-video-preview:0">
+    <meta name="googlebot"
+        content="noindex,nofollow,noarchive,nosnippet,noimageindex,max-image-preview:none,max-snippet:0,max-video-preview:0">
+    <meta http-equiv="X-Robots-Tag"
+        content="noindex,nofollow,noarchive,nosnippet,noimageindex">
 
-    <title>Redirecting...</title>
+    <!-- Privacy -->
+    <meta name="referrer" content="no-referrer">
+
+    <!-- Theme -->
+    <meta name="theme-color" content="#0f172a">
+    <meta name="color-scheme" content="dark">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://zhyllanfyllah.pages.dev/">
 
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: #0f0f1a;
-            color: #ffffff;
-            font-family: system-ui, -apple-system, sans-serif;
+        * {
+            box-sizing: border-box;
         }
 
-        .container {
-            text-align: center;
-            max-width: 600px;
-            padding: 2rem;
+        html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+}
+
+body {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(circle at top, #1e293b, #0f172a 65%);
+    color: #fff;
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+}
+
+        .card {
+            width: min(680px, calc(100% - 32px));
+            background: rgba(255,255,255,.05);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 18px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,.35);
         }
 
-        .redirect-message {
-            text-align: center;
+        h1 {
+            margin-top: 0;
+            font-size: clamp(28px,4vw,38px);
+            line-height: 1.25;
         }
 
-        .redirect-message h1 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+        p {
+            color: #d6d6d6;
+            line-height: 1.8;
+            margin: 18px 0;
         }
 
-        .redirect-message a {
-            color: #6366f1;
+        .count {
+            color: #60a5fa;
+            font-weight: 700;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            background: #2563eb;
+            color: white;
             text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            transition: .2s;
         }
 
-        .redirect-message a:hover {
-            text-decoration: underline;
+        .btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
         }
 
-        .info-box {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background: #1a1a2e;
+        .note {
+            margin-top: 28px;
+            padding: 18px;
+            border-left: 4px solid #2563eb;
+            background: rgba(255,255,255,.04);
             border-radius: 8px;
-            border: 1px solid #6366f1;
-            text-align: left;
         }
 
-        .info-box p {
-            margin: 0.5rem 0;
-            line-height: 1.6;
-        }
-
-        .countdown {
-            font-weight: bold;
-            color: #6366f1;
+        footer {
+            margin-top: 28px;
+            font-size: .9rem;
+            color: #9ca3af;
         }
     </style>
 
     <script>
-        // Delayed redirect after 3 seconds - ensure DOM is loaded first
-        document.addEventListener('DOMContentLoaded', function() {
-            const countdownElement = document.getElementById('countdown');
-            let secondsLeft = 3;
+        document.addEventListener("DOMContentLoaded", () => {
 
-            // Display initial countdown
-            if (countdownElement) {
-                countdownElement.textContent = secondsLeft;
-            }
+            const destination = "https://zhyllanfyllah.pages.dev/";
+            const counter = document.getElementById("countdown");
 
-            const countdownInterval = setInterval(() => {
-                secondsLeft--;
-                if (countdownElement) {
-                    countdownElement.textContent = secondsLeft;
-                }
-                if (secondsLeft <= 0) {
-                    clearInterval(countdownInterval);
-                    window.location.href = "https://zhyllanfyllah.pages.dev/";
+            let seconds = 3;
+
+            counter.textContent = seconds;
+
+            const timer = setInterval(() => {
+                seconds--;
+                counter.textContent = seconds;
+
+                if (seconds <= 0) {
+                    clearInterval(timer);
+
+                    // Replace agar halaman redirect tidak masuk history browser
+                    window.location.replace(destination);
                 }
             }, 1000);
+
         });
     </script>
+
+    <noscript>
+        <meta http-equiv="refresh" content="0;url=https://zhyllanfyllah.pages.dev/">
+    </noscript>
+
 </head>
 
 <body>
-    <div class="container">
-        <div class="redirect-message">
-            <h1>Halaman portofolio saya sudah saya pisahkan ke domain khusus, redirect akan berjalan pada <span id="countdown" class="countdown">3</span> detik</h1>
-            <p>Jika Anda tidak dialihkan, <a href="https://zhyllanfyllah.pages.dev/">klik di sini</a>.</p>
+
+    <main class="card">
+
+        <h1>
+            Portofolio telah dipindahkan
+        </h1>
+
+        <p>
+            Portofolio saya kini tersedia pada domain khusus.
+            Anda akan dialihkan secara otomatis dalam
+            <span id="countdown" class="count">3</span> detik.
+        </p>
+
+        <a class="btn" href="https://zhyllanfyllah.pages.dev/">
+            Buka Portofolio
+        </a>
+
+        <div class="note">
+            <p>
+                Untuk memudahkan pengelolaan proyek, SEO, serta pemisahan
+                repositori, seluruh konten portofolio telah dipindahkan ke
+                domain baru.
+            </p>
+
+            <p>
+                Halaman ini akan tetap dipertahankan sementara waktu agar
+                tautan lama dari media sosial, GitHub, maupun sumber lain
+                tetap dapat mengarahkan pengunjung ke alamat terbaru.
+            </p>
         </div>
-        <div class="info-box">
-            <p>Saya sudah memindahkan portofolio saya agar mudah dalam SEO dan pengendalian repositori saya, dan dikarenakan masih ada link media sosial saya yang mengarah ke link repo ini, link ini akan saya pertahankan selama transisi domain.</p>
-        </div>
-    </div>
+
+        <footer>
+            © 2026 Zhyllan Fyllah
+        </footer>
+
+    </main>
+
 </body>
 
 </html>
