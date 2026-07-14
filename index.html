@@ -29,6 +29,12 @@
             font-family: system-ui, -apple-system, sans-serif;
         }
 
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 2rem;
+        }
+
         .redirect-message {
             text-align: center;
         }
@@ -46,18 +52,54 @@
         .redirect-message a:hover {
             text-decoration: underline;
         }
+
+        .info-box {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #1a1a2e;
+            border-radius: 8px;
+            border: 1px solid #6366f1;
+            text-align: left;
+        }
+
+        .info-box p {
+            margin: 0.5rem 0;
+            line-height: 1.6;
+        }
+
+        .countdown {
+            font-weight: bold;
+            color: #6366f1;
+        }
     </style>
 
     <script>
-        // Immediate redirect via JavaScript
-        window.location.href = "https://zhyllanfyllah.pages.dev/";
+        // Delayed redirect after 3 seconds
+        const countdownElement = document.getElementById('countdown');
+        let secondsLeft = 3;
+
+        const countdownInterval = setInterval(() => {
+            secondsLeft--;
+            if (countdownElement) {
+                countdownElement.textContent = secondsLeft;
+            }
+            if (secondsLeft <= 0) {
+                clearInterval(countdownInterval);
+                window.location.href = "https://zhyllanfyllah.pages.dev/";
+            }
+        }, 1000);
     </script>
 </head>
 
 <body>
-    <div class="redirect-message">
-        <h1>Redirecting to <a href="https://zhyllanfyllah.pages.dev/">zhyllanfyllah.pages.dev</a>...</h1>
-        <p>If you are not redirected, <a href="https://zhyllanfyllah.pages.dev/">click here</a>.</p>
+    <div class="container">
+        <div class="redirect-message">
+            <h1>Halaman portofolio saya sudah saya pisahkan ke domain khusus, redirect akan berjalan pada <span id="countdown" class="countdown">3</span> detik</h1>
+            <p>Jika Anda tidak dialihkan, <a href="https://zhyllanfyllah.pages.dev/">klik di sini</a>.</p>
+        </div>
+        <div class="info-box">
+            <p>Saya sudah memindahkan portofolio saya agar mudah dalam SEO dan pengendalian repositori saya, dan dikarenakan masih ada link media sosial saya yang mengarah ke link repo ini, link ini akan saya pertahankan selama transisi domain.</p>
+        </div>
     </div>
 </body>
 
