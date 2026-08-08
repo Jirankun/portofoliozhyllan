@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SINYAL HILANG | Zhyllan Fyllah</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Butcherman&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --vhs-green: #0a1a0a;
+      --vhs-glow: #2d5a1e;
+      --vhs-text: #c5e0b4;
+      --vhs-dim: #4a7a3a;
+      --vhs-accent: #8fbc6b;
+      --vhs-blood: #cc2222;
+      --vhs-scanline: rgba(0, 20, 0, 0.15);
+      --blood-glow: #ff2222;
+    }
+
+    html, body { height: 100%; overflow: hidden; }
+
+    body {
+      background: #050805;
+      font-family: 'VT323', 'Courier New', monospace;
+      color: var(--vhs-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      position: relative;
+    }
+
+    /* ── VHS Distortion Border ── */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      left: 0; right: 0;
+      height: 6px;
+      z-index: 100;
+      pointer-events: none;
+      opacity: 0.7;
+    }
+    body::before {
+      top: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.9) 10%, rgba(0,0,0,0.9) 90%, transparent 100%);
+      box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    }
+    body::after {
+      bottom: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.9) 10%, rgba(0,0,0,0.9) 90%, transparent 100%);
+      box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    }
+
+    /* ── Scanlines ── */
+    .scanlines {
+      position: fixed; inset: 0; z-index: 50; pointer-events: none;
+      background: repeating-linear-gradient(0deg,
+        var(--vhs-scanline) 0px, var(--vhs-scanline) 2px,
+        transparent 2px, transparent 4px);
+    }
+
+    /* ── Static Noise ── */
+    .noise {
+      position: fixed; inset: 0; z-index: 40; pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+      animation: noiseScroll 0.2s steps(4) infinite;
+    }
+    @keyframes noiseScroll {
+      0%   { background-position: 0 0; }
+      100% { background-position: 0 256px; }
+    }
+
+    /* ── Vignette ── */
+    .vignette {
+      position: fixed; inset: 0; z-index: 45; pointer-events: none;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.7) 100%);
+    }
+
+    /* ── Flash Overlay ── */
+    .flash-overlay {
+      position: fixed; inset: 0; z-index: 95; pointer-events: none;
+      background: #fff; opacity: 0; transition: opacity 0.8s ease;
+    }
+    .flash-overlay.bright { opacity: 1; }
+
+    /* ── Fade Dark Overlay ── */
+    .fade-dark {
+      position: fixed; inset: 0; z-index: 90; pointer-events: none;
+      background: #000; opacity: 0; transition: opacity 0.12s ease;
+    }
+    .fade-dark.show { opacity: 1; }
+
+    /* ── Eye / Watcher Animations ── */
+    @keyframes eyePulse { 0%,100% { opacity: 0.4; } 50% { opacity: 0.8; } }
+    @keyframes pupilShift { 0%,100% { transform: translateX(-50%); } 25% { transform: translateX(-70%); } 75% { transform: translateX(-30%); } }
+
+    /* ── Tracking Lines ── */
+    .tracking {
+      position: absolute; left: 0; right: 0; height: 3px;
+      background: rgba(140, 200, 100, 0.06); pointer-events: none;
+      animation: trackingSlide 7s linear infinite;
+    }
+    .tracking:nth-child(2) {
+      animation-delay: 2.3s; height: 1.5px; background: rgba(140, 200, 100, 0.04);
+    }
+    .tracking:nth-child(3) {
+      animation-delay: 4.7s; height: 2px; background: rgba(200, 80, 80, 0.05);
+    }
+    @keyframes trackingSlide {
+      0%   { top: -10px; opacity: 1; }
+      100% { top: 110%;  opacity: 0; }
+    }
+
+    /* ── Container ── */
+    .container {
+      position: relative; z-index: 10; max-width: 520px; text-align: center;
+    }
+
+    /* ── Screen ── */
+    .screen {
+      position: relative; padding: 40px 30px;
+      border: 2px solid var(--vhs-dim);
+      background: rgba(5, 8, 5, 0.85); border-radius: 4px;
+      box-shadow: inset 0 0 40px rgba(0,0,0,0.9), 0 0 30px rgba(0,30,0,0.3), 0 0 60px rgba(0,20,0,0.15);
+      animation: screenFlicker 8s infinite;
+    }
+    .screen::before {
+      content: '';
+      position: absolute; inset: -2px;
+      border: 1px solid rgba(60, 120, 40, 0.08);
+      pointer-events: none;
+      animation: trackWobble 4s ease-in-out infinite;
+    }
+    @keyframes screenFlicker {
+      0%, 100% { opacity: 1; }
+      3%  { opacity: 0.92; }
+      6%  { opacity: 1; }
+      7%  { opacity: 0.85; }
+      10% { opacity: 1; }
+      76% { opacity: 1; }
+      78% { opacity: 0.9; }
+      80% { opacity: 1; }
+      82% { opacity: 0.88; }
+      85% { opacity: 1; }
+    }
+    @keyframes trackWobble {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(1px); }
+      40% { transform: translateX(-1px); }
+      60% { transform: translateX(0.5px); }
+      80% { transform: translateX(-0.5px); }
+    }
+
+    /* ── Glitch Text ── */
+    .glitch-wrap { position: relative; display: inline-block; margin-bottom: 16px; }
+    .glitch {
+      font-size: 3.2rem; font-weight: 400; color: var(--vhs-text);
+      text-shadow: 0 0 10px var(--vhs-glow), 0 0 20px var(--vhs-glow);
+      letter-spacing: 6px; text-transform: uppercase;
+      position: relative; animation: glitchSkew 6s infinite;
+    }
+    .glitch::before, .glitch::after {
+      content: attr(data-text); position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%; pointer-events: none;
+    }
+    .glitch::before {
+      color: #e04040; z-index: -1;
+      animation: glitchShift1 3s infinite linear alternate-reverse;
+    }
+    .glitch::after {
+      color: #40a0e0; z-index: -2;
+      animation: glitchShift2 2.5s infinite linear alternate-reverse;
+    }
+    @keyframes glitchShift1 {
+      0%   { clip: rect(0,999px,0,0); transform: translate(-3px,0); }
+      5%   { clip: rect(10px,999px,30px,0); }
+      10%  { clip: rect(0,999px,0,0); transform: translate(0,0); }
+      15%  { clip: rect(20px,999px,45px,0); transform: translate(2px,0); }
+      20%  { clip: rect(0,999px,0,0); }
+      100% { clip: rect(0,999px,0,0); }
+    }
+    @keyframes glitchShift2 {
+      0%   { clip: rect(0,999px,0,0); transform: translate(2px,0); }
+      8%   { clip: rect(15px,999px,35px,0); transform: translate(-4px,0); }
+      12%  { clip: rect(0,999px,0,0); }
+      18%  { clip: rect(25px,999px,50px,0); transform: translate(-2px,0); }
+      22%  { clip: rect(0,999px,0,0); }
+      100% { clip: rect(0,999px,0,0); }
+    }
+    @keyframes glitchSkew {
+      0%,100% { transform: skew(0deg); }
+      2%  { transform: skew(0.5deg); }
+      4%  { transform: skew(0deg); }
+      60% { transform: skew(0deg); }
+      62% { transform: skew(-0.8deg); }
+      64% { transform: skew(0deg); }
+    }
+
+    /* ── Subtext ── */
+    .sub {
+      font-size: 1rem; color: var(--vhs-dim); letter-spacing: 3px;
+      text-transform: uppercase; margin-bottom: 12px;
+      animation: blink 2.5s step-end infinite;
+    }
+    @keyframes blink {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* ── Main Text ── */
+    .main-text {
+      font-size: 1.05rem; line-height: 1.6; color: var(--vhs-text);
+      margin-bottom: 8px; opacity: 0.7; letter-spacing: 1px;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      margin: 18px 0; opacity: 0.25;
+    }
+    .divider span { font-size: 0.7rem; letter-spacing: 8px; color: var(--vhs-dim); }
+    .divider::before, .divider::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--vhs-dim), transparent);
+    }
+
+    /* ── Coordinates ── */
+    .coords {
+      font-size: 0.75rem; color: var(--vhs-dim); letter-spacing: 2px;
+      margin-bottom: 24px; opacity: 0.5;
+    }
+
+    /* ── Primary Button ── */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 40px; font-size: 1.15rem; font-weight: 400;
+      font-family: 'VT323', monospace; letter-spacing: 4px;
+      text-transform: uppercase; text-decoration: none;
+      color: #fff; background: rgba(180, 40, 40, 0.15);
+      border: 2px solid rgba(200, 50, 50, 0.5);
+      cursor: pointer; transition: all 0.4s ease;
+      position: relative; overflow: hidden;
+      text-shadow: 0 0 8px rgba(255, 50, 50, 0.4);
+      box-shadow: 0 0 20px rgba(200, 0, 0, 0.08), inset 0 0 20px rgba(200, 0, 0, 0.04);
+    }
+    .btn-primary:hover {
+      background: rgba(200, 50, 50, 0.2);
+      border-color: rgba(255, 80, 80, 0.7);
+      box-shadow: 0 0 30px rgba(200, 0, 0, 0.2), inset 0 0 30px rgba(200, 0, 0, 0.08);
+      text-shadow: 0 0 12px rgba(255, 50, 50, 0.6);
+    }
+    .btn-primary:active { transform: scale(0.95); }
+    .btn-primary::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(200,50,50,0.08), transparent);
+      transform: translateX(-100%); transition: transform 0.6s ease;
+    }
+    .btn-primary:hover::before { transform: translateX(100%); }
+
+    /* ── Exit Link ── */
+    .exit-link {
+      display: inline-block; margin-top: 16px;
+      font-size: 0.82rem; font-family: 'VT323', monospace;
+      letter-spacing: 2px; color: var(--vhs-dim);
+      text-decoration: none; cursor: pointer;
+      transition: color 0.3s ease; background: none; border: none;
+      padding: 6px 12px; text-transform: uppercase;
+    }
+    .exit-link:hover { color: var(--vhs-text); }
+
+    /* ── Confirm Button (di dalam warning) ── */
+    .btn-confirm {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 36px; margin-top: 10px;
+      font-size: 1.05rem; font-weight: 400;
+      font-family: 'VT323', monospace; letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--vhs-blood);
+      background: rgba(200, 30, 30, 0.1);
+      border: 1px solid rgba(200, 50, 50, 0.4);
+      cursor: pointer;
+      transition: all 0.4s ease;
+      text-shadow: 0 0 6px rgba(255, 50, 50, 0.3);
+    }
+    .btn-confirm:hover {
+      background: rgba(200, 30, 30, 0.2);
+      border-color: rgba(255, 80, 80, 0.6);
+      box-shadow: 0 0 20px rgba(200, 0, 0, 0.15);
+      text-shadow: 0 0 10px rgba(255, 50, 50, 0.5);
+    }
+    .btn-confirm:active { transform: scale(0.95); }
+
+    /* ===== WARNING OVERLAY ===== */
+    .warning-overlay {
+      position: fixed; inset: 0; z-index: 80;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.12s ease, visibility 0.12s ease;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.92);
+    }
+    .warning-overlay.show {
+      opacity: 1; visibility: visible;
+    }
+
+    .warning-box {
+      position: relative; max-width: 560px; width: 100%;
+      padding: 36px 28px; text-align: center;
+      border: 2px solid rgba(200, 30, 30, 0.3);
+      background: rgba(5, 2, 2, 0.95);
+      box-shadow: 0 0 60px rgba(200, 0, 0, 0.1), inset 0 0 40px rgba(50, 0, 0, 0.2);
+      transform: scale(0.92);
+      transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .warning-overlay.show .warning-box { transform: scale(1); }
+
+    /* Warning scanlines overlay on top of warning */
+    .warning-scanlines {
+      position: absolute; inset: 0; pointer-events: none;
+      background: repeating-linear-gradient(0deg,
+        rgba(20, 0, 0, 0.08) 0px, rgba(20, 0, 0, 0.08) 2px,
+        transparent 2px, transparent 4px);
+      z-index: 1;
+    }
+
+    .warning-content { position: relative; z-index: 2; }
+
+    .warning-icon {
+      font-size: 2.4rem; margin-bottom: 16px;
+      animation: warningPulse 1.5s ease-in-out infinite;
+    }
+    @keyframes warningPulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    .warning-blood {
+      font-family: 'Butcherman', 'VT323', cursive;
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      line-height: 1.5; color: var(--vhs-blood);
+      text-transform: uppercase; letter-spacing: 2px;
+      margin-bottom: 10px;
+      text-shadow:
+        0 0 4px var(--blood-glow),
+        0 0 10px var(--blood-glow),
+        0 0 20px rgba(255, 0, 0, 0.4),
+        0 0 40px rgba(200, 0, 0, 0.2);
+      /* Base opacity — JS akan kontrol flicker real-time */
+    }
+
+    .warning-text {
+      font-family: 'VT323', monospace;
+      font-size: clamp(0.75rem, 2vw, 0.92rem);
+      line-height: 1.7; color: rgba(200, 180, 180, 0.7);
+      letter-spacing: 1px; margin: 12px 0 18px;
+      max-width: 480px; margin-left: auto; margin-right: auto;
+    }
+
+    .warning-divider {
+      width: 60px; height: 1px; margin: 14px auto;
+      background: linear-gradient(90deg, transparent, rgba(200, 30, 30, 0.4), transparent);
+    }
+
+    .warning-dev {
+      font-family: 'Butcherman', 'VT323', cursive;
+      font-size: clamp(0.85rem, 2.2vw, 1.1rem);
+      color: rgba(200, 60, 60, 0.8); letter-spacing: 3px;
+      text-transform: uppercase;
+      text-shadow: 0 0 8px rgba(200, 0, 0, 0.2);
+      margin-top: 6px;
+    }
+    .warning-dev small {
+      display: block;
+      font-family: 'VT323', monospace;
+      font-size: clamp(0.55rem, 1.5vw, 0.7rem);
+      color: rgba(200, 180, 180, 0.3);
+      letter-spacing: 5px; margin-top: 4px;
+    }
+
+    /* ── Credit Overlay (muncul saat fade gelap) ── */
+    .credit-overlay {
+      position: fixed; inset: 0; z-index: 91;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; visibility: hidden;
+      /* Fade out: 940ms (sama dengan audio fade-out) */
+      transition: opacity 0.94s ease, visibility 0.94s ease;
+      padding: 20px;
+      pointer-events: none;
+    }
+    .credit-overlay.show {
+      opacity: 1; visibility: visible;
+      /* Fade in: 650ms (sama dengan audio fade-in ~645ms) */
+      transition: opacity 0.65s ease, visibility 0.65s ease;
+    }
+    .credit-text {
+      font-family: 'Butcherman', 'VT323', cursive;
+      font-size: clamp(1.3rem, 4vw, 2.2rem);
+      color: var(--vhs-blood); text-align: center;
+      text-transform: uppercase; letter-spacing: 4px;
+      text-shadow:
+        0 0 10px var(--blood-glow),
+        0 0 30px var(--blood-glow),
+        0 0 60px rgba(255, 0, 0, 0.3);
+      /* Base opacity — JS akan kontrol flicker real-time */
+    }
+    .credit-text small {
+      display: block;
+      font-family: 'VT323', monospace;
+      font-size: clamp(0.6rem, 1.8vw, 0.85rem);
+      color: rgba(200, 180, 180, 0.3);
+      letter-spacing: 6px; margin-top: 8px;
+    }
+    /* Flicker kini dikontrol via JavaScript untuk realism */
+
+    /* ── Pause all animations when overlay active ── */
+    body.paused .noise,
+    body.paused .screen,
+    body.paused .screen::before,
+    body.paused .glitch,
+    body.paused .glitch::before,
+    body.paused .glitch::after,
+    body.paused .sub,
+    body.paused .tracking,
+    body.paused .eye-wrap div,
+    body.paused .warning-icon {
+      animation-play-state: paused !important;
+    }
+
+    /* ── Flicker-done: JS stop flicker & set opacity 1 ── */
+    .warning-blood.flicker-done {
+      opacity: 1;
+    }
+
+    /* ── Reduced Motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      .noise { animation: none; }
+      .screen, .glitch, .glitch::before, .glitch::after { animation: none !important; }
+      .sub { animation: none; }
+      .warning-blood { animation: none; }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      .screen { padding: 28px 18px; }
+      .glitch { font-size: 2.2rem; letter-spacing: 3px; }
+      .btn-primary { padding: 12px 28px; font-size: 1rem; }
+      .warning-box { padding: 28px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Layers -->
+  <div class="scanlines"></div>
+  <div class="noise"></div>
+  <div class="vignette"></div>
+
+  <!-- Flash (unused now, kept for reference) & Fade -->
+  <div class="fade-dark" id="fadeDark"></div>
+
+  <!-- Horror Audio (13s) -->
+  <audio id="horrorAudio" preload="auto">
+    <source src="horror.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Tracking lines -->
+  <div class="tracking"></div>
+  <div class="tracking"></div>
+  <div class="tracking"></div>
+
+  <!-- ══ MAIN CONTENT ══ -->
+  <div class="container" id="mainContent">
+    <div class="screen">
+
+      <!-- Eye / Watcher -->
+      <div class="eye-wrap" style="margin:12px auto 18px;width:50px;height:25px;position:relative;opacity:0.15">
+        <div style="width:50px;height:25px;border:1px solid var(--vhs-dim);border-radius:50%/100% 100% 0 0;border-bottom:none;position:relative;animation:eyePulse 4s ease-in-out infinite"></div>
+        <div style="position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:6px;height:6px;background:var(--vhs-dim);border-radius:50%;animation:pupilShift 6s ease-in-out infinite"></div>
+      </div>
+
+      <!-- Glitch Title -->
+      <div class="glitch-wrap">
+        <div class="glitch" data-text="HALAMAN TIDAK ADA">HALAMAN TIDAK ADA</div>
+      </div>
+      <div class="sub">SISTEM TIDAK MERESPON</div>
+
+      <div class="divider"><span>⌇</span></div>
+
+      <p class="main-text">
+        Kamu telah tersesat di antara dimensi yang tak tercatat.<br>
+      </p>
+      <p class="main-text" style="opacity:0.45;font-size:0.85rem;margin-bottom:8px">
+        — Namun, sesuatu menantimu di balik layar —
+      </p>
+
+      <div class="coords" id="coords">47.º? ??.??? S &nbsp; ?.??° ??.??? E
+        <span id="coordsStamp" style="display:block;font-size:0.65rem;opacity:0.3;margin-top:6px;letter-spacing:3px">--:--:-- UTC</span>
+      </div>
+
+      <!-- Portal Button -->
+      <button type="button" class="btn-primary" id="portalBtn">
+        ⟁ MASUK PORTAL
+      </button>
+
+      <!-- Exit Link -->
+      <div style="margin-top:14px">
+        <button type="button" class="exit-link" onclick="location.replace('./')">
+          [ Keluar ]
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ CREDIT OVERLAY (saat fade gelap) ══ -->
+  <div class="credit-overlay" id="creditOverlay">
+    <div class="credit-text">
+      Dev by Aokaze Studio
+      <small>( Jirankun )</small>
+    </div>
+  </div>
+
+  <!-- ══ WARNING OVERLAY ══ -->
+  <div class="warning-overlay" id="warningOverlay">
+    <div class="warning-box">
+      <div class="warning-scanlines"></div>
+
+      <div class="warning-content">
+        <div class="warning-icon">⚠️</div>
+
+        <div class="warning-blood">
+          PERINGATAN!
+        </div>
+
+        <div class="warning-text">
+          Game ini mengandung elemen horor, kilatan cahaya menyilaukan (flashing lights),<br>
+          dan suasana intens yang mungkin tidak cocok untuk:
+        </div>
+
+        <div class="warning-text" style="color:rgba(200,100,100,0.5);font-size:clamp(0.7rem,1.8vw,0.85rem);margin-top:-6px">
+          Penderita epilepsi, penyakit jantung,<br>
+          gangguan kecemasan, atau sensitif terhadap cahaya berkedip.
+        </div>
+
+        <div class="warning-divider"></div>
+
+        <div class="warning-text" style="font-size:clamp(0.65rem,1.6vw,0.78rem);color:rgba(200,180,180,0.4)">
+          Dengan melanjutkan, kamu menyetujui risiko ini.
+        </div>
+
+        <div class="warning-divider"></div>
+
+        <div class="warning-dev">
+          Dev by Aokaze Studio
+          <small>( Jirankun )</small>
+        </div>
+
+        <div class="warning-divider"></div>
+
+        <button type="button" class="btn-confirm" id="confirmBtn">
+          ⟫ YAKIN ⟪
+        </button>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      'use strict';
+
+      const portalBtn      = document.getElementById('portalBtn');
+      const confirmBtn     = document.getElementById('confirmBtn');
+      const fadeDark       = document.getElementById('fadeDark');
+      const warningOverlay = document.getElementById('warningOverlay');
+      const creditOverlay  = document.getElementById('creditOverlay');
+      let step = 0;
+      let warningFlicker = null;
+      let creditFlicker = null;
+
+      // ── Realistic Flicker Engine ──
+      function startRealisticFlicker(el, opts) {
+        if (!el) return { stop: function() {} };
+        opts = opts || {};
+        var running = true;
+        var baseOp = opts.baseOpacity || 0.95;
+        var tid = null;
+
+        el.style.opacity = baseOp;
+
+        function next() {
+          if (!running) return;
+          var delay = 600 + Math.random() * 3400;
+          tid = setTimeout(doFlicker, delay);
+        }
+
+        function setOp(val, trans) {
+          if (!running) return;
+          el.style.transition = 'opacity ' + trans + 'ms ease';
+          el.style.opacity = val;
+        }
+
+        function doFlicker() {
+          if (!running) return;
+          var type = Math.random();
+
+          if (type < 0.30) {
+            // ── Quick dim (30%) ──
+            var depth = 0.15 + Math.random() * 0.35;
+            setOp(depth, 30);
+            setTimeout(function() {
+              setOp(baseOp, 80);
+              next();
+            }, 60 + Math.random() * 80);
+
+          } else if (type < 0.50) {
+            // ── Power sag (20%) — slow drop then slow rise ──
+            var depth = 0.45 + Math.random() * 0.25;
+            setOp(depth, 150);
+            setTimeout(function() {
+              setOp(baseOp, 250);
+              next();
+            }, 200 + Math.random() * 250);
+
+          } else if (type < 0.68) {
+            // ── Double flicker (18%) ──
+            var d1 = 0.1 + Math.random() * 0.25;
+            setOp(d1, 20);
+            setTimeout(function() {
+              setOp(baseOp, 40);
+              setTimeout(function() {
+                var d2 = d1 * (0.4 + Math.random() * 0.4);
+                setOp(d2, 20);
+                setTimeout(function() {
+                  setOp(baseOp, 70);
+                  next();
+                }, 40 + Math.random() * 40);
+              }, 60 + Math.random() * 60);
+            }, 40 + Math.random() * 40);
+
+          } else if (type < 0.82) {
+            // ── Stutter (14%) — rapid cycles ──
+            var cycles = 3 + Math.floor(Math.random() * 3);
+            var c = 0;
+            function stutter() {
+              if (!running || c >= cycles * 2) {
+                setOp(baseOp, 60);
+                next();
+                return;
+              }
+              var on = c % 2 === 0;
+              setOp(on ? (0.1 + Math.random() * 0.25) : (0.6 + Math.random() * 0.35), 15);
+              c++;
+              setTimeout(stutter, 25 + Math.random() * 35);
+            }
+            stutter();
+
+          } else {
+            // ── Fade wobble (18%) — gentle instability ──
+            var wobble = 0.6 + Math.random() * 0.2;
+            setOp(wobble, 120);
+            setTimeout(function() {
+              setOp(baseOp, 180);
+              setTimeout(function() {
+                var w2 = 0.7 + Math.random() * 0.2;
+                setOp(w2, 100);
+                setTimeout(function() {
+                  setOp(baseOp, 150);
+                  next();
+                }, 100 + Math.random() * 100);
+              }, 150 + Math.random() * 100);
+            }, 120 + Math.random() * 100);
+          }
+        }
+
+        next();
+
+        return {
+          stop: function(finalOp) {
+            running = false;
+            if (tid) { clearTimeout(tid); tid = null; }
+            el.style.transition = 'opacity 200ms ease';
+            el.style.opacity = finalOp !== undefined ? finalOp : baseOp;
+          }
+        };
+      }
+
+      // ── Step 1: Click portal → show warning popup + start flicker ──
+      portalBtn.addEventListener('click', function(e) {
+        if (step > 0) return;
+        step = 1;
+        warningOverlay.classList.add('show');
+        document.body.classList.add('paused');
+        // Start realistic flicker on warning text
+        var wb = document.querySelector('.warning-blood');
+        if (wb) warningFlicker = startRealisticFlicker(wb);
+      });
+
+      // ── Step 2: Click Yakin → fade dark → play audio (timing presisi) ──
+      confirmBtn.addEventListener('click', function(e) {
+        if (step > 1) return;
+        step = 2;
+
+        // Stop warning flicker, start credit flicker
+        if (warningFlicker) { warningFlicker.stop(1); warningFlicker = null; }
+        document.querySelector('.warning-blood').classList.add('flicker-done');
+        warningOverlay.classList.remove('show');
+        fadeDark.classList.add('show');
+
+        // ── Play horror audio ──
+        var audio = document.getElementById('horrorAudio');
+        if (!audio) return;
+        audio.currentTime = 0;
+        audio.play().catch(function(err) {
+          console.warn('Audio play failed:', err);
+        });
+
+        /*
+          Audio analysis:
+          - Fade in:  ~645ms  (silence before sound starts)
+          - Active:   645ms ~ 14128ms
+          - Fade out: ~940ms  (starts at ~14128ms)
+          - Total:    ~15072ms
+
+          Credit fade in:  700ms  (after audio fade-in completes)
+          Credit fade out: 14000ms (before fade-out begins at ~14128ms)
+          Redirect:        15300ms (after audio fully ends ~15072ms)
+        */
+
+        // ── Credit fade in + start flicker (setelah audio fade-in) ──
+        setTimeout(function() {
+          creditOverlay.classList.add('show');
+          var ct = document.querySelector('.credit-text');
+          if (ct) creditFlicker = startRealisticFlicker(ct, { baseOpacity: 0.9 });
+        }, 700);
+
+        // ── Credit fade out + stop flicker (sebelum audio fade-out) ──
+        setTimeout(function() {
+          if (creditFlicker) { creditFlicker.stop(); creditFlicker = null; }
+          creditOverlay.classList.remove('show');
+        }, 14000);
+
+        // ── Redirect (setelah audio selesai) ──
+        setTimeout(function() {
+          window.location.replace('https://zhyllanfyllah.my.id/sadeawieadiyeatxbecabuicbctdcsytdbttsnxdsykxnannxeytauytryrteauyetcrekuaxrxtzyteccavcutvsdrcuaj/index.html');
+        }, 15300);
+      });
+
+      // ── Corrupted clock (ambient) ──
+      setInterval(function() {
+        const stamp = document.getElementById('coordsStamp');
+        if (!stamp) return;
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2, '0');
+        const m = String(now.getMinutes()).padStart(2, '0');
+        const sRaw = now.getSeconds();
+        const s = sRaw % 7 === 0
+          ? (Math.random() * 99).toFixed(0).padStart(2, '0')
+          : String(sRaw).padStart(2, '0');
+        stamp.textContent = h + ':' + m + ':' + s + ' UTC';
+      }, 1000);
+
+      // ── Corrupted coordinates ──
+      setInterval(function() {
+        const el = document.getElementById('coords');
+        if (!el) return;
+        const base = '47.';
+        const suffix = ['?', '?', '?', '?'];
+        const rand = function() { return (Math.random() * 9).toFixed(0); };
+        const parts = [
+          base + rand() + '° ' + rand() + rand() + '.' + suffix.join('') + ' S',
+          '&nbsp;&nbsp;',
+          rand() + rand() + '.' + suffix.join('') + '° ' + rand() + rand() + '.' + suffix.join('') + ' E'
+        ];
+        if (Math.random() < 0.15) {
+          el.innerHTML = parts.join(' ');
+        }
+      }, 3000);
+    })();
+  </script>
+</body>
+</html>

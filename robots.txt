@@ -1,0 +1,48 @@
+# robots.txt — Zhyllan Fyllah Portfolio
+# https://zhyllanfyllah.my.id
+
+# ===== AI / AGENT BOT RULES =====
+# Allow all AI bots to crawl & index (SEO friendly)
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot  
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+# ===== AI Discovery Bots =====
+User-agent: Applebot-Extended
+Allow: /
+
+# ===== Generic AI Crawlers =====
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+# ===== General Rules =====
+User-agent: *
+Allow: /
+Crawl-delay: 1
+
+# ===== Sitemap =====
+Sitemap: https://zhyllanfyllah.my.id/sitemap.xml

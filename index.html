@@ -1,177 +1,420 @@
 <!DOCTYPE html>
-<html lang="id">
-
+<html lang="id" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Portofolio Dipindahkan</title>
+  <!-- ===== SEO PRIMER ===== -->
+  <title>Zhyllan Fyllah — Web & Mobile Developer</title>
+  <meta name="description" content="Portfolio pribadi Zhyllan Fyllah (Jirankun) — Student SMKN 1 Lembah Melintang jurusan TKJ, Web & Mobile Developer. HTML, CSS, JS, Kotlin, Flutter, Next.js. Linux enthusiast.">
+  <meta name="keywords" content="zhyllan fyllah, jirankun, pelajar smkn 1 lembah melintang, aokaze studio, portfolio, web developer, mobile developer, Kotlin, Flutter, Indonesia">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Zhyllan Fyllah">
+  <link rel="canonical" href="https://zhyllanfyllah.my.id">
 
-    <!-- Search Engine -->
-    <meta name="robots"
-        content="noindex,nofollow,noarchive,nosnippet,noimageindex,max-image-preview:none,max-snippet:0,max-video-preview:0">
-    <meta name="googlebot"
-        content="noindex,nofollow,noarchive,nosnippet,noimageindex,max-image-preview:none,max-snippet:0,max-video-preview:0">
-    <meta http-equiv="X-Robots-Tag"
-        content="noindex,nofollow,noarchive,nosnippet,noimageindex">
+  <!-- ===== OG / SOCIAL ===== -->
+  <meta property="og:title" content="Zhyllan Fyllah | Portfolio — Web & Mobile Developer">
+  <meta property="og:description" content="Student SMKN 1 Lembah Melintang jurusan TKJ | Web & Mobile Developer. Linux enthusiast, open source contributor.">
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/174584819?v=4">
+  <meta property="og:image:width" content="460">
+  <meta property="og:image:height" content="460">
+  <meta property="og:url" content="https://github.com/Jirankun">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Zhyllan Fyllah Portfolio">
+  <meta property="og:locale" content="id_ID">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Zhyllan Fyllah | Portfolio">
+  <meta name="twitter:description" content="Student SMKN 1 Lembah Melintang | Web & Mobile Developer">
+  <meta name="twitter:image" content="https://avatars.githubusercontent.com/u/174584819?v=4">
 
-    <!-- Privacy -->
-    <meta name="referrer" content="no-referrer">
+  <!-- ===== JSON-LD STRUCTURED DATA ===== -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://github.com/Jirankun#person",
+        "name": "Zhyllan Fyllah",
+        "alternateName": "Jirankun",
+        "givenName": "Zhyllan",
+        "familyName": "Fyllah",
+        "jobTitle": "Student & Developer",
+        "description": "Student SMKN 1 Lembah Melintang jurusan Teknik Komputer dan Jaringan (TKJ). Web & Mobile Developer. Linux enthusiast.",
+        "image": "https://avatars.githubusercontent.com/u/174584819?v=4",
+        "url": "https://github.com/Jirankun",
+        "sameAs": [
+          "https://github.com/Jirankun",
+          "https://blog.zhyllanfyllah.my.id"
+        ],
+        "knowsAbout": ["HTML", "CSS", "JavaScript", "Kotlin", "Flutter", "Next.js", "Linux"],
+        "nationality": { "@type": "Country", "name": "Indonesia" },
+        "homeLocation": { "@type": "Place", "name": "Indonesia" }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://zhyllanfyllah.my.id#website",
+        "name": "Zhyllan Fyllah",
+        "url": "https://zhyllanfyllah.my.id",
+        "description": "Portfolio pribadi Zhyllan Fyllah — Student SMKN 1 Lembah Melintang, Web & Mobile Developer",
+        "inLanguage": "id-ID",
+        "publisher": { "@id": "https://github.com/Jirankun#person" }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://zhyllanfyllah.my.id#webpage",
+        "name": "Zhyllan Fyllah",
+        "url": "https://zhyllanfyllah.my.id",
+        "description": "Portfolio pribadi Zhyllan Fyllah — Student SMKN 1 Lembah Melintang, Web & Mobile Developer",
+        "inLanguage": "id-ID",
+        "isPartOf": { "@id": "https://zhyllanfyllah.my.id#website" },
+        "about": { "@id": "https://github.com/Jirankun#person" },
+        "primaryImageOfPage": "https://avatars.githubusercontent.com/u/174584819?v=4",
+        "breadcrumb": { "@type": "BreadcrumbList", "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Beranda", "item": "https://zhyllanfyllah.my.id" },
+          { "@type": "ListItem", "position": 2, "name": "Tentang", "item": "https://zhyllanfyllah.my.id#about" },
+          { "@type": "ListItem", "position": 3, "name": "Repository", "item": "https://zhyllanfyllah.my.id#repos" },
+          { "@type": "ListItem", "position": 4, "name": "Kontak", "item": "https://zhyllanfyllah.my.id#contact" }
+        ]}
+      }
+    ]
+  }
+  </script>
 
-    <!-- Theme -->
-    <meta name="theme-color" content="#0f172a">
-    <meta name="color-scheme" content="dark">
+  <!-- ===== FAVICON ===== -->
+  <link rel="icon" type="image/png" href="https://avatars.githubusercontent.com/u/174584819?v=4">
+  <link rel="apple-touch-icon" href="https://avatars.githubusercontent.com/u/174584819?v=4">
 
-    <!-- Canonical -->
-    <link rel="canonical" href="https://zhyllanfyllah.pages.dev/">
+  <!-- ===== PRECONNECT / PRELOAD ===== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://zhyllan.jirankun.workers.dev">
+  <link rel="dns-prefetch" href="https://zhyllan.jirankun.workers.dev">
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            overscroll-behavior: none;
-        }
-
-        body {
-            position: fixed;
-            inset: 0;
-            display: grid;
-            place-items: center;
-            background: radial-gradient(circle at top, #1e293b, #0f172a 65%);
-            color: #fff;
-            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont,
-                "Segoe UI", sans-serif;
-        }
-
-        .card {
-            width: min(680px, calc(100% - 32px));
-            background: rgba(255, 255, 255, .05);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, .08);
-            border-radius: 18px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, .35);
-        }
-
-        h1 {
-            margin: 0;
-            font-size: clamp(28px, 4vw, 38px);
-            line-height: 1.3;
-        }
-
-        p {
-            margin: 18px 0;
-            color: #d6d6d6;
-            line-height: 1.8;
-        }
-
-        .count {
-            color: #60a5fa;
-            font-weight: 700;
-        }
-
-        a {
-            color: #60a5fa;
-            text-decoration: none;
-            transition: color .2s ease;
-        }
-
-        a:hover {
-            color: #93c5fd;
-            text-decoration: underline;
-        }
-
-        .note {
-            margin-top: 28px;
-            padding: 18px;
-            background: rgba(255, 255, 255, .04);
-            border-left: 4px solid #2563eb;
-            border-radius: 8px;
-        }
-
-        footer {
-            margin-top: 28px;
-            font-size: .9rem;
-            color: #9ca3af;
-            text-align: center;
-        }
-    </style>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-
-            const destination = "https://zhyllanfyllah.pages.dev/";
-            const counter = document.getElementById("countdown");
-
-            let seconds = 3;
-            counter.textContent = seconds;
-
-            const timer = setInterval(() => {
-                seconds--;
-                counter.textContent = seconds;
-
-                if (seconds <= 0) {
-                    clearInterval(timer);
-                    window.location.replace(destination);
-                }
-            }, 1000);
-
-        });
-    </script>
-
-    <noscript>
-        <meta http-equiv="refresh" content="0;url=https://zhyllanfyllah.pages.dev/">
-    </noscript>
-
+  <!-- ===== STYLES ===== -->
+  <link rel="stylesheet" href="style/1.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-
 <body>
+  <!-- Fixed Background -->
+  <div class="site-bg"></div>
 
-    <main class="card">
+  <!-- Navigation -->
+  <nav class="navbar" role="navigation" aria-label="Navigasi utama">
+    <div class="nav-container">
+      <a href="#" class="nav-logo" aria-label="Beranda">&lt;ZF /&gt;</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home" class="nav-link active"><i class="fas fa-home"></i> Beranda</a></li>
+        <li><a href="#about" class="nav-link"><i class="fas fa-user"></i> Tentang</a></li>
+        <li><a href="#stats" class="nav-link"><i class="fas fa-chart-bar"></i> Statistik</a></li>
+        <li><a href="#repos" class="nav-link"><i class="fas fa-code-branch"></i> Repository</a></li>
+        <li><a href="#blog" class="nav-link"><i class="fas fa-newspaper"></i> Blog</a></li>
+        <li><a href="#contact" class="nav-link"><i class="fas fa-envelope"></i> Kontak</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Buka menu navigasi" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
 
-        <h1>
-            Portofolio telah dipindahkan
-        </h1>
-
-        <p>
-            Portofolio saya kini tersedia pada domain khusus.
-            Anda akan dialihkan secara otomatis dalam
-            <span id="countdown" class="count">3</span> detik.
-        </p>
-
-        <p>
-            Jika pengalihan tidak berjalan,
-            <a href="https://zhyllanfyllah.pages.dev/">klik di sini</a>.
-        </p>
-
-        <div class="note">
-            <p>
-                Untuk memudahkan pengelolaan proyek, SEO, serta pemisahan
-                repositori, seluruh portofolio telah dipindahkan ke domain
-                khusus.
-            </p>
-
-            <p>
-                Halaman ini tetap dipertahankan sementara waktu agar tautan
-                lama dari media sosial, GitHub, maupun sumber lainnya tetap
-                mengarahkan pengunjung ke alamat terbaru selama masa transisi.
-            </p>
+  <!-- Hero Section -->
+  <section class="hero" id="home" aria-label="Hero">
+    <div class="hero-particles" id="heroParticles"></div>
+    <div class="container hero-content">
+      <div class="hero-inner">
+        <div class="hero-left">
+          <h1 class="hero-title">
+            <span class="greeting">Halo, saya</span>
+            <!-- static fallback for SEO — akan di-overwrite oleh JS -->
+            <span class="name" id="userName">Zhyllan Fyllah</span>
+          </h1>
+          <!-- static fallback — akan di-overwrite oleh AI text -->
+          <p class="hero-subtitle" id="userBio">Student | Web &amp; Mobile Developer</p>
+          <div class="hero-actions">
+            <a href="#repos" class="btn btn-primary">
+              <i class="fas fa-code"></i>
+              Lihat Projek
+            </a>
+            <a href="https://blog.zhyllanfyllah.my.id" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+              <i class="fas fa-blog"></i>
+              Buka Blog
+            </a>
+          </div>
         </div>
+        <div class="hero-right">
+          <div class="hero-avatar-wrapper">
+            <div class="hero-avatar-glow"></div>
+            <div class="hero-avatar-container">
+              <img src="https://avatars.githubusercontent.com/u/174584819?v=4" alt="Foto profil Zhyllan Fyllah" class="hero-avatar" id="avatar" width="185" height="185" onerror="handleAvatarError(this)">
+              <div class="hero-avatar-fallback" id="avatarFallback" style="display:none;" aria-hidden="true">ZF</div>
+            </div>
+            <div class="hero-status">
+              <span class="status-dot"></span>
+              <span id="heroStatusTextVisible">Mari ngoding bareng!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>Scroll ke bawah</span>
+      <div class="scroll-mouse">
+        <div class="scroll-wheel"></div>
+      </div>
+    </div>
+  </section>
 
-        <footer>
-            © 2026 Zhyllan Fyllah
-        </footer>
+  <!-- Content Blur Layer -->
+  <div class="content-blur">
+    <!-- About Section -->
+    <section class="about" id="about" aria-label="Tentang">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge" id="aboutBadge">Tentang Saya</span>
+          <h2 class="section-title" id="aboutTitle">Mengenal Saya Lebih <span class="gradient-text">Dekat</span></h2>
+          <div class="section-divider"></div>
+        </div>
+        <div class="about-content">
+          <div class="about-text">
+            <!-- Konten statis untuk SEO — akan di-overwrite oleh AI text via JS -->
+            <p id="aboutPara1">Seorang siswa SMKN 1 Lembah Melintang jurusan Teknik Komputer dan Jaringan (TKJ) yang antusias mengembangkan aplikasi web dan mobile. Berfokus pada teknologi seperti HTML, CSS, JavaScript, Kotlin, Flutter, dan Next.js. Sehari-hari menggunakan Linux Mint sebagai sistem operasi utama.</p>
+            <p id="aboutPara2">Aktif di GitHub dengan puluhan repositori — mulai dari proyek web, aplikasi mobile, hingga tugas-tugas sekolah. Terus belajar dan berkontribusi di dunia open source sambil mengasah kemampuan di bidang pengembangan perangkat lunak.</p>
+            <!-- Loading spinner (hidden by default — konten statis sudah visible) -->
+            <div class="loading-spinner" id="aboutLoading" style="display:none;">
+              <div class="spinner"></div>
+              <p>Memuat profil...</p>
+            </div>
+            <div class="about-highlights">
+              <div class="highlight-item">
+                <i class="fas fa-map-pin"></i>
+                <span id="userLocation">Indonesia</span>
+              </div>
+              <div class="highlight-item">
+                <i class="fas fa-users"></i>
+                <span><strong id="followersCount">—</strong> Pengikut</span>
+              </div>
+              <div class="highlight-item">
+                <i class="fas fa-user-plus"></i>
+                <span>Mengikuti <strong id="followingCount">—</strong> Pengguna</span>
+              </div>
+              <div class="highlight-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Bergabung <strong id="joinDate">—</strong></span>
+              </div>
+            </div>
+          </div>
+          <div class="about-stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon"><i class="fas fa-code-branch"></i></div>
+              <div class="stat-number" id="repoCount">—</div>
+              <div class="stat-label">Repository</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon"><i class="fas fa-star"></i></div>
+              <div class="stat-number" id="totalStars">—</div>
+              <div class="stat-label">Total Stars</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon"><i class="fas fa-code-fork"></i></div>
+              <div class="stat-number" id="totalForks">—</div>
+              <div class="stat-label">Total Forks</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon"><i class="fas fa-heart"></i></div>
+              <div class="stat-number">Komunitas</div>
+              <div class="stat-label">Open Source</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    </main>
+    <!-- Stats Section -->
+    <section class="stats" id="stats" aria-label="Statistik">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge" id="statsBadge">Statistik Developer</span>
+          <h2 class="section-title" id="statsTitle">Perjalanan Koding <span class="gradient-text">Saya</span></h2>
+          <div class="section-divider"></div>
+        </div>
+        <div class="stats-showcase" id="statsShowcase">
+          <!-- Akan diisi oleh JS dari data GitHub -->
+          <div class="loading-spinner" id="statsLoading">
+            <div class="spinner"></div>
+            <p>Memuat statistik...</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <!-- Repositories Section -->
+    <section class="repos" id="repos" aria-label="Repository">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge" id="reposBadge">Karya</span>
+          <h2 class="section-title" id="reposTitle">Repository <span class="gradient-text">Terbaru</span></h2>
+          <div class="section-divider"></div>
+          <p class="section-desc" id="reposDesc">Jelajahi proyek-proyek open source yang telah saya bangun dan kontribusi.</p>
+        </div>
+        <div class="repo-filters" id="repoFilters"></div>
+        <div class="repo-grid" id="repoGrid">
+          <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Memuat repository...</p>
+          </div>
+        </div>
+        <div class="repo-pagination" id="repoPagination"></div>
+      </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="blog" id="blog" aria-label="Blog">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">Blog</span>
+          <h2 class="section-title">Artikel <span class="gradient-text">Terbaru</span></h2>
+          <div class="section-divider"></div>
+          <p class="section-desc">Bacaan dan pembaruan terbaru dari blog pribadi saya.</p>
+        </div>
+        <div class="blog-grid" id="blogGrid">
+          <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Memuat artikel blog...</p>
+          </div>
+        </div>
+        <div class="blog-cta">
+          <a href="https://blog.zhyllanfyllah.my.id" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+            <i class="fas fa-arrow-right"></i>
+            Kunjungi Blog Saya
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact" aria-label="Kontak">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge" id="contactBadge">Kontak</span>
+          <h2 class="section-title" id="contactTitle">Mari <span class="gradient-text">Berkolaborasi</span></h2>
+          <div class="section-divider"></div>
+          <p class="section-desc" id="contactDesc">Tertarik bekerja sama? Jangan sungkan untuk menghubungi saya melalui platform di bawah.</p>
+        </div>
+        <div class="contact-content">
+          <div class="contact-info">
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fab fa-github"></i>
+              </div>
+              <div class="contact-detail">
+                <h4>GitHub</h4>
+                <a href="https://github.com/Jirankun" target="_blank" rel="noopener noreferrer">github.com/Jirankun</a>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div class="contact-detail">
+                <h4>Lokasi</h4>
+                <p id="contactLocation">Indonesia</p>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fas fa-code"></i>
+              </div>
+              <div class="contact-detail">
+                <h4>Open Source</h4>
+                <p>Aktif di GitHub</p>
+              </div>
+            </div>
+          </div>
+          <div class="contact-cta">
+            <a href="https://github.com/Jirankun" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-large">
+              <i class="fab fa-github"></i>
+              Kunjungi GitHub Saya
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">&lt;ZF /&gt;</div>
+          <p class="footer-text" id="footerText">Dibuat dengan <i class="fas fa-heart" style="color: var(--accent);"></i> oleh <strong>Zhyllan Fyllah</strong></p>
+          <p class="footer-copy">&copy; <span id="currentYear"></span> Semua Hak Dilindungi</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Floating Actions -->
+  <button class="scroll-top" id="scrollTop" aria-label="Kembali ke atas">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+  <button class="theme-fab" id="themeToggle" aria-label="Ganti tema gelap/terang">
+    <span class="theme-label" id="themeLabel">Gelap</span>
+  </button>
+
+  <!-- ===== NOSCRIPT FALLBACK UNTUK CRAWLER ===== -->
+  <noscript>
+    <div style="max-width:800px;margin:2rem auto;padding:2rem;font-family:Inter,sans-serif;color:#e8e8f0;background:#0a0a0f;line-height:1.8">
+      <h1 style="font-size:2rem;margin-bottom:1rem">Zhyllan Fyllah | Portfolio</h1>
+      <p style="margin-bottom:0.5rem;font-size:1.2rem"><strong>Student | Web &amp; Mobile Developer</strong></p>
+      <p style="margin-bottom:1rem;color:#a0a0b8">
+        Seorang siswa SMKN 1 Lembah Melintang jurusan Teknik Komputer dan Jaringan (TKJ) yang antusias dalam pengembangan web dan mobile. Berfokus pada HTML, CSS, JavaScript, Kotlin, Flutter, dan Next.js. Pengguna Linux Mint dan aktif di GitHub.
+      </p>
+      <hr style="border-color:#333;margin:1.5rem 0">
+      <h2 style="font-size:1.3rem;margin-bottom:0.5rem">Proyek Open Source</h2>
+      <p style="color:#a0a0b8">Jelajahi repositori dan kontribusi saya di GitHub: <a href="https://github.com/Jirankun" style="color:#6c63ff">github.com/Jirankun</a></p>
+      <hr style="border-color:#333;margin:1.5rem 0">
+      <h2 style="font-size:1.3rem;margin-bottom:0.5rem">Blog</h2>
+      <p style="color:#a0a0b8">Kunjungi blog saya di <a href="https://blog.zhyllanfyllah.my.id" style="color:#6c63ff">blog.zhyllanfyllah.my.id</a></p>
+      <hr style="border-color:#333;margin:1.5rem 0">
+      <h2 style="font-size:1.3rem;margin-bottom:0.5rem">Kontak</h2>
+      <p style="color:#a0a0b8">GitHub: <a href="https://github.com/Jirankun" style="color:#6c63ff">github.com/Jirankun</a></p>
+      <p style="color:#a0a0b8">Lokasi: Indonesia</p>
+      <hr style="border-color:#333;margin:1.5rem 0">
+      <p style="color:#6c6c8a;font-size:0.85rem;text-align:center">&copy; 2026 Zhyllan Fyllah. Semua Hak Dilindungi.</p>
+    </div>
+  </noscript>
+
+  <!-- ===== LENIS SMOOTH SCROLL (scroll mentega) ===== -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script>
+    const lenis = new Lenis({
+      lerp: 0.08,
+      wheelMultiplier: 1,
+      smoothWheel: true,
+    });
+    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+
+    /* Hubungkan scroll Lenis ke scroll top button */
+    document.getElementById('scrollTop').addEventListener('click', function(e) {
+      e.preventDefault();
+      lenis.scrollTo(0, { duration: 1.2 });
+    });
+
+    /* Nav link scroll pakai Lenis */
+    document.querySelectorAll('.nav-link[href^="#"]').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = this.getAttribute('href');
+        if (target === '#') { lenis.scrollTo(0, { duration: 1.2 }); return; }
+        const el = document.querySelector(target);
+        if (el) lenis.scrollTo(el, { offset: -70, duration: 1 });
+      });
+    });
+  </script>
+
+  <script src="script/1.js"></script>
 </body>
-
 </html>
