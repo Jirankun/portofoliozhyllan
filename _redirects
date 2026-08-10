@@ -1,0 +1,2 @@
+# Redirect pengaman — Portfolio pages.dev → .my.id
+https://zhyllanfyllah.pages.dev/* https://zhyllanfyllah.my.id/:splat 301!
