@@ -10,6 +10,9 @@ const CACHE_TTL = 86400000; // 24 jam dalam ms
 const REPOS_PER_PAGE = 5;
 
 /* ─── Cache Helper ─── */
+/* get/set → sessionStorage (per sesi): cocok untuk data yang sering berubah (gitdata, blogdata).
+   getLong/setLong → localStorage (persisten antar sesi): untuk data AI yang jarang berubah
+   (aitext) — menghemat request Groq: tidak dipanggil ulang setiap kunjungan. */
 const cache = {
   get(key) {
     try {
@@ -23,6 +26,19 @@ const cache = {
     try {
       sessionStorage.setItem(`portfolio_${key}`, JSON.stringify({ data, expiry: Date.now() + ttl }));
     } catch { /* quota exceeded — skip */ }
+  },
+  getLong(key) {
+    try {
+      const raw = localStorage.getItem(`portfolio_${key}`);
+      if (!raw) return null;
+      const { data, expiry } = JSON.parse(raw);
+      return Date.now() > expiry ? null : data;
+    } catch { return null; }
+  },
+  setLong(key, data, ttl = CACHE_TTL) {
+    try {
+      localStorage.setItem(`portfolio_${key}`, JSON.stringify({ data, expiry: Date.now() + ttl }));
+    } catch { /* quota exceeded — skip */ }
   }
 };
 
@@ -32,7 +48,7 @@ const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 const dom = {};
 
 function cacheDom() {
-  dom.themeToggle = $('#themeToggle');
+  dom.themeSwitch = $('#themeSwitch');
   dom.navToggle = $('#navToggle');
   dom.navLinks = $('#navLinks');
   dom.navLinksItems = $$('.nav-link');
@@ -41,7 +57,6 @@ function cacheDom() {
   dom.repoGrid = $('#repoGrid');
   dom.filterBtns = $$('.filter-btn');
   dom.currentYear = $('#currentYear');
-  dom.heroParticles = $('#heroParticles');
   dom.blogGrid = $('#blogGrid');
   dom.blogSection = $('#blog');
 }
@@ -50,7 +65,7 @@ function cacheDom() {
 function initTheme() {
   const saved = localStorage.getItem('portfolio-theme') || 'dark';
   document.documentElement.setAttribute('data-theme', saved);
-  updateThemeIcon(saved);
+  updateThemeUI(saved);
 }
 
 function toggleTheme() {
@@ -58,12 +73,16 @@ function toggleTheme() {
   const next = current === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', next);
   localStorage.setItem('portfolio-theme', next);
-  updateThemeIcon(next);
+  updateThemeUI(next);
 }
 
-function updateThemeIcon(theme) {
+function updateThemeUI(theme) {
   const label = $('#themeLabel');
   if (label) label.textContent = theme === 'dark' ? 'Gelap' : 'Terang';
+  const icon = $('#themeIcon');
+  if (icon) icon.className = theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+  const sw = $('#themeSwitch');
+  if (sw) sw.checked = theme === 'dark';
 }
 
 // ==================== NAVIGATION ====================
@@ -97,40 +116,6 @@ function handleScroll() {
   dom.navbar.classList.toggle('scrolled', window.scrollY > 50);
   dom.scrollTop.classList.toggle('visible', window.scrollY > 500);
   updateActiveNav();
-}
-
-// ==================== PARTICLES (Lebih Ringan) ====================
-function createParticles() {
-  const container = dom.heroParticles;
-  if (!container) return;
-  
-  // Kurangi jadi 15 particle saja (dari 50) — lebih ringan CPU
-  const count = Math.min(15, Math.floor(window.innerWidth / 80));
-  const fragment = document.createDocumentFragment();
-  
-  for (let i = 0; i < count; i++) {
-    const p = document.createElement('div');
-    const size = Math.random() * 3 + 1.5;
-    const duration = Math.random() * 8 + 8;
-    p.style.cssText = `
-      position:absolute;width:${size}px;height:${size}px;
-      background:var(--accent);border-radius:50%;
-      left:${Math.random() * 100}%;top:${Math.random() * 100}%;
-      opacity:${Math.random() * 0.3 + 0.08};
-      animation:floatP ${duration}s ease-in-out infinite;
-      animation-delay:${Math.random() * 3}s;
-    `;
-    fragment.appendChild(p);
-  }
-  container.appendChild(fragment);
-  
-  // Inject keyframes (sekali saja)
-  if (!document.getElementById('pfk')) {
-    const s = document.createElement('style');
-    s.id = 'pfk';
-    s.textContent = `@keyframes floatP{0%,100%{transform:translate(0,0)}25%{transform:translate(-20px,-15px)}50%{transform:translate(15px,10px)}75%{transform:translate(-25px,-10px)}}`;
-    document.head.appendChild(s);
-  }
 }
 
 // ==================== GITHUB API via Worker (dengan cache) ====================
@@ -178,7 +163,8 @@ function updateProfileUI(data) {
   const setText = (id, val) => { const el = document.getElementById(id); if (el && val != null) el.textContent = val; };
   
   setText('userName', data.name);
-  if (data.avatar_url) $('#avatar').src = data.avatar_url;
+  /* Avatar sengaja TIDAK ditimpa dari GitHub — dipakai assets/profile.jpg lokal
+     agar Google Images mengindeks gambar dari domain sendiri (SEO). */
   if (data.bio) setText('userBio', data.bio);
   if (data.location) { setText('userLocation', data.location); setText('contactLocation', data.location); }
   if (data.followers != null) setText('followersCount', data.followers);
@@ -197,6 +183,8 @@ function updateProfileUI(data) {
 function renderRepos(repos) {
   dom.repoGrid._repos = Array.isArray(repos) ? repos : [];
   dom.repoGrid._currentFilter = 'all';
+  // Mode kepemilikan — default: hanya repo yang dibuat sendiri (non-fork)
+  dom.repoGrid._ownOnly = true;
   dom.repoGrid._loadedCount = 0;
   renderFilterButtons(repos);
   renderRepoBatch();
@@ -210,16 +198,27 @@ function renderFilterButtons(repos) {
   const languages = [...langSet].sort();
   dom.repoGrid._languages = languages;
   
-  let html = '<button class="filter-btn active" data-filter="all">Semua</button>';
+  let html = '<button class="filter-btn active" data-own="1"><i class="fas fa-check-circle"></i> Saya Buat</button>';
+  html += '<button class="filter-btn" data-own="0">Semua</button>';
   languages.forEach(lang => { html += `<button class="filter-btn" data-filter="${escHtml(lang)}">${escHtml(lang)}</button>`; });
   container.innerHTML = html;
   
   dom.filterBtns = $$('.filter-btn', container);
   dom.filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      dom.filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      filterRepos(btn.dataset.filter);
+      if (btn.dataset.own !== undefined) {
+        // Mode kepemilikan — selalu dikomposisikan dengan filter bahasa
+        $$('[data-own]', container).forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        dom.repoGrid._ownOnly = btn.dataset.own === '1';
+        dom.repoGrid._loadedCount = 0;
+        renderRepoBatch();
+      } else {
+        // Filter bahasa
+        $$('.filter-btn:not([data-own])', container).forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        filterRepos(btn.dataset.filter);
+      }
     });
   });
 }
@@ -235,13 +234,17 @@ function renderRepoBatch() {
       ? all.filter(r => !dom.repoGrid._languages?.includes(r.language))
       : all.filter(r => r.language === filter);
   }
+  // Mode "Saya Buat" — disusun setelah filter bahasa (tetap berlaku)
+  if (dom.repoGrid._ownOnly) {
+    filtered = filtered.filter(r => !(r.fork === true));
+  }
   dom.repoGrid._filteredRepos = filtered;
   
   const loaded = dom.repoGrid._loadedCount || 0;
   if (loaded === 0) {
     const batch = filtered.slice(0, REPOS_PER_PAGE);
     dom.repoGrid.innerHTML = batch.length === 0
-      ? '<div class="loading-spinner empty-message"><p style="color:var(--text-muted)">Tidak ada repository dengan bahasa ini.</p></div>'
+      ? '<div class="loading-spinner empty-message"><p style="color:var(--text-muted)">Tidak ada repository yang cocok dengan filter ini.</p></div>'
       : batch.map(r => createRepoCard(r)).join('');
     dom.repoGrid._loadedCount = batch.length;
   } else {
@@ -273,11 +276,15 @@ function getLangColor(lang) {
 function createRepoCard(repo) {
   const langColor = getLangColor(repo.language);
   const topics = repo.topics || [];
+  const ownBadge = repo.fork === true
+    ? '<span class="repo-badge repo-badge-fork" title="Repository hasil fork"><i class="fas fa-code-fork"></i> Fork</span>'
+    : '<span class="repo-badge repo-badge-own" title="Repository buatan sendiri"><i class="fas fa-check-circle"></i> Saya Buat</span>';
   return `
     <div class="repo-card" data-repo="${escHtml(repo.name)}" data-lang="${escHtml(repo.language || 'N/A')}">
       <div class="repo-card-header">
         <i class="fas fa-book"></i>
         <span class="repo-name">${escHtml(repo.name)}</span>
+        ${ownBadge}
       </div>
       ${repo.description ? `<p class="repo-desc">${escHtml(repo.description)}</p>` : ''}
       ${topics.length > 0 ? `<div class="repo-topics">${topics.slice(0, 4).map(t => `<span class="repo-topic">${escHtml(t)}</span>`).join('')}${topics.length > 4 ? `<span class="repo-topic">+${topics.length - 4}</span>` : ''}</div>` : ''}
@@ -308,14 +315,17 @@ function renderStatsSection(repos) {
   
   const { totalStars, totalForks } = calcRepoStats(repos);
   
+  // Showcase hanya memakai repo buatan sendiri (non-fork), selaras dengan daftar repo
+  const owned = repos.filter(r => !(r.fork === true));
+  
   // Language counts
   const langMap = {};
-  repos.forEach(r => { if (r.language) langMap[r.language] = (langMap[r.language] || 0) + 1; });
+  owned.forEach(r => { if (r.language) langMap[r.language] = (langMap[r.language] || 0) + 1; });
   const langEntries = Object.entries(langMap).sort((a, b) => b[1] - a[1]);
   const totalLangRepos = langEntries.reduce((s, [, c]) => s + c, 0);
   
   // Top repos
-  const topRepos = [...repos].filter(r => (r.stargazers_count || 0) > 0)
+  const topRepos = [...owned].filter(r => (r.stargazers_count || 0) > 0)
     .sort((a, b) => (b.stargazers_count || 0) - (a.stargazers_count || 0)).slice(0, 3);
   
   let html = '';
@@ -434,8 +444,8 @@ function setGradientTitle(containerId, gradientId, text) {
 }
 
 async function fetchAIText() {
-  // Cek cache
-  const cached = cache.get('aitext');
+  // Cek cache PERSISTEN (localStorage) — Groq tidak dipanggil ulang setiap kunjungan
+  const cached = cache.getLong('aitext');
   if (cached) { applyAIText(cached); return; }
   
   try {
@@ -443,7 +453,9 @@ async function fetchAIText() {
     if (!res.ok) return;
     const data = await res.json();
     if (data.error) return;
-    cache.set('aitext', data);
+    // Simpan 24 jam (sama dengan cache server) — server sudah dedup ke 1 Groq/hari,
+    // TTL client hanya menentukan kesegaran, bukan hemat request
+    cache.setLong('aitext', data);
     applyAIText(data);
   } catch {}
 }
@@ -553,6 +565,230 @@ function handleRepoClick(e) {
   if (loadBtn) renderRepoBatch();
 }
 
+// ==================== FYLIA AI CHAT ====================
+const CHAT_URL = `${WORKER_URL}/chat`;
+const CHAT_MAX_HISTORY = 10;
+const CHAT_TIMEOUT_MS = 30000;
+
+const FYLIA_FACE = 'fylia%20AI%20asisten/Face-Fylia.png';
+
+/* Koleksi stiker Fylia (folder "fylia AI asisten") — dikirimnya oleh AI sebagai pesan chat */
+const FYLIA_STICKER_MAP = {
+  'Sticker_Hello': 'fylia%20AI%20asisten/Sticker_Hello.png',
+  'Sticker_Think': 'fylia%20AI%20asisten/Sticker_Think.png',
+  'Sticker_Idea': 'fylia%20AI%20asisten/Sticker_Idea.png',
+  'Sticker_Okey': 'fylia%20AI%20asisten/Sticker_Okey.png',
+  'Sticker_Woah': 'fylia%20AI%20asisten/Sticker_Woah.png',
+  'Sticker_Fight': 'fylia%20AI%20asisten/Sticker_Fight.png',
+  'Sticker_Formal': 'fylia%20AI%20asisten/Sticker_Formal.png',
+};
+
+/* Nama model pendek untuk badge: @cf/meta/llama-3.2-3b-instruct → meta/llama-3.2-3b */
+function shortModel(m) {
+  if (!m) return '—';
+  return m.replace(/^@cf\//, '').replace(/-instruct-fp8-fast$/, '').replace(/-instruct$/, '');
+}
+
+/* Ubah URL di teks jadi link klikabel (buka tab baru) — XSS-safe:
+   teks di-escape dulu via escHtml, hanya protokol http/https yang di-link,
+   atribut href bebas dari karakter berbahaya karena sudah ter-escape. */
+function linkify(text) {
+  return escHtml(String(text)).replace(/(https?:\/\/[^\s<]+)/gi, (url) => {
+    const clean = url.replace(/[.,;:!?)]+$/, '');
+    return `<a href="${clean}" target="_blank" rel="noopener noreferrer" class="msg-link">${clean}</a>`;
+  });
+}
+
+/* Render markdown untuk pesan chat (AI pakai format markdown).
+   - marked: parse markdown (gfm + breaks agar baris baru jadi <br>)
+   - DOMPurify: sanitasi hasilnya — buang <script>, event handler, dll.
+   - Semua <a> dipaksa buka tab baru (target=_blank + rel noopener).
+   - Fallback: kalau CDN gagal dimuat, kembali ke linkify (teks polos + link). */
+function renderChatText(text) {
+  if (typeof marked === 'undefined' || typeof DOMPurify === 'undefined') {
+    return linkify(text);
+  }
+  try {
+    if (!marked.__fyliaConfigured) {
+      marked.setOptions({ gfm: true, breaks: true });
+      marked.__fyliaConfigured = true;
+    }
+    const html = marked.parse(String(text));
+    const clean = DOMPurify.sanitize(html, { USE_PROFILES: { html: true } });
+    const div = document.createElement('div');
+    div.innerHTML = clean;
+    div.querySelectorAll('a').forEach(a => {
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.classList.add('msg-link');
+    });
+    return div.innerHTML;
+  } catch {
+    return linkify(text);
+  }
+}
+
+function initChat() {
+  dom.chatFab = $('#chatFab');
+  dom.chatPanel = $('#chatPanel');
+  dom.chatClose = $('#chatClose');
+  dom.chatLog = $('#chatLog');
+  dom.chatForm = $('#chatForm');
+  dom.chatInput = $('#chatInput');
+  dom.chatSend = $('#chatSend');
+  dom.chatModelName = $('#chatModelName');
+  dom.chatModelBadge = $('#chatModel');
+  if (!dom.chatFab || !dom.chatPanel) return;
+
+  const chatHistory = [];
+  let chatBusy = false;
+
+  const scrollLog = () => { dom.chatLog.scrollTop = dom.chatLog.scrollHeight; };
+
+  const addMessage = (text, who) => {
+    const div = document.createElement('div');
+    div.className = `msg ${who}`;
+    div.innerHTML = renderChatText(text);
+    dom.chatLog.appendChild(div);
+    scrollLog();
+    return div;
+  };
+
+  /* Pesan Fylia: foto wajah di samping, stiker (jika ada) tampil sebagai pesan chat, teks di bawahnya */
+  const addBotMessage = (text, stickerName) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'msg-avatar';
+    const face = document.createElement('img');
+    face.src = FYLIA_FACE;
+    face.alt = 'Fylia';
+    face.className = 'msg-face';
+    const content = document.createElement('div');
+    content.className = 'msg-content';
+    const stickerSrc = FYLIA_STICKER_MAP[stickerName];
+    if (stickerSrc) {
+      const stickerEl = document.createElement('div');
+      stickerEl.className = 'msg-sticker';
+      const img = document.createElement('img');
+      img.src = stickerSrc;
+      img.alt = stickerName;
+      img.loading = 'lazy';
+      stickerEl.appendChild(img);
+      content.appendChild(stickerEl);
+    }
+    if (text) {
+      const bubble = document.createElement('div');
+      bubble.className = 'msg-bubble';
+      bubble.innerHTML = renderChatText(text);
+      content.appendChild(bubble);
+    }
+    wrap.appendChild(face);
+    wrap.appendChild(content);
+    dom.chatLog.appendChild(wrap);
+    scrollLog();
+  };
+
+  const addWelcomeMessage = () => {
+    addBotMessage('Hai! Aku Fylia, asisten portfolio Zhyllan. Mau tahu tentang karya-karyanya, atau ngobrol seputar teknologi? 😊✨', 'Sticker_Hello');
+  };
+
+  const updateModelBadge = (model) => {
+    if (!model) return;
+    if (dom.chatModelName) dom.chatModelName.textContent = shortModel(model);
+    if (dom.chatModelBadge) dom.chatModelBadge.title = 'Model AI: ' + model;
+  };
+
+  const showTyping = () => {
+    const wrap = document.createElement('div');
+    wrap.className = 'msg-typing';
+    const img = document.createElement('img');
+    img.src = FYLIA_FACE;
+    img.alt = 'Fylia';
+    img.className = 'msg-face';
+    const dots = document.createElement('span');
+    dots.className = 'typing-dots';
+    dots.innerHTML = '<i></i><i></i><i></i>';
+    wrap.appendChild(img);
+    wrap.appendChild(dots);
+    dom.chatLog.appendChild(wrap);
+    scrollLog();
+    return wrap;
+  };
+
+  const toggleChat = (open) => {
+    const willOpen = open !== undefined ? open : !dom.chatPanel.classList.contains('open');
+    dom.chatPanel.classList.toggle('open', willOpen);
+    dom.chatFab.classList.toggle('open', willOpen);
+    dom.chatFab.setAttribute('aria-expanded', String(willOpen));
+    dom.chatPanel.setAttribute('aria-hidden', String(!willOpen));
+    if (willOpen) {
+      if (!dom.chatLog.dataset.welcomed) {
+        dom.chatLog.dataset.welcomed = '1';
+        addWelcomeMessage();
+      }
+      /* Auto-fokus ke input — sinkron dulu (biar keyboard langsung muncul di mobile),
+         lalu retry via requestAnimationFrame (panel baru benar-benar visible).
+         preventScroll: jangan sampai halaman ikut tergulung demi memunculkan input. */
+      const focusInput = () => {
+        try { dom.chatInput.focus({ preventScroll: true }); } catch { dom.chatInput.focus(); }
+      };
+      focusInput();
+      requestAnimationFrame(focusInput);
+    }
+  };
+
+  dom.chatFab.addEventListener('click', () => toggleChat(true));
+  dom.chatClose.addEventListener('click', () => toggleChat(false));
+
+  dom.chatForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const text = dom.chatInput.value.trim();
+    if (!text || chatBusy) return;
+    dom.chatInput.value = '';
+
+    addMessage(text, 'user');
+    chatHistory.push({ role: 'user', content: text });
+
+    const typingEl = showTyping();
+    chatBusy = true;
+    dom.chatSend.disabled = true;
+
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), CHAT_TIMEOUT_MS);
+
+    try {
+      const res = await fetch(CHAT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: chatHistory.slice(-CHAT_MAX_HISTORY) }),
+        signal: controller.signal,
+      });
+      const data = await res.json();
+      const reply = data.reply || ('Maaf, terjadi kendala: ' + (data.error || res.status));
+      typingEl.remove();
+      addBotMessage(reply, data.sticker);
+      updateModelBadge(data.model);
+      chatHistory.push({ role: 'assistant', content: reply });
+      if (chatHistory.length > CHAT_MAX_HISTORY * 2) {
+        chatHistory.splice(0, chatHistory.length - CHAT_MAX_HISTORY);
+      }
+    } catch (err) {
+      typingEl.remove();
+      addMessage(err && err.name === 'AbortError'
+        ? 'Waduh, AI-nya lama merespons. Coba lagi ya 🙏'
+        : 'Waduh, koneksi ke AI bermasalah. Coba lagi ya 🙏', 'bot');
+    } finally {
+      clearTimeout(timer);
+      chatBusy = false;
+      dom.chatSend.disabled = false;
+      dom.chatInput.focus();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && dom.chatPanel.classList.contains('open')) toggleChat(false);
+  });
+}
+
 // ==================== INIT (Parallel fetches + cache) ====================
 async function init() {
   cacheDom();
@@ -560,11 +796,8 @@ async function init() {
   initTheme();
   setCurrentYear();
   
-  // Particles — ringan, pake requestAnimationFrame
-  requestAnimationFrame(() => createParticles());
-  
   // Event listeners
-  dom.themeToggle.addEventListener('click', toggleTheme);
+  if (dom.themeSwitch) dom.themeSwitch.addEventListener('change', toggleTheme);
   dom.navToggle.addEventListener('click', toggleNav);
   dom.navLinksItems.forEach(link => link.addEventListener('click', closeNav));
   dom.scrollTop.addEventListener('click', () => {
@@ -576,6 +809,22 @@ async function init() {
   });
   window.addEventListener('scroll', handleScroll, { passive: true });
   document.addEventListener('click', handleRepoClick);
+  
+  // Tutup menu mobile saat scroll, klik di luar, atau tekan Escape
+  window.addEventListener('scroll', () => {
+    if (dom.navLinks.classList.contains('open')) closeNav();
+  }, { passive: true });
+  document.addEventListener('click', (e) => {
+    if (dom.navLinks.classList.contains('open') && e.target instanceof Element && !e.target.closest('.nav-container')) {
+      closeNav();
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeNav();
+  });
+  
+  // Inisialisasi chat AI Fylia
+  initChat();
   
   // Fetch ALL data secara PARALEL (lebih cepat dari sequential)
   const [gitData] = await Promise.all([

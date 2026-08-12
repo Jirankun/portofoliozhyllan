@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asisten Portfolio</title>
+  <style>
+    * { box-sizing: border-box; }
+    #chat-toggle {
+      position: fixed; bottom: 16px; right: 16px; z-index: 9999;
+      width: 56px; height: 56px; border-radius: 50%;
+      border: 0; background: #f6821f; color: #fff; font-size: 24px;
+      cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,.35);
+    }
+    #chat-box {
+      position: fixed; bottom: 84px; right: 16px; z-index: 9999;
+      width: 340px; max-width: calc(100vw - 32px); height: 440px;
+      display: none; flex-direction: column; overflow: hidden;
+      border-radius: 14px; background: #fff; font-family: system-ui, sans-serif;
+      box-shadow: 0 12px 32px rgba(0,0,0,.35);
+    }
+    #chat-box.open { display: flex; }
+    #chat-header { padding: 12px 14px; background: #f6821f; color: #fff; font-weight: 700; }
+    #chat-log { flex: 1; padding: 12px; overflow-y: auto; background: #f7f7f7; font-size: 14px; }
+    .msg { margin: 6px 0; padding: 8px 12px; border-radius: 12px; max-width: 85%; white-space: pre-wrap; }
+    .msg.user { background: #f6821f; color: #fff; margin-left: auto; }
+    .msg.bot  { background: #e7e7e7; color: #111; }
+    #chat-form { display: flex; border-top: 1px solid #ddd; background: #fff; }
+    #chat-input { flex: 1; padding: 12px; border: 0; outline: none; font-size: 14px; }
+    #chat-form button { border: 0; background: #f6821f; color: #fff; padding: 0 16px; font-size: 16px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+<button id="chat-toggle" aria-label="Buka chat">💬</button>
+
+<div id="chat-box">
+  <div id="chat-header">JirangBot — Asisten Portfolio</div>
+  <div id="chat-log"></div>
+  <form id="chat-form">
+    <input id="chat-input" placeholder="Tanya apa aja, bre..." autocomplete="off" required />
+    <button type="submit">➤</button>
+  </form>
+</div>
+
+<script>
+  const WORKER_URL = "https://asisten-portfolio.zhyllanfyllah.my.id/chat"; // ← ganti URL worker lo
+  const history = [];
+
+  const box   = document.getElementById("chat-box");
+  const log   = document.getElementById("chat-log");
+  const form  = document.getElementById("chat-form");
+  const input = document.getElementById("chat-input");
+
+  document.getElementById("chat-toggle").addEventListener("click", () => {
+    box.classList.toggle("open");
+    if (box.classList.contains("open")) input.focus();
+  });
+
+  function addMsg(text, who) {
+    const div = document.createElement("div");
+    div.className = "msg " + who;
+    div.textContent = text;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+    return div;
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = "";
+
+    addMsg(text, "user");
+    history.push({ role: "user", content: text });
+
+    const placeholder = addMsg("…", "bot");
+
+    try {
+      const res = await fetch(WORKER_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: history.slice(-10) }),
+      });
+      const data = await res.json();
+      const reply = data.reply || ("Error bre: " + (data.error || res.status));
+      placeholder.textContent = reply;
+      history.push({ role: "assistant", content: reply });
+    } catch (err) {
+      placeholder.textContent = "Yah network error, anjir: " + err;
+    }
+    log.scrollTop = log.scrollHeight;
+  });
+</script>
+</body>
+</html>

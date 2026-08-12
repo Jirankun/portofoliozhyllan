@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fylia AI — Widget Chat</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:,">
+<!--
+  ═══════════════════════════════════════════════════════════
+   FYLIA AI — WIDGET CHAT (standalone, siap embed)
+  ═══════════════════════════════════════════════════════════
+   Cara embed ke proyek lain (iframe):
+     <iframe src="https://SITUS-ANDA/AI.html" width="100%" height="600"
+             style="border:0;border-radius:16px"
+             title="Chat Fylia" allow="clipboard-write"></iframe>
+
+   Opsi:
+     ?auto=1   → panel chat otomatis terbuka saat halaman dimuat
+                (mis. https://SITUS-ANDA/AI.html?auto=1)
+
+   Yang perlu disesuaikan (di blok KONFIGURASI bawah):
+     - WORKER_URL : endpoint worker Cloudflare (default zhyllan.jirankun.workers.dev)
+     - ASSET_BASE : lokasi folder "fylia AI asisten/" berisi Face-Fylia.png + stiker.
+                    Default relatif (letakkan folder di samping file ini),
+                    atau ganti dengan URL absolut:
+                    "https://SITUS-ANDA/fylia%20AI%20asisten/"
+  ═══════════════════════════════════════════════════════════
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root {
+  --accent: #6c63ff;
+  --accent-light: #8f86ff;
+  --accent-gradient: linear-gradient(135deg, #6c63ff 0%, #a855f7 100%);
+  --accent-glow: rgba(108, 99, 255, 0.32);
+  --glass-bg: rgba(255, 255, 255, 0.045);
+  --glass-bg-strong: rgba(255, 255, 255, 0.09);
+  --glass-border: rgba(255, 255, 255, 0.09);
+  --glass-border-strong: rgba(255, 255, 255, 0.16);
+  --nav-bg-strong: rgba(10, 10, 20, 0.85);
+  --text-primary: #eceaf6;
+  --text-secondary: #a9a7c2;
+  --text-muted: #6f6d8f;
+  --radius-full: 50%;
+  --radius-pill: 999px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  overflow: hidden; /* widget tidak pernah scroll sendiri — scroll terkunci di dalam iframe */
+  background: transparent;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button { font-family: inherit; cursor: pointer; }
+img { max-width: 100%; }
+
+/* ═══ FAB — tombol buka chat ═══ */
+.chat-fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 998;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  background: var(--accent-gradient);
+  box-shadow: 0 8px 28px var(--accent-glow);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  touch-action: manipulation;
+  transition: all var(--transition);
+}
+
+.chat-fab::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--accent);
+  animation: chatPulse 2.5s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes chatPulse {
+  0% { transform: scale(0.92); opacity: 0.55; }
+  70%, 100% { transform: scale(1.28); opacity: 0; }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .chat-fab:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 12px 36px var(--accent-glow); }
+}
+
+/* Saat panel terbuka, FAB menghilang (panel menempati posisinya) */
+.chat-fab.open { opacity: 0; visibility: hidden; pointer-events: none; transform: scale(0.8); }
+.chat-fab.open::after { animation: none; opacity: 0; }
+
+.chat-fab-img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ═══ PANEL CHAT ═══ */
+.chat-panel {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 997;
+  width: 360px;
+  max-width: calc(100vw - 32px);
+  height: min(520px, calc(100dvh - 40px));
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  overscroll-behavior: contain;
+  border-radius: 20px;
+  background: var(--nav-bg-strong);
+  backdrop-filter: blur(26px) saturate(160%);
+  -webkit-backdrop-filter: blur(26px) saturate(160%);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px) scale(0.97);
+  transform-origin: bottom right;
+  /* visibility instan saat buka (input langsung bisa fokus), ditunda saat tutup (fade-out) */
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.chat-panel.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s;
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--accent-gradient);
+  color: #fff;
+}
+
+.chat-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.chat-header-info { display: flex; flex-direction: column; line-height: 1.3; flex: 1; min-width: 0; }
+.chat-name { font-weight: 700; font-size: 0.95rem; }
+
+.chat-status { display: flex; align-items: center; gap: 6px; font-size: 0.72rem; opacity: 0.9; }
+.chat-status-dot {
+  width: 8px; height: 8px; border-radius: var(--radius-full);
+  background: #4ade80; box-shadow: 0 0 8px rgba(74, 222, 128, 0.8);
+  animation: pulseDot 2s ease-in-out infinite;
+}
+
+.chat-model {
+  display: inline-flex; align-items: center; gap: 5px;
+  align-self: flex-start; margin-top: 3px;
+  padding: 2px 10px; border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  font-size: 0.62rem; font-weight: 600; letter-spacing: 0.3px;
+  white-space: nowrap; max-width: 100%; line-height: 1.5;
+}
+.chat-model i { font-size: 0.6rem; opacity: 0.85; flex-shrink: 0; }
+#chatModelName { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+@keyframes pulseDot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+.chat-close {
+  background: rgba(255, 255, 255, 0.15);
+  border: none; color: #fff;
+  width: 32px; height: 32px; border-radius: var(--radius-full);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem; transition: background var(--transition); flex-shrink: 0;
+}
+.chat-close:hover { background: rgba(255, 255, 255, 0.3); }
+
+.chat-log {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scrollbar-width: thin;
+}
+
+/* Pesan */
+.msg {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  word-break: break-word;
+  animation: msgIn 0.25s ease;
+}
+@keyframes msgIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+.msg.user { align-self: flex-end; background: var(--accent-gradient); color: #fff; border-bottom-right-radius: 6px; }
+.msg.bot { align-self: flex-start; background: var(--glass-bg-strong); border: 1px solid var(--glass-border); color: var(--text-primary); border-bottom-left-radius: 6px; }
+
+/* Pesan Fylia: foto wajah + stiker (opsional) + teks */
+.msg-avatar { align-self: flex-start; display: flex; align-items: flex-end; gap: 8px; max-width: 92%; animation: msgIn 0.25s ease; }
+.msg-face { width: 30px; height: 30px; border-radius: var(--radius-full); object-fit: cover; flex-shrink: 0; border: 1.5px solid var(--glass-border-strong); }
+.msg-content { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; min-width: 0; flex: 1; }
+
+.msg-bubble {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  border-bottom-left-radius: 6px;
+  background: var(--glass-bg-strong);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  word-break: break-word;
+}
+
+/* Stiker sebagai pesan chat */
+.msg-sticker { animation: stickerPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.msg-sticker img { width: 110px; height: 110px; object-fit: contain; border-radius: 12px; display: block; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.25)); }
+@keyframes stickerPop { 0% { opacity: 0; transform: scale(0.7) rotate(-6deg); } 70% { transform: scale(1.06) rotate(2deg); } 100% { opacity: 1; transform: scale(1) rotate(0); } }
+
+/* Indikator mengetik */
+.msg-typing { align-self: flex-start; display: flex; align-items: center; gap: 8px; animation: msgIn 0.25s ease; }
+.typing-dots { display: inline-flex; gap: 4px; padding: 12px 16px; border-radius: 16px; border-bottom-left-radius: 6px; background: var(--glass-bg-strong); border: 1px solid var(--glass-border); }
+.typing-dots i { width: 6px; height: 6px; border-radius: var(--radius-full); background: var(--accent); animation: typingBounce 1s ease-in-out infinite; }
+.typing-dots i:nth-child(2) { animation-delay: 0.15s; }
+.typing-dots i:nth-child(3) { animation-delay: 0.3s; }
+@keyframes typingBounce { 0%, 100% { transform: translateY(0); opacity: 0.4; } 50% { transform: translateY(-4px); opacity: 1; } }
+
+/* Markdown di dalam bubble */
+:is(.msg-bubble, .msg.user) > :last-child { margin-bottom: 0; }
+:is(.msg-bubble, .msg.user) :is(p, ul, ol, pre, blockquote, table) { margin: 0 0 8px; }
+:is(.msg-bubble, .msg.user) :is(ul, ol) { padding-left: 20px; }
+:is(.msg-bubble, .msg.user) li { margin-bottom: 3px; }
+:is(.msg-bubble, .msg.user) :is(h1,h2,h3,h4,h5,h6) { font-size: 1em; font-weight: 700; margin: 10px 0 4px; }
+:is(.msg-bubble, .msg.user) strong { font-weight: 700; }
+:is(.msg-bubble, .msg.user) blockquote { border-left: 3px solid var(--accent); padding-left: 10px; color: var(--text-secondary); font-style: italic; }
+:is(.msg-bubble, .msg.user) code { font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace; font-size: 0.85em; background: rgba(108,99,255,0.12); padding: 2px 6px; border-radius: 6px; }
+:is(.msg-bubble, .msg.user) pre { background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 10px; padding: 10px 12px; overflow-x: auto; }
+:is(.msg-bubble, .msg.user) pre code { background: none; padding: 0; font-size: 0.82em; }
+:is(.msg-bubble, .msg.user) hr { border: none; border-top: 1px solid var(--glass-border-strong); margin: 8px 0; }
+.msg.user code { background: rgba(255,255,255,0.22); }
+.msg.user pre { background: rgba(0,0,0,0.28); border-color: rgba(255,255,255,0.25); }
+.msg.user blockquote { border-left-color: rgba(255,255,255,0.7); color: rgba(255,255,255,0.9); }
+
+/* Link dalam pesan */
+.msg-link { color: var(--accent-light); text-decoration: underline; text-decoration-color: rgba(108,99,255,0.45); text-underline-offset: 2px; word-break: break-all; }
+.msg-link:hover { opacity: 0.8; }
+.msg.user .msg-link { color: #fff; text-decoration-color: rgba(255,255,255,0.65); }
+
+/* Form */
+.chat-form { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--glass-border); }
+.chat-input {
+  flex: 1; min-width: 0;
+  padding: 11px 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color var(--transition);
+}
+.chat-input::placeholder { color: var(--text-muted); }
+.chat-input:focus { border-color: var(--accent); }
+.chat-send {
+  width: 44px; height: 44px; border-radius: var(--radius-full);
+  border: none; background: var(--accent-gradient); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; transition: all var(--transition); flex-shrink: 0;
+}
+.chat-send:hover { transform: scale(1.08); box-shadow: 0 6px 18px var(--accent-glow); }
+.chat-send:disabled { opacity: 0.5; transform: none; cursor: not-allowed; }
+
+@media (max-width: 480px) {
+  .chat-fab { bottom: 16px; right: 16px; }
+  .chat-panel { bottom: 16px; right: 16px; }
+}
+</style>
+</head>
+<body>
+
+<button class="chat-fab" id="chatFab" aria-label="Buka chat dengan Fylia" aria-expanded="false">
+  <img src="fylia%20AI%20asisten/Face-Fylia.png" alt="Fylia" class="chat-fab-img">
+</button>
+
+<aside class="chat-panel" id="chatPanel" role="dialog" aria-label="Chat dengan Fylia" aria-hidden="true">
+  <div class="chat-header">
+    <img src="fylia%20AI%20asisten/Face-Fylia.png" alt="Fylia" class="chat-avatar">
+    <div class="chat-header-info">
+      <span class="chat-name">Fylia</span>
+      <span class="chat-status"><span class="chat-status-dot"></span> Online</span>
+      <span class="chat-model" id="chatModel" title="Model AI yang dipakai"><i class="fas fa-microchip"></i><span id="chatModelName">—</span></span>
+    </div>
+    <button type="button" class="chat-close" id="chatClose" aria-label="Tutup chat">
+      <i class="fas fa-chevron-down" aria-hidden="true"></i>
+    </button>
+  </div>
+  <div class="chat-log" id="chatLog"></div>
+  <form class="chat-form" id="chatForm" autocomplete="off">
+    <input type="text" class="chat-input" id="chatInput" placeholder="Tanya tentang Zhyllan..." maxlength="500">
+    <button type="submit" class="chat-send" id="chatSend" aria-label="Kirim pesan">
+      <i class="fas fa-paper-plane" aria-hidden="true"></i>
+    </button>
+  </form>
+</aside>
+
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+<script>
+/* ═══════════════ KONFIGURASI — sesuaikan sesuai kebutuhan ═══════════════ */
+const WORKER_URL = 'https://zhyllan.jirankun.workers.dev';      // endpoint worker Cloudflare
+const ASSET_BASE = 'fylia%20AI%20asisten/';                     // folder aset — relatif, atau URL absolut
+const CHAT_MAX_HISTORY = 10;
+const CHAT_TIMEOUT_MS = 30000;
+
+const FYLIA_FACE = ASSET_BASE + 'Face-Fylia.png';
+const FYLIA_STICKER_MAP = {
+  'Sticker_Hello':  ASSET_BASE + 'Sticker_Hello.png',
+  'Sticker_Think':  ASSET_BASE + 'Sticker_Think.png',
+  'Sticker_Idea':   ASSET_BASE + 'Sticker_Idea.png',
+  'Sticker_Okey':   ASSET_BASE + 'Sticker_Okey.png',
+  'Sticker_Woah':   ASSET_BASE + 'Sticker_Woah.png',
+  'Sticker_Fight':  ASSET_BASE + 'Sticker_Fight.png',
+  'Sticker_Formal': ASSET_BASE + 'Sticker_Formal.png',
+};
+
+/* ═══════════════ HELPERS ═══════════════ */
+const $ = (sel) => document.querySelector(sel);
+const escHtml = (s) => { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; };
+
+function shortModel(m) {
+  if (!m) return '—';
+  return m.replace(/^@cf\//, '').replace(/-instruct-fp8-fast$/, '').replace(/-instruct$/, '');
+}
+
+function linkify(text) {
+  return escHtml(String(text)).replace(/(https?:\/\/[^\s<]+)/gi, (url) => {
+    const clean = url.replace(/[.,;:!?)]+$/, '');
+    return `<a href="${clean}" target="_blank" rel="noopener noreferrer" class="msg-link">${clean}</a>`;
+  });
+}
+
+function renderChatText(text) {
+  if (typeof marked === 'undefined' || typeof DOMPurify === 'undefined') return linkify(text);
+  try {
+    if (!marked.__fyliaConfigured) { marked.setOptions({ gfm: true, breaks: true }); marked.__fyliaConfigured = true; }
+    const html = marked.parse(String(text));
+    const clean = DOMPurify.sanitize(html, { USE_PROFILES: { html: true } });
+    const div = document.createElement('div');
+    div.innerHTML = clean;
+    div.querySelectorAll('a').forEach(a => {
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.classList.add('msg-link');
+    });
+    return div.innerHTML;
+  } catch { return linkify(text); }
+}
+
+/* ═══════════════ CHAT LOGIC ═══════════════ */
+(function initChat() {
+  const chatFab = $('#chatFab');
+  const chatPanel = $('#chatPanel');
+  const chatClose = $('#chatClose');
+  const chatLog = $('#chatLog');
+  const chatForm = $('#chatForm');
+  const chatInput = $('#chatInput');
+  const chatSend = $('#chatSend');
+  const chatModelName = $('#chatModelName');
+  const chatModelBadge = $('#chatModel');
+
+  const chatHistory = [];
+  let chatBusy = false;
+
+  const scrollLog = () => { chatLog.scrollTop = chatLog.scrollHeight; };
+
+  const addMessage = (text, who) => {
+    const div = document.createElement('div');
+    div.className = `msg ${who}`;
+    div.innerHTML = renderChatText(text);
+    chatLog.appendChild(div);
+    scrollLog();
+    return div;
+  };
+
+  const addBotMessage = (text, stickerName) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'msg-avatar';
+    const face = document.createElement('img');
+    face.src = FYLIA_FACE;
+    face.alt = 'Fylia';
+    face.className = 'msg-face';
+    const content = document.createElement('div');
+    content.className = 'msg-content';
+    const stickerSrc = FYLIA_STICKER_MAP[stickerName];
+    if (stickerSrc) {
+      const stickerEl = document.createElement('div');
+      stickerEl.className = 'msg-sticker';
+      const img = document.createElement('img');
+      img.src = stickerSrc;
+      img.alt = stickerName;
+      img.loading = 'lazy';
+      stickerEl.appendChild(img);
+      content.appendChild(stickerEl);
+    }
+    if (text) {
+      const bubble = document.createElement('div');
+      bubble.className = 'msg-bubble';
+      bubble.innerHTML = renderChatText(text);
+      content.appendChild(bubble);
+    }
+    wrap.appendChild(face);
+    wrap.appendChild(content);
+    chatLog.appendChild(wrap);
+    scrollLog();
+  };
+
+  const addWelcomeMessage = () => {
+    addBotMessage('Hai! Aku Fylia, asisten portfolio Zhyllan. Mau tahu tentang karya-karyanya, atau ngobrol seputar teknologi? 😊✨', 'Sticker_Hello');
+  };
+
+  const updateModelBadge = (model) => {
+    if (!model) return;
+    if (chatModelName) chatModelName.textContent = shortModel(model);
+    if (chatModelBadge) chatModelBadge.title = 'Model AI: ' + model;
+  };
+
+  const showTyping = () => {
+    const wrap = document.createElement('div');
+    wrap.className = 'msg-typing';
+    const img = document.createElement('img');
+    img.src = FYLIA_FACE;
+    img.alt = 'Fylia';
+    img.className = 'msg-face';
+    const dots = document.createElement('span');
+    dots.className = 'typing-dots';
+    dots.innerHTML = '<i></i><i></i><i></i>';
+    wrap.appendChild(img);
+    wrap.appendChild(dots);
+    chatLog.appendChild(wrap);
+    scrollLog();
+    return wrap;
+  };
+
+  const toggleChat = (open) => {
+    const willOpen = open !== undefined ? open : !chatPanel.classList.contains('open');
+    chatPanel.classList.toggle('open', willOpen);
+    chatFab.classList.toggle('open', willOpen);
+    chatFab.setAttribute('aria-expanded', String(willOpen));
+    chatPanel.setAttribute('aria-hidden', String(!willOpen));
+    if (willOpen) {
+      if (!chatLog.dataset.welcomed) {
+        chatLog.dataset.welcomed = '1';
+        addWelcomeMessage();
+      }
+      /* Auto-fokus: sinkron dulu (biar keyboard muncul di mobile) + retry via rAF */
+      const focusInput = () => {
+        try { chatInput.focus({ preventScroll: true }); } catch { chatInput.focus(); }
+      };
+      focusInput();
+      requestAnimationFrame(focusInput);
+    }
+  };
+
+  chatFab.addEventListener('click', () => toggleChat(true));
+  chatClose.addEventListener('click', () => toggleChat(false));
+
+  chatForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const text = chatInput.value.trim();
+    if (!text || chatBusy) return;
+    chatInput.value = '';
+
+    addMessage(text, 'user');
+    chatHistory.push({ role: 'user', content: text });
+
+    const typingEl = showTyping();
+    chatBusy = true;
+    chatSend.disabled = true;
+
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), CHAT_TIMEOUT_MS);
+
+    try {
+      const res = await fetch(WORKER_URL + '/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: chatHistory.slice(-CHAT_MAX_HISTORY) }),
+        signal: controller.signal,
+      });
+      const data = await res.json();
+      const reply = data.reply || ('Maaf, terjadi kendala: ' + (data.error || res.status));
+      typingEl.remove();
+      addBotMessage(reply, data.sticker);
+      updateModelBadge(data.model);
+      chatHistory.push({ role: 'assistant', content: reply });
+      if (chatHistory.length > CHAT_MAX_HISTORY * 2) {
+        chatHistory.splice(0, chatHistory.length - CHAT_MAX_HISTORY);
+      }
+    } catch (err) {
+      typingEl.remove();
+      addMessage(err && err.name === 'AbortError'
+        ? 'Waduh, AI-nya lama merespons. Coba lagi ya 🙏'
+        : 'Waduh, koneksi ke AI bermasalah. Coba lagi ya 🙏', 'bot');
+    } finally {
+      clearTimeout(timer);
+      chatBusy = false;
+      chatSend.disabled = false;
+      chatInput.focus();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && chatPanel.classList.contains('open')) toggleChat(false);
+  });
+
+  /* Auto-buka jika URL memuat ?auto=1 */
+  if (/[?&]auto=1/.test(window.location.search)) {
+    setTimeout(() => toggleChat(true), 600);
+  }
+})();
+</script>
+</body>
+</html>
