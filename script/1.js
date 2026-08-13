@@ -185,6 +185,7 @@ function renderRepos(repos) {
   dom.repoGrid._currentFilter = 'all';
   // Mode kepemilikan — default: hanya repo yang dibuat sendiri (non-fork)
   dom.repoGrid._ownOnly = true;
+  dom.repoGrid._forkOnly = false;
   dom.repoGrid._loadedCount = 0;
   renderFilterButtons(repos);
   renderRepoBatch();
@@ -200,6 +201,7 @@ function renderFilterButtons(repos) {
   
   let html = '<button class="filter-btn active" data-own="1"><i class="fas fa-check-circle"></i> Saya Buat</button>';
   html += '<button class="filter-btn" data-own="0">Semua</button>';
+  html += '<button class="filter-btn" data-own="fork"><i class="fas fa-code-fork"></i> Fork</button>';
   languages.forEach(lang => { html += `<button class="filter-btn" data-filter="${escHtml(lang)}">${escHtml(lang)}</button>`; });
   container.innerHTML = html;
   
@@ -207,10 +209,30 @@ function renderFilterButtons(repos) {
   dom.filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       if (btn.dataset.own !== undefined) {
-        // Mode kepemilikan — selalu dikomposisikan dengan filter bahasa
+        // Mode kepemilikan — reset filter bahasa saat beralih mode
         $$('[data-own]', container).forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        dom.repoGrid._ownOnly = btn.dataset.own === '1';
+        
+        // Reset semua tombol filter bahasa
+        $$('.filter-btn:not([data-own])', container).forEach(b => b.classList.remove('active'));
+        
+        // Set mode dan reset filter bahasa
+        const ownValue = btn.dataset.own;
+        if (ownValue === 'fork') {
+          dom.repoGrid._ownOnly = false;
+          dom.repoGrid._forkOnly = true;
+        } else if (ownValue === '0') {
+          // Tab "Semua" — tampilkan semua repo (baik fork maupun non-fork)
+          dom.repoGrid._ownOnly = false;
+          dom.repoGrid._forkOnly = false;
+        } else {
+          // Tab "Saya Buat"
+          dom.repoGrid._ownOnly = true;
+          dom.repoGrid._forkOnly = false;
+        }
+        
+        // Reset filter bahasa ke 'all'
+        dom.repoGrid._currentFilter = 'all';
         dom.repoGrid._loadedCount = 0;
         renderRepoBatch();
       } else {
@@ -236,9 +258,13 @@ function renderRepoBatch() {
       ? all.filter(r => !dom.repoGrid._languages?.includes(r.language))
       : all.filter(r => r.language === filter);
   }
-  // Mode "Saya Buat" — disusun setelah filter bahasa (tetap berlaku)
+  // Mode "Saya Buat" — filter hanya repo yang bukan fork
   if (dom.repoGrid._ownOnly) {
     filtered = filtered.filter(r => !(r.fork === true));
+  }
+  // Mode "Fork" — filter hanya repo yang merupakan fork
+  if (dom.repoGrid._forkOnly) {
+    filtered = filtered.filter(r => r.fork === true);
   }
   dom.repoGrid._filteredRepos = filtered;
   
