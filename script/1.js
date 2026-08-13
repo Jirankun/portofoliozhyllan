@@ -217,7 +217,9 @@ function renderFilterButtons(repos) {
         // Filter bahasa
         $$('.filter-btn:not([data-own])', container).forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        filterRepos(btn.dataset.filter);
+        // Reset filter ke 'all' jika tombol yang diklik adalah "Semua" (tidak punya data-filter)
+        const filterValue = btn.dataset.filter || 'all';
+        filterRepos(filterValue);
       }
     });
   });
