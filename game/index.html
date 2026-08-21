@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+        </script>
+        <title>Uji Bikin Ulat</title>
+    </head>
+    <body>
+        <canvas id="ruang" width="500" height="500"></canvas>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                //disini ialah lokasi deklarasi zona
+                var ruang = $("#ruang")[0];
+                var ctx = ruang.getContext("2d");
+                var lebar = $("#ruang").width();
+                var tinggi = $("#ruang").height();
+
+                var cw = 10;
+                var tekan;
+                var makan;
+                var nilai;
+
+                // Muat gambar latar belakang
+                var bgImage = new Image();
+                bgImage.src = "backgroud.png";
+
+                //buat sistem cell/zona ular
+
+                var array_ular;
+
+                function init() {
+                    tekan = "right"; // arah bawaan gini
+                    create_snake();
+                    create_makanan();
+
+                    // nilai awal dalam sistem game
+                    nilai = 0;
+
+                    if (typeof game_loop != "undefined") clearInterval(game_loop);
+                    game_loop = setInterval(paint, 60);
+                }
+
+                init();
+
+                //deklarasi untuk membuat ular dan tubuhnya
+
+                function create_snake() {
+                    var length = 9;
+                    array_ular = [];
+                    for (var i = length - 1; i >= 0; i--) {
+                        array_ular.push({ x: i, y: 0});
+                    }
+                }
+
+                //deklarasi untuk membuat makanan ular
+
+                function create_makanan() {
+                    makan = {
+                        x: Math.floor(Math.random() * (lebar / cw)),
+                        y: Math.floor(Math.random() * (tinggi / cw))
+                    };
+                }
+
+                function paint() {
+                    // Gambar latar belakang
+                    if (bgImage.complete) {
+                        ctx.drawImage(bgImage, 0, 0, lebar, tinggi);
+                        // Overlay gelap di atas gambar
+                        ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+                        ctx.fillRect(0, 0, lebar, tinggi);
+                    } else {
+                        ctx.fillStyle = "#ecf0f1";
+                        ctx.fillRect(0, 0, lebar, tinggi);
+                    }
+                    ctx.strokeStyle = "#2c3e50";
+                    ctx.strokeRect(0, 0, lebar, tinggi);
+
+                    // deklarasi sistem gerakan ular
+
+                    var nx = array_ular[0].x;
+                    var ny = array_ular[0].y;
+                    if (tekan == "right") nx++;
+                    else if (tekan == "left") nx--;
+                    else if (tekan == "up") ny--;
+                    else if (tekan == "down") ny++;
+
+                    //memeriksa dan mendeteksi tabrakan di luar map
+                    if (
+                        nx == -1 ||
+                        nx == lebar / cw ||
+                        ny == -1 ||
+                        ny == tinggi / cw ||
+                        cek_tabrakan(nx, ny, array_ular)
+                    )
+                    {
+                        // disini permainan di ulangi
+                        init();
+                        return;
+                    }
+                    // cek jika ular kena makanan/ sedang makan
+
+                    if(nx == makan.x && ny == makan.y){
+                        var ekor = { x: nx, y: ny };
+                        nilai++;
+
+                        //membuat makanan baru/ memindahkan makanan (menurut ilusi optik)
+                        create_makanan();
+                    } else {
+                        var ekor = array_ular.pop();
+                        ekor.x = nx;
+                        ekor.y = ny;
+                    }
+
+                    array_ular.unshift(ekor);
+
+                    for (var i = 0; i < array_ular.length; i++) {
+                        var c = array_ular[i];
+                        paint_cell(c.x, c.y);
+                    }
+
+                    paint_cell(makan.x, makan.y);
+
+                    // membuat sistem penilaian/ skoring
+
+                    var nilai_text = "nilai: " + nilai;
+                    ctx.fillText(nilai_text, 5, tinggi - 5);
+                }
+
+                function paint_cell(x, y) {
+                    ctx.fillStyle = "#eb34c9";
+                    ctx.fillRect(x * cw, y * cw, cw, cw);
+                    ctx.strokeStyle = "#ecf0f1";
+                    ctx.strokeRect(x * cw, y * cw, cw, cw);
+                }
+
+                function cek_tabrakan(x, y, array) {
+                    for (var i = 0; i < array.length; i++) {
+                        if (array[i].x == x && array[i].y == y) return true;
+                    }
+                    return false;
+                }
+
+                // kontrol ular dan binding key
+
+                $(document).keydown(function(e) {
+                    var key = e.which;
+                    if (key == 37 && tekan != "right") tekan = "left";
+                    else if (key == 38 && tekan != "down") tekan = "up";
+                    else if (key == 39 && tekan != "left") tekan = "right";
+                    else if (key == 40 && tekan != "up") tekan = "down";
+                });
+            });
+        </script>
+    </body>
+</html>
